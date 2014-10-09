@@ -39,10 +39,9 @@ public class HeadlinesFragment extends Fragment {
 	OnHeadlineSelectedListener mCallback;
 	private ArrayList<Viewable> array = new ArrayList<Viewable>();
     private ListView list;
-    //private ImageBtnTest ibt = new ImageBtnTest();
     // The container Activity must implement this interface so the frag can deliver messages
     public interface OnHeadlineSelectedListener {
-        /** Called by HeadlinesFragment when a list item is selected */
+        /** Called by H	eadlinesFragment when a list item is selected */
         public void onArticleSelected(int position);/****************/
         public void onArticleSelected(View view);   /****************/
     }
