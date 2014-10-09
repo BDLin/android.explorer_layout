@@ -1,5 +1,7 @@
 package com.example.android.fragments;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,11 +17,14 @@ public class ImageBtnTest {
 		linear.setOrientation(LinearLayout.HORIZONTAL);
 	}
 	
-	public void addBtn(ImageButton btn){
-		linear.addView(btn);
+	public void addBtn(List<ImageButton> imgBtnList){
+
+		for(int i = 0; i < imgBtnList.size(); i++)
+			linear.addView(imgBtnList.get(i));
 	}
 	
 	public View getView(){
 		return linear;
 	}
+	
 }

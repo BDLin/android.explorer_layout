@@ -18,10 +18,10 @@ package com.example.android.fragments;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -29,8 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -61,7 +59,6 @@ public class HeadlinesFragment extends Fragment {
         array.add(new ListData("List Test"));
         array.add(new ImageData("Image Test", getActivity(), BitmapFactory.decodeResource(getResources(), R.drawable.winter)));
         list.setAdapter(new AnyObjectAdapter(getActivity(), array));
-
         // Create an array adapter for the list view, using the Ipsum headlines array
         Log.i("HeadlinesFragment", "setList!!");
     }
@@ -105,22 +102,21 @@ public class HeadlinesFragment extends Fragment {
         
         ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
         list.setOnItemClickListener(new ListOnClick(article, getActivity(),array));
-        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        
         
         RelativeLayout relative = (RelativeLayout)getActivity().findViewById(R.id.healines_layout);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM & RelativeLayout.CENTER_HORIZONTAL);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         
+        
+        
+		List<ImageButton> imgBtnList = new ArrayList<ImageButton>();
+        imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.box_small_icon)).getButtont());
+        imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.download_folder_small_icon)).getButtont());
+        imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.setting_small_icon)).getButtont());
         
         ImageBtnTest ibt = new ImageBtnTest(getActivity());
-        
-        CustomizeImageButton boxBtn = new CustomizeImageButton(getActivity(), R.drawable.box_small_icon);
-        CustomizeImageButton localBtn = new CustomizeImageButton(getActivity(), R.drawable.download_folder_small_icon);
-        CustomizeImageButton settingBtn = new CustomizeImageButton(getActivity(), R.drawable.setting_small_icon);
-        
-        ibt.addBtn(boxBtn.getButton());
-        ibt.addBtn(localBtn.getButton());
-        ibt.addBtn(settingBtn.getButton());
+        ibt.addBtn(imgBtnList);
         
         View view = ibt.getView();
         view.setLayoutParams(params);
