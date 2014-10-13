@@ -3,6 +3,7 @@ package com.example.android.fragments;
 import java.util.List;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -12,15 +13,21 @@ public class ImageBtnTest {
 
 	private LinearLayout linear;
 	private ImgBtnOnClick btnListener;
+	private RelativeLayout relative;
+	private ArticleFragment article;
+	private Context context;
 	
-	public ImageBtnTest(Context context){
+	public ImageBtnTest(Context context, RelativeLayout relative, ArticleFragment article){
 		linear = new LinearLayout(context);
 		linear.setOrientation(LinearLayout.HORIZONTAL);
+		this.relative = relative;
+		this.context = context;
+		this.article = article;
 	}
 	
 	public void addBtn(List<ImageButton> imgBtnList){
 
-		btnListener = new ImgBtnOnClick(imgBtnList);
+		btnListener = new ImgBtnOnClick(imgBtnList, relative, article, context);
 		for(int i = 0; i < imgBtnList.size(); i++){
 			imgBtnList.get(i).setOnClickListener(btnListener);
 			linear.addView(imgBtnList.get(i));
@@ -28,6 +35,9 @@ public class ImageBtnTest {
 	}
 	
 	public View getView(){
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        linear.setLayoutParams(params);
 		return linear;
 	}
 	

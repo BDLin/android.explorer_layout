@@ -25,6 +25,7 @@ public class ListData implements Viewable {
                 android.R.layout.simple_list_item_activated_1 : android.R.layout.simple_list_item_1;
 		ListView list = new ListView(context);
 		list.setAdapter(new ArrayAdapter<String>(context, layout, presidents));
+		//list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		//list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		return list;
 	}

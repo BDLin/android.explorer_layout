@@ -17,4 +17,9 @@ limitations under the License.
 
 <resources>
     <string name="app_name">Fragment Basics</string>
+    <string name="setting_category_account">Account</string>
+    <string name="setting_mail">Email</string>
+	<string name="setting_version">Version</string>
+	<string name="setting_release_date">Date</string>
+	<string name="setting_device_id">Device ID</string>
 </resources>
