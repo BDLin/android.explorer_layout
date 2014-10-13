@@ -25,7 +25,7 @@ public class CustomizeImageButton{
 		imgBtn.setId(count++);
 		if(imgBtn.getId() != 0)
 			imgBtn.setAlpha((float)0.5);
-		imgBtn.setOnClickListener(new ImgBtnOnClick());
+		//imgBtn.setOnClickListener(new ImgBtnOnClick());
 	}
 	
 	public ImageButton getButtont(){
