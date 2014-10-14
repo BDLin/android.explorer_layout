@@ -21,15 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class HeadlinesFragment extends Fragment {
@@ -47,7 +47,6 @@ public class HeadlinesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("HeadlineFragment", "onCreate()............");     
-          
         // Create an array adapter for the list view, using the Ipsum headlines array
         Log.i("HeadlinesFragment", "setList!!");
     }
@@ -88,7 +87,9 @@ public class HeadlinesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.i("HeadlineFragment", "onActivityCreate()............");
-               
+        
+        HeadlinesFragment headline = (HeadlinesFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
+        
         AnyObjectList list = new AnyObjectList(getActivity());
         ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
         list.setItemListener(article);
@@ -101,7 +102,7 @@ public class HeadlinesFragment extends Fragment {
         imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.download_folder_small_icon, btn_id++)).getButtont());
         imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.setting_small_icon, btn_id++)).getButtont());
         
-        ImageBtnTest ibt = new ImageBtnTest(getActivity(), relative, article);
+        ImageBtnTest ibt = new ImageBtnTest(getActivity(), relative, article, headline);
         ibt.addBtn(imgBtnList);
         
         relative.addView(list.getView());

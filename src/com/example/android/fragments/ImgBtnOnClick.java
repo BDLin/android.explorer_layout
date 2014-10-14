@@ -5,6 +5,8 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,15 +21,17 @@ public class ImgBtnOnClick implements OnClickListener {
 	private RelativeLayout relative;
 	private ArticleFragment article;
 	private Context context;
+	private HeadlinesFragment headline;
 	
 	public ImgBtnOnClick(List<ImageButton> list, RelativeLayout relative, 
-			             ArticleFragment article, Context context){
+			             ArticleFragment article, Context context, HeadlinesFragment headline){
 		this.list = list;
 		Log.i("ImgBtnOnClick", "list_size:" + list.size());
 		temp = 0;
 		this.relative = relative;
 		this.article = article;
 		this.context = context;
+		this.headline = headline;
 	}
 	
 	@SuppressLint("NewApi")
@@ -54,6 +58,13 @@ public class ImgBtnOnClick implements OnClickListener {
 				break;
 			case 2:
 				//relative.removeViewAt(0);
+				Log.i("ImgBtnOnClick", "relative chid count:" + relative.getChildCount());
+				FragmentManager fragmentManager = headline.getFragmentManager();
+		        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				Fragment presFrag =new PrefsFragment();
+				fragmentTransaction.replace(R.id.headlines_fragment, presFrag);
+				fragmentTransaction.addToBackStack(null);
+				fragmentTransaction.commit();  
 				break;
 			default:
 				break;

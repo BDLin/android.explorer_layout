@@ -16,18 +16,20 @@ public class ImageBtnTest {
 	private RelativeLayout relative;
 	private ArticleFragment article;
 	private Context context;
+	private HeadlinesFragment headline;
 	
-	public ImageBtnTest(Context context, RelativeLayout relative, ArticleFragment article){
+	public ImageBtnTest(Context context, RelativeLayout relative, ArticleFragment article, HeadlinesFragment headline){
 		linear = new LinearLayout(context);
 		linear.setOrientation(LinearLayout.HORIZONTAL);
 		this.relative = relative;
 		this.context = context;
 		this.article = article;
+		this.headline = headline;
 	}
 	
 	public void addBtn(List<ImageButton> imgBtnList){
 
-		btnListener = new ImgBtnOnClick(imgBtnList, relative, article, context);
+		btnListener = new ImgBtnOnClick(imgBtnList, relative, article, context, headline);
 		for(int i = 0; i < imgBtnList.size(); i++){
 			imgBtnList.get(i).setOnClickListener(btnListener);
 			linear.addView(imgBtnList.get(i));

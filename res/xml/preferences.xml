@@ -1,0 +1,28 @@
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory
+		android:title="@string/setting_category_account"
+		>
+		<PreferenceScreen
+			android:key="setting_mail"
+			android:title="@string/setting_mail"
+			>
+		</PreferenceScreen>
+		<PreferenceScreen
+			android:key="setting_device_id"
+			android:title="@string/setting_device_id"
+			>
+		</PreferenceScreen>
+		<PreferenceScreen
+			android:key="setting_version"
+			android:title="@string/setting_version"
+			>
+		</PreferenceScreen>
+		<PreferenceScreen
+			android:key="setting_release_date"
+			android:title="@string/setting_release_date"
+			>
+		</PreferenceScreen>
+	</PreferenceCategory>
+</PreferenceScreen>
