@@ -12,18 +12,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-public class LocalListFragment extends ListFragment {
+public class LocalListFragment extends ListFragment implements TabView{
 	
 	private String[] presidents = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
 	private CustomizeImageButton localBtn;
 	
 	public LocalListFragment(){}
 	
-	public LocalListFragment(Context context, int img_id, HeadlinesFragment headline, LinearLayout linear){
+	public LocalListFragment(Context context, int img_id){
 	    	localBtn = new CustomizeImageButton(context, img_id);
-	    	localBtn.getButtont().setOnClickListener(new LocalBtnListener(headline, linear));
 	}
-	    
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,7 @@ public class LocalListFragment extends ListFragment {
     }
     
     public ImageButton getBtn(){
-    	return localBtn.getButtont();
+    	return localBtn.getButton();
     }
     
     @Override

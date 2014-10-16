@@ -48,7 +48,6 @@ public class ArticleFragment extends Fragment {
 	
 	@SuppressLint("NewApi")
 	public void updateArticleView(View view) {
-		//Log.i("ArticleFragment", "" + ScaleType.FIT_START);
 		RelativeLayout relative = (RelativeLayout)getActivity().findViewById(R.id.relative_layout);
 		relative.removeAllViews();
 		if(view instanceof ImageView){
@@ -68,8 +67,6 @@ public class ArticleFragment extends Fragment {
 		outState.putInt(ARG_POSITION, mCurrentPosition);
 	}
 
-	
-	
 	@Override
 	public void onStart() {
 		super.onStart();

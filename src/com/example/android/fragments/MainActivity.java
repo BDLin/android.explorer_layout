@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity 
@@ -57,8 +58,15 @@ public class MainActivity extends FragmentActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
-        }else
+        }else{
         	Log.i("MainActivity", "Is_Tablet");
+        	HeadlinesFragment headline = (HeadlinesFragment)getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
+        	ArticleFragment article = (ArticleFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+        	
+        	headline.addButtonToView(new RemoteListFragment(this, R.drawable.box_small_icon, article));
+        	headline.addButtonToView(new LocalListFragment(this, R.drawable.download_folder_small_icon));
+        	headline.addButtonToView(new PrefsFragment(this, R.drawable.setting_small_icon));
+        }
     }
     
     @Override
@@ -75,7 +83,7 @@ public class MainActivity extends FragmentActivity
     
     public void onArticleSelected(View view) {
         
-         Fragment articleFrag = (Fragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+    	/*Fragment articleFrag = (Fragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
 
         if (articleFrag != null) {
         	Log.i("MainActivity", "two-pane layout");
@@ -93,14 +101,14 @@ public class MainActivity extends FragmentActivity
             transaction.addToBackStack(null);
 
             transaction.commit();
-        }
+        }*/
     }
 
     public void onArticleSelected(int position) {
         // The user selected the headline of an article from the HeadlinesFragment
 
         // Capture the article fragment from the activity layout
-        ArticleFragment articleFrag = (ArticleFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+        /*ArticleFragment articleFrag = (ArticleFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
 
         if (articleFrag != null) {
             // If article frag is available, we're in two-pane layout...
@@ -125,7 +133,7 @@ public class MainActivity extends FragmentActivity
 
             // Commit the transaction
             transaction.commit();
-        }
+        }*/
     }
     
     @Override

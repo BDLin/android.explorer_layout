@@ -43,18 +43,25 @@ public class HeadlinesFragment extends Fragment {
         public void onArticleSelected(View view);   /****************/
     }
     
-    private LinearLayout linear;
-        
+    public void addButtonToView(TabView view){
+    	LinearLayout linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
+    	ImageButton imgBtn = view.getBtn();
+    	
+    	//Set init View page
+    	if(imgBtn.getId() == 0)
+    		getActivity().getSupportFragmentManager().beginTransaction()
+            	.add(R.id.frag_container, (Fragment)view).commit();
+    	
+    	imgBtn.setOnClickListener(new ImgBtnOnClick(this, linear, (Fragment)view));
+    	Log.i("HeadlineFragment", "Btn set listener Finish");
+    	linear.addView(imgBtn);
+    	Log.i("HeadlineFragment", "Btn add to linear Finish");
+    }
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("HeadlineFragment", "onCreate()............");   
-        // Create an instance of ExampleFragment
-        RemoteListFragment remote = new RemoteListFragment();
-        
-        // Add the fragment to the 'fragment_container' FrameLayout
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.frag_container, remote).commit();
+        Log.i("HeadlineFragment", "onCreate()............");
     }
 
     @Override
@@ -93,23 +100,8 @@ public class HeadlinesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.i("HeadlineFragment", "onActivityCreate()............");
-        
-        HeadlinesFragment headline = (HeadlinesFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
-
-        AnyObjectList list = new AnyObjectList(getActivity());
-        ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
-        list.setItemListener(article);
-        
-        linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
-         
-        linear.addView(new RemoteListFragment(getActivity(), R.drawable.box_small_icon, headline, linear).getBtn());
-        linear.addView(new LocalListFragment(getActivity(), R.drawable.download_folder_small_icon, headline, linear).getBtn());
-        linear.addView(new PrefsFragment(getActivity(), R.drawable.setting_small_icon, headline, linear).getBtn());
-        linear.addView(new LocalListFragment(getActivity(), R.drawable.download_folder_small_icon, headline, linear).getBtn());
-        linear.addView(new PrefsFragment(getActivity(), R.drawable.setting_small_icon, headline, linear).getBtn());
-        Log.i("HeadlinesFragment", "Create&Add_Button Finish");
     }
-
+    
     @Override
     public void onDestroyView() {
         super.onDestroyView();

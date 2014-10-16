@@ -23,17 +23,20 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class RemoteListFragment extends ListFragment {
+public class RemoteListFragment extends ListFragment implements TabView{
 		
 		private ArrayList<Viewable> array = new ArrayList<Viewable>();
 		private CustomizeImageButton remoteBtn;
+		private ArticleFragment article;
 		
 		public RemoteListFragment(){}
 		
-		public RemoteListFragment(Context context, int img_id, HeadlinesFragment headline, LinearLayout linear){
+		public RemoteListFragment(Context context, int img_id, ArticleFragment article){
 			
+			this.article = article;
 	    	remoteBtn = new CustomizeImageButton(context, img_id);
-	    	remoteBtn.getButtont().setOnClickListener(new RemoteBtnListener(headline, linear));
+	    	Log.i("RemoteListFragmet",	"New Button Finish");
+
 	    }
 		
 		@Override
@@ -50,6 +53,7 @@ public class RemoteListFragment extends ListFragment {
 	        array.add(I2);
 	        array.add(new ListData("List Test"));
 	        array.add(new ImageData("Image Test", getActivity(), BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.winter)));
+	        Log.i("RemoteListFragment", "Array_size:" + array.size());
 	        // Create an array adapter for the list view, useing the Ipsum headlines array
 	        setListAdapter(new AnyObjectAdapter(getActivity(), array));
 	    }
@@ -58,13 +62,13 @@ public class RemoteListFragment extends ListFragment {
 	    public void onActivityCreated(Bundle savedInstanceState) {
 	        super.onActivityCreated(savedInstanceState);
 	        Log.i("RemoteListFragment", "onActivityCreate()............");
-	      
-	        ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+	        //Set listener of list item
 	        getListView().setOnItemClickListener(new ListOnClick(article, getActivity(), array));
+	        Log.i("RemoteListFragment", "Set item listener finish");
 	    }
 	    
 	    public ImageButton getBtn(){
-	    	return remoteBtn.getButtont();
+	    	return remoteBtn.getButton();
 	    }
 	    
 	    @Override
@@ -96,6 +100,8 @@ public class RemoteListFragment extends ListFragment {
 	        super.onDestroy();
 	        Log.i("RemoteListFragment", "onDestroy()............");
 	        CustomizeImageButton.initBtnCounter();
+	        array.clear();
+	        Log.i("RemoteListFragment", "Array_size:" + array.size());
 	    }
 
 	    @Override

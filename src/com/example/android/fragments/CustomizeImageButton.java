@@ -28,7 +28,7 @@ public class CustomizeImageButton{
 			imgBtn.setAlpha((float)0.5);
 	}
 	
-	public ImageButton getButtont(){
+	public ImageButton getButton(){
 		return imgBtn;
 	}
 	

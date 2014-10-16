@@ -12,15 +12,14 @@ import android.widget.LinearLayout;
 //import android.preference.PreferenceFragment;
 
 
-public class PrefsFragment extends PreferenceFragment{
+public class PrefsFragment extends PreferenceFragment implements TabView{
 
     private CustomizeImageButton settingBtn;
     
     public PrefsFragment(){}
 	
-    public PrefsFragment(Context context, int img_id, HeadlinesFragment headline, LinearLayout linear){
+    public PrefsFragment(Context context, int img_id){
     	settingBtn = new CustomizeImageButton(context, img_id);
-    	settingBtn.getButtont().setOnClickListener(new SettingBtnListener(headline, linear));
     }
     
     @Override
@@ -32,6 +31,6 @@ public class PrefsFragment extends PreferenceFragment{
     }
     
     public ImageButton getBtn(){
-    	return settingBtn.getButtont();
+    	return settingBtn.getButton();
     }
 }
