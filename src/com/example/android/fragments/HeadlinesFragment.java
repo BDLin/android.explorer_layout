@@ -42,6 +42,8 @@ public class HeadlinesFragment extends Fragment {
         public void onArticleSelected(int position);/****************/
         public void onArticleSelected(View view);   /****************/
     }
+    
+    private LinearLayout linear;
         
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,19 +100,14 @@ public class HeadlinesFragment extends Fragment {
         ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
         list.setItemListener(article);
         
-        RelativeLayout relative = (RelativeLayout)getActivity().findViewById(R.id.healines_layout);
-        LinearLayout linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
-        
-		List<ImageButton> imgBtnList = new ArrayList<ImageButton>();
-		int btn_id = 0;
-        imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.box_small_icon, btn_id++)).getButtont());
-        imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.download_folder_small_icon, btn_id++)).getButtont());
-        imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.setting_small_icon, btn_id++)).getButtont());
-        Log.i("HeadlinesFragment", "CreateBtn Finish");
-        
-        ImageBtnTest ibt = new ImageBtnTest(getActivity(), relative, article, headline, linear);
-        
-        ibt.addBtn(imgBtnList);
+        linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
+         
+        linear.addView(new RemoteListFragment(getActivity(), R.drawable.box_small_icon, headline, linear).getBtn());
+        linear.addView(new LocalListFragment(getActivity(), R.drawable.download_folder_small_icon, headline, linear).getBtn());
+        linear.addView(new PrefsFragment(getActivity(), R.drawable.setting_small_icon, headline, linear).getBtn());
+        linear.addView(new LocalListFragment(getActivity(), R.drawable.download_folder_small_icon, headline, linear).getBtn());
+        linear.addView(new PrefsFragment(getActivity(), R.drawable.setting_small_icon, headline, linear).getBtn());
+        Log.i("HeadlinesFragment", "Create&Add_Button Finish");
     }
 
     @Override

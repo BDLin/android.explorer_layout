@@ -29,7 +29,7 @@ public class ImageBtnTest {
 	}
 	
 	public void addBtn(List<ImageButton> imgBtnList){
-		btnListener = new ImgBtnOnClick(imgBtnList, relative, article, context, headline);
+		btnListener = new ImgBtnOnClick();
 		for(int i = 0; i < imgBtnList.size(); i++){
 			imgBtnList.get(i).setOnClickListener(btnListener);
 			linear.addView(imgBtnList.get(i));

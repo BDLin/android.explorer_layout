@@ -1,17 +1,29 @@
 package com.example.android.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class LocalListFragment extends ListFragment {
 	
 	private String[] presidents = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
+	private CustomizeImageButton localBtn;
+	
+	public LocalListFragment(){}
+	
+	public LocalListFragment(Context context, int img_id, HeadlinesFragment headline, LinearLayout linear){
+	    	localBtn = new CustomizeImageButton(context, img_id);
+	    	localBtn.getButtont().setOnClickListener(new LocalBtnListener(headline, linear));
+	}
+	    
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +42,10 @@ public class LocalListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         Log.i("LocalListFragment", "onActivityCreate()............");
         getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
+    
+    public ImageButton getBtn(){
+    	return localBtn.getButtont();
     }
     
     @Override

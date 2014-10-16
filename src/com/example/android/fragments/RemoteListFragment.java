@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.android.fragments.HeadlinesFragment.OnHeadlineSelectedListener;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -25,6 +26,15 @@ import android.widget.RelativeLayout;
 public class RemoteListFragment extends ListFragment {
 		
 		private ArrayList<Viewable> array = new ArrayList<Viewable>();
+		private CustomizeImageButton remoteBtn;
+		
+		public RemoteListFragment(){}
+		
+		public RemoteListFragment(Context context, int img_id, HeadlinesFragment headline, LinearLayout linear){
+			
+	    	remoteBtn = new CustomizeImageButton(context, img_id);
+	    	remoteBtn.getButtont().setOnClickListener(new RemoteBtnListener(headline, linear));
+	    }
 		
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
@@ -51,6 +61,10 @@ public class RemoteListFragment extends ListFragment {
 	      
 	        ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
 	        getListView().setOnItemClickListener(new ListOnClick(article, getActivity(), array));
+	    }
+	    
+	    public ImageButton getBtn(){
+	    	return remoteBtn.getButtont();
 	    }
 	    
 	    @Override
@@ -81,6 +95,7 @@ public class RemoteListFragment extends ListFragment {
 	    public void onDestroy() {
 	        super.onDestroy();
 	        Log.i("RemoteListFragment", "onDestroy()............");
+	        CustomizeImageButton.initBtnCounter();
 	    }
 
 	    @Override
