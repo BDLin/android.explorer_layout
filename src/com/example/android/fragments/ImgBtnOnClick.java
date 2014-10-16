@@ -22,6 +22,7 @@ public class ImgBtnOnClick implements OnClickListener {
 	private ArticleFragment article;
 	private Context context;
 	private HeadlinesFragment headline;
+	private FragmentTransaction fragmentTransaction;
 	
 	public ImgBtnOnClick(List<ImageButton> list, RelativeLayout relative, 
 			             ArticleFragment article, Context context, HeadlinesFragment headline){
@@ -32,6 +33,7 @@ public class ImgBtnOnClick implements OnClickListener {
 		this.article = article;
 		this.context = context;
 		this.headline = headline;
+		fragmentTransaction = this.headline.getActivity().getSupportFragmentManager().beginTransaction();
 	}
 	
 	@SuppressLint("NewApi")
@@ -43,33 +45,31 @@ public class ImgBtnOnClick implements OnClickListener {
 			list.get(v.getId()).setAlpha((float)1.0);
 			temp = v.getId();
 		}//End if condition
-		
+		Log.i("onClick", "" + relative.getChildAt(0));
 		switch(v.getId()){
+		
 			case 0:
-				relative.removeViewAt(0);
-				AnyObjectList list = new AnyObjectList(context);
-				list.setItemListener(article);
-				relative.addView(list.getView(), 0);
+				Fragment remote = new RemoteListFragment();
+				headline.getActivity().getSupportFragmentManager().beginTransaction()
+			       .replace(R.id.frag_container, remote).commit();
 				break;
+				
 			case 1:
-				relative.removeViewAt(0);
-				relative.addView(new ListData("Button click list").getView(relative.getContext()), 0);
-				Log.i("ImgBtnOnClick", "relative chid count:" + relative.getChildCount());
+				LocalListFragment local = new LocalListFragment();
+				headline.getActivity().getSupportFragmentManager().beginTransaction()
+				       .replace(R.id.frag_container, local).commit();
+				Log.i("onClick", "" + relative.getChildAt(0));
 				break;
+				
 			case 2:
-				//relative.removeViewAt(0);
 				Log.i("ImgBtnOnClick", "relative chid count:" + relative.getChildCount());
-				FragmentManager fragmentManager = headline.getFragmentManager();
-		        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 				Fragment presFrag =new PrefsFragment();
-				fragmentTransaction.replace(R.id.headlines_fragment, presFrag);
-				fragmentTransaction.addToBackStack(null);
-				fragmentTransaction.commit();  
+				headline.getActivity().getSupportFragmentManager().beginTransaction()
+			       .replace(R.id.frag_container, presFrag).commit();
 				break;
+				
 			default:
 				break;
 		}//End if switch-case
-			
 	}
-
 }

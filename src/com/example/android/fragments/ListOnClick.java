@@ -26,7 +26,4 @@ public class ListOnClick implements OnItemClickListener {
         	article.updateArticleView(array.get(position).getView(context));
    	}
 
-	
-	
-
 }

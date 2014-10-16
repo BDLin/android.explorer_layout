@@ -16,7 +16,6 @@
 package com.example.android.fragments;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class HeadlinesFragment extends Fragment {
@@ -46,9 +46,13 @@ public class HeadlinesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("HeadlineFragment", "onCreate()............");     
-        // Create an array adapter for the list view, using the Ipsum headlines array
-        Log.i("HeadlinesFragment", "setList!!");
+        Log.i("HeadlineFragment", "onCreate()............");   
+        // Create an instance of ExampleFragment
+        RemoteListFragment remote = new RemoteListFragment();
+        
+        // Add the fragment to the 'fragment_container' FrameLayout
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.frag_container, remote).commit();
     }
 
     @Override
@@ -89,24 +93,24 @@ public class HeadlinesFragment extends Fragment {
         Log.i("HeadlineFragment", "onActivityCreate()............");
         
         HeadlinesFragment headline = (HeadlinesFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
-        
+
         AnyObjectList list = new AnyObjectList(getActivity());
         ArticleFragment article = (ArticleFragment)getActivity().getSupportFragmentManager().findFragmentById(R.id.article_fragment);
         list.setItemListener(article);
         
         RelativeLayout relative = (RelativeLayout)getActivity().findViewById(R.id.healines_layout);
+        LinearLayout linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
         
 		List<ImageButton> imgBtnList = new ArrayList<ImageButton>();
 		int btn_id = 0;
         imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.box_small_icon, btn_id++)).getButtont());
         imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.download_folder_small_icon, btn_id++)).getButtont());
         imgBtnList.add((new CustomizeImageButton(getActivity(), R.drawable.setting_small_icon, btn_id++)).getButtont());
+        Log.i("HeadlinesFragment", "CreateBtn Finish");
         
-        ImageBtnTest ibt = new ImageBtnTest(getActivity(), relative, article, headline);
+        ImageBtnTest ibt = new ImageBtnTest(getActivity(), relative, article, headline, linear);
+        
         ibt.addBtn(imgBtnList);
-        
-        relative.addView(list.getView());
-        relative.addView(ibt.getView());
     }
 
     @Override
