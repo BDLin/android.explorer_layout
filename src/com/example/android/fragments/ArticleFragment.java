@@ -46,7 +46,8 @@ public class ArticleFragment extends Fragment {
 		if(view instanceof ImageView){
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
-			//((ImageView) view).setScaleType(ImageView.ScaleType.CENTER);
+			//((ImageView) view).set
+//			ScaleType(ImageView.ScaleType.CENTER);
 			view.setLayoutParams(params);
 		}
 		relative.addView(view);
