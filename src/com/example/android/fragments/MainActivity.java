@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2014 Zi-Xiang Lin <bdl9437@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +28,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity 
-        implements HeadlinesFragment.OnHeadlineSelectedListener {
+public class MainActivity extends FragmentActivity {
 
     /** Called when the activity is first created. */
     @Override
@@ -79,61 +79,6 @@ public class MainActivity extends FragmentActivity
         }else if(newConfig.orientation ==Configuration.ORIENTATION_PORTRAIT){
             Toast.makeText(this,"½Ý«Ì¼Ò¦¡(portrait)",Toast.LENGTH_SHORT).show();
         }
-    }
-    
-    public void onArticleSelected(View view) {
-        
-    	/*Fragment articleFrag = (Fragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
-
-        if (articleFrag != null) {
-        	Log.i("MainActivity", "two-pane layout");
-        	
-        } else {
-        	Log.i("MainActivity", "one-pane layout");
-           
-            //ArticleFragment newFragment = new ArticleFragment();
-            //Bundle args = new Bundle();
-            //args.putInt(ArticleFragment.ARG_POSITION, position);
-            //newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            //transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-
-            transaction.commit();
-        }*/
-    }
-
-    public void onArticleSelected(int position) {
-        // The user selected the headline of an article from the HeadlinesFragment
-
-        // Capture the article fragment from the activity layout
-        /*ArticleFragment articleFrag = (ArticleFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
-
-        if (articleFrag != null) {
-            // If article frag is available, we're in two-pane layout...
-        	Log.i("MainActivity", "two-pane layout");
-            // Call a method in the ArticleFragment to update its content
-        	//articleFrag.updateArticleView(position);
-
-        } else {
-            // If the frag is not available, we're in the one-pane layout and must swap frags...
-        	Log.i("MainActivity", "one-pane layout");
-            // Create fragment and give it an argument for the selected article
-            ArticleFragment newFragment = new ArticleFragment();
-            Bundle args = new Bundle();
-            args.putInt(ArticleFragment.ARG_POSITION, position);
-            newFragment.setArguments(args);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-        }*/
     }
     
     @Override

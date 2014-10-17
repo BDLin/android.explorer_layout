@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Copyright (C) 2012 The Android Open Source Project
+Copyright (C) 2014 Zi-Xiang Lin <bdl9437@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,10 +17,23 @@ limitations under the License.
 -->
 
 <resources>
-    <string name="app_name">Fragment Basics</string>
+    <string name="app_name">BtnTabView_BrowserView_Mix</string>
     <string name="setting_category_account">Account</string>
+    <string name="setting_category_setting">Setting</string>
     <string name="setting_mail">Email</string>
 	<string name="setting_version">Version</string>
 	<string name="setting_release_date">Date</string>
 	<string name="setting_device_id">Device ID</string>
+	<string name="setting_auto_upload">Camera Uploads</string>
+	<string name="setting_auto_upload_open">Current Status：Open</string>
+	<string name="setting_auto_upload_close">Current Status：Close</string>
+	<string name="setting_disk_space">Disk Space</string>
+	<string name="setting_legal_privacy">Legal and Privacy</string>
+	<string name="title_local">Offline Folder</string>
+	<string name="message_erase_offline">Erase all offline file</string>
+	<string name="message_send_folder_keep">Default keep days</string>
+	<string name="title_send_folder_keep">Keep Day</string>
+	<string name="title_erase_offline">Erase</string>
+	<string name="title_logout">Logout</string>
+	
 </resources>

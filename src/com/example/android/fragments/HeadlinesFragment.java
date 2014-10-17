@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2014 Zi-Xiang Lin <bdl9437@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,15 +35,6 @@ import android.widget.RelativeLayout;
 
 public class HeadlinesFragment extends Fragment {
     
-	OnHeadlineSelectedListener mCallback;
-	
-    // The container Activity must implement this interface so the frag can deliver messages
-    public interface OnHeadlineSelectedListener {
-        /** Called by H	eadlinesFragment when a list item is selected */
-        public void onArticleSelected(int position);/****************/
-        public void onArticleSelected(View view);   /****************/
-    }
-    
     public void addButtonToView(TabView view){
     	LinearLayout linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
     	ImageButton imgBtn = view.getBtn();
@@ -68,26 +60,12 @@ public class HeadlinesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.i("HeadlineFragment", "onStrat()..........");
-        // When in two-pane layout, set the listview to highlight the selected list item
-        // (We do this during onStart because at the point the listview is available.)
-        if (getFragmentManager().findFragmentById(R.id.article_fragment) != null) {
-            //list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            Log.i("HeadlinesFragment", "article_fragment is not null");
-        }
     }
     
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         Log.i("HeadlineFragment", "onAttach()............");
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception.
-        try {
-            mCallback = (OnHeadlineSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
     }
  
     @Override
