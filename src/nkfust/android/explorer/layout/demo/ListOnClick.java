@@ -12,14 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.demo;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import nkfust.android.explorer.layout.modle.ContentFragment;
+import nkfust.android.explorer.layout.modle.Viewable;
+
 import android.R.color;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,21 +31,23 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ListOnClick implements OnItemClickListener {
 
-	private ArticleFragment article;
+	private ContentFragment article;
 	private Context context;
 	private List<Viewable> array;
 	private View prevView;
+	private DisplayMetrics dm;
 	
-	public ListOnClick(ArticleFragment article, Context context, List<Viewable> array){
+	public ListOnClick(ContentFragment article, Context context, List<Viewable> array, DisplayMetrics dm){
 		this.article = article;
 		this.context = context;
 		this.array = array;
+		this.dm = dm;
 	}//End of ListOnClick construct
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
 		
-        	article.updateArticleView(array.get(position).getView(context));
+        	article.updateArticleView(array.get(position).getView(context), dm);
         	
         	if(prevView != null && prevView != view){
         		prevView.setBackgroundColor(0);

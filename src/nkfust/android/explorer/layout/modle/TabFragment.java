@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.modle;
 
 
 import java.util.ArrayList;
 import java.util.List;
+
+
+import com.example.android.fragments.R;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,7 +36,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class HeadlinesFragment extends Fragment {
+public class TabFragment extends Fragment {
     
     public void addButtonToView(TabView view){
     	LinearLayout linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);

@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.modle;
+
+import com.example.android.fragments.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +30,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-public class ArticleFragment extends Fragment {
+public class ContentFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,16 +41,15 @@ public class ArticleFragment extends Fragment {
 		return inflater.inflate(R.layout.article_view, container, false);
 	}
 	
-	public void updateArticleView(View view) {
+	public void updateArticleView(View view, DisplayMetrics dm) {
 		
 		RelativeLayout relative = (RelativeLayout)getActivity().findViewById(R.id.relative_layout);
 		relative.removeAllViews();
 		
 		if(view instanceof ImageView){
+			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.CENTER_IN_PARENT);
-			//((ImageView) view).set
-//			ScaleType(ImageView.ScaleType.CENTER);
 			view.setLayoutParams(params);
 		}
 		relative.addView(view);

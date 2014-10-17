@@ -12,8 +12,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.demo;
 
+import nkfust.android.explorer.layout.modle.CustomizeImageButton;
+import nkfust.android.explorer.layout.modle.TabView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;

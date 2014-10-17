@@ -14,7 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.demo;
+
+import nkfust.android.explorer.layout.modle.ContentFragment;
+import nkfust.android.explorer.layout.modle.TabFragment;
+
+import com.example.android.fragments.R;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -49,7 +54,7 @@ public class MainActivity extends FragmentActivity {
             }
 
             // Create an instance of ExampleFragment
-            HeadlinesFragment firstFragment = new HeadlinesFragment();
+            TabFragment firstFragment = new TabFragment();
 
             // In case this activity was started with special instructions from an Intent,
             // pass the Intent's extras to the fragment as arguments
@@ -60,8 +65,8 @@ public class MainActivity extends FragmentActivity {
                     .add(R.id.fragment_container, firstFragment).commit();
         }else{
         	Log.i("MainActivity", "Is_Tablet");
-        	HeadlinesFragment headline = (HeadlinesFragment)getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
-        	ArticleFragment article = (ArticleFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
+        	TabFragment headline = (TabFragment)getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
+        	ContentFragment article = (ContentFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
         	
         	headline.addButtonToView(new RemoteListFragment(this, R.drawable.box_small_icon, article));
         	headline.addButtonToView(new LocalListFragment(this, R.drawable.download_folder_small_icon));

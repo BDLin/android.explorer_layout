@@ -21,14 +21,14 @@ limitations under the License.
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment android:name="com.example.android.fragments.HeadlinesFragment"
+    <fragment android:name="nkfust.android.explorer.layout.modle.TabFragment"
               android:id="@+id/headlines_fragment"
               android:layout_weight="1"
               android:layout_width="0dp"
               android:layout_height="match_parent" >
     </fragment>
 
-    <fragment android:name="com.example.android.fragments.ArticleFragment"
+    <fragment android:name="nkfust.android.explorer.layout.modle.ContentFragment"
               android:id="@+id/article_fragment"
               android:layout_weight="2"
               android:layout_width="0dp"

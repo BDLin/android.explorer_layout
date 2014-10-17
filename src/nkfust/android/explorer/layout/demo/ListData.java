@@ -12,9 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.demo;
 
 import java.util.Arrays;
+
+import nkfust.android.explorer.layout.modle.Viewable;
 
 import android.content.Context;
 import android.os.Build;

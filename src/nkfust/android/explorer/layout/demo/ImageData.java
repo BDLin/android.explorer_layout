@@ -12,7 +12,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.demo;
+
+import nkfust.android.explorer.layout.modle.Viewable;
+
+import com.example.android.fragments.R;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -41,14 +45,15 @@ public class ImageData implements Viewable {
 	private LinearLayout linear;
 	private ZoomImageAction action;
 	
-	
-	public ImageData(String title,Context context, Bitmap bitmap){
+	public ImageData(String title,Context context, Bitmap bitmap, DisplayMetrics dm){
 		this.title = title;
 		this.context = context;
 	    this.imageView = new ImageView(context);
         this.linear = linear;
-        action = new ZoomImageAction(bitmap);
+        Log.i("image", "dm:" + dm);
+        action = new ZoomImageAction(bitmap,dm);
         imageView.setImageMatrix(action.getMatrix());
+        imageView.setImageBitmap(bitmap);
         action.setImage(imageView);
         action.setImageSize();
         action.minZoom();
@@ -60,7 +65,7 @@ public class ImageData implements Viewable {
 	public View getView(Context context) {
 		imageView = action.getImage();
 		imageView.setAdjustViewBounds(true);
-		imageView.setImageResource(R.drawable.winter);
+		//imageView.setImageResource(R.drawable.winter);
 		return imageView;
 	}
 	

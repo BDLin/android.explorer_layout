@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.demo;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,10 +25,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class ZoomImageAction {
-	private ImageView imageView;
+    private ImageView imageView;
 	private Matrix matrix = new Matrix();
     private Matrix savedMatrix = new Matrix();
     private Bitmap bitmap;
@@ -60,12 +61,13 @@ public class ZoomImageAction {
     /**紀錄圖片狀態是否超出螢幕**/
     private boolean isZoom;
     
-    public ZoomImageAction(Bitmap bitmap){
-    	this.dm = new DisplayMetrics();
+    public ZoomImageAction(Bitmap bitmap, DisplayMetrics dm){
+    	this.dm = dm;
+    	Log.i("Zoom", "dm:" + dm);
         this.bitmap = bitmap;
     }
-    
-    public Matrix getMatrix() {
+	
+	public Matrix getMatrix() {
         return matrix;
     }
     
@@ -80,13 +82,14 @@ public class ZoomImageAction {
     public ImageView getImage(){
     	return imageView;
     }
-    
-    // 取得最小的比例, 假設圖片比螢幕大
+
+	// 取得最小的比例, 假設圖片比螢幕大
     // 則螢幕(寬/長)/圖片(寬/長)會小於1 那麼也就是將圖片進行縮小
     // 反之 則進行放大 而圖片越小 放大倍數則會越大
     // 如果螢幕跟圖片大小相同 則倍數會為1 即不變
     public void minZoom() {
           Context c = imageView .getContext();
+ 
            minScaleR = Math. min(( float) dm. widthPixels / ( float) bitmap.getWidth(),
                                  ( float) dm. heightPixels / ( float) bitmap.getHeight());
            if ( minScaleR > 1) {

@@ -12,9 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.fragments;
+package nkfust.android.explorer.layout.modle;
 
 import java.util.List;
+
+
+import com.example.android.fragments.R;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -31,11 +34,11 @@ import android.widget.RelativeLayout;
 @SuppressLint("NewApi")
 public class ImgBtnOnClick implements OnClickListener {
 
-	private HeadlinesFragment headline;
+	private TabFragment headline;
 	private LinearLayout linear;
 	private Fragment frag;
 	
-	public ImgBtnOnClick(HeadlinesFragment headline, LinearLayout linear, Fragment frag){
+	public ImgBtnOnClick(TabFragment headline, LinearLayout linear, Fragment frag){
 		this.headline = headline;
 		this.linear = linear;
 		this.frag = frag;
