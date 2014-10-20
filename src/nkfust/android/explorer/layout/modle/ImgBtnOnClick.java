@@ -48,7 +48,6 @@ public class ImgBtnOnClick implements OnClickListener {
 		if(v.getAlpha() != 1.0){
 //			headline.getActivity().getSupportFragmentManager().beginTransaction()
 //		       .replace(R.id.frag_container, frag).addToBackStack(null).commit();
-			
 			headline.getActivity().getSupportFragmentManager().beginTransaction()
 		       .replace(R.id.frag_container, frag).commit();
 			

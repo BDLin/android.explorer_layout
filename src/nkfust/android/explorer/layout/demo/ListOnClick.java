@@ -17,7 +17,10 @@ package nkfust.android.explorer.layout.demo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.android.fragments.R;
+
 import nkfust.android.explorer.layout.modle.ContentFragment;
+import nkfust.android.explorer.layout.modle.TabFragment;
 import nkfust.android.explorer.layout.modle.Viewable;
 
 import android.R.color;
@@ -31,13 +34,15 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class ListOnClick implements OnItemClickListener {
 
+	private TabFragment headline;
 	private ContentFragment article;
 	private Context context;
 	private List<Viewable> array;
 	private View prevView;
 	private DisplayMetrics dm;
 	
-	public ListOnClick(ContentFragment article, Context context, List<Viewable> array, DisplayMetrics dm){
+	public ListOnClick(ContentFragment article, Context context, List<Viewable> array, DisplayMetrics dm, TabFragment headline){
+		this.headline = headline;
 		this.article = article;
 		this.context = context;
 		this.array = array;
@@ -47,8 +52,8 @@ public class ListOnClick implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
 		
-        	article.updateArticleView(array.get(position).getView(context), dm);
-        	
+		if (array.get(position).getView(context) != null){
+			article.updateArticleView(array.get(position).getView(context), dm);
         	if(prevView != null && prevView != view){
         		prevView.setBackgroundColor(0);
         		view.setBackgroundColor(Color.DKGRAY);
@@ -57,5 +62,10 @@ public class ListOnClick implements OnItemClickListener {
         		view.setBackgroundColor(Color.DKGRAY);
         		prevView = view;
         	}//End of if else-is condition
+		}else{
+			SdcardListFragment sdFrag = new SdcardListFragment(((SdcardFileTransform)array.get(position)).getFile().getAbsolutePath(),article,headline);
+			headline.getActivity().getSupportFragmentManager().beginTransaction()
+		       .replace(R.id.frag_container, sdFrag).addToBackStack(null).commit();
+		}
    	}//End of onItemClick Function
 }//End of ListOnClick Class

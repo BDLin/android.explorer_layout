@@ -25,6 +25,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -65,12 +66,14 @@ public class MainActivity extends FragmentActivity {
                     .add(R.id.fragment_container, firstFragment).commit();
         }else{
         	Log.i("MainActivity", "Is_Tablet");
+        	
         	TabFragment headline = (TabFragment)getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
         	ContentFragment article = (ContentFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
         	
-        	headline.addButtonToView(new RemoteListFragment(this, R.drawable.box_small_icon, article));
+//        	headline.addButtonToView(new RemoteListFragment(this, R.drawable.box_small_icon, article));
+        	headline.addButtonToView(new SdcardListFragment(this, R.drawable.folder_remote,article,Environment.getExternalStorageDirectory().getAbsolutePath(), headline));
         	headline.addButtonToView(new LocalListFragment(this, R.drawable.download_folder_small_icon));
-        	headline.addButtonToView(new PrefsFragment(this, R.drawable.setting_small_icon));
+        	headline.addButtonToView(new PrefsFragment(this, R.drawable.android_settings));
         }
     }
     

@@ -46,7 +46,7 @@ import android.widget.RelativeLayout;
 
 public class RemoteListFragment extends ListFragment implements TabView{
 		
-		private ArrayList<Viewable> array = new ArrayList<Viewable>();
+		private List<Viewable> array = new ArrayList<Viewable>();
 		private CustomizeImageButton remoteBtn;
 		private ContentFragment article;
 		private DisplayMetrics dm;
@@ -85,7 +85,7 @@ public class RemoteListFragment extends ListFragment implements TabView{
 	        super.onActivityCreated(savedInstanceState);
 	        Log.i("RemoteListFragment", "onActivityCreate()............");
 	        //Set listener of list item
-	        getListView().setOnItemClickListener(new ListOnClick(article, getActivity(), array, dm));
+	        //getListView().setOnItemClickListener(new ListOnClick(article, getActivity(), array, dm));
 	        Log.i("RemoteListFragment", "Set item listener finish");
 	    }
 	    
