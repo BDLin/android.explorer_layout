@@ -27,23 +27,23 @@ public class ImgBtnOnClick implements OnClickListener {
 	private TabFragment headline;
 	private LinearLayout linear;
 	private Fragment frag;
-	
-	public ImgBtnOnClick(TabFragment headline, LinearLayout linear, Fragment frag){
+
+	public ImgBtnOnClick(TabFragment headline, LinearLayout linear,
+			Fragment frag) {
 		this.headline = headline;
 		this.linear = linear;
 		this.frag = frag;
-	}
-	
+	}//End of ImgBtnOnClick construct
+
 	public void onClick(View v) {
-		if(v.getAlpha() != 1.0){
-//			headline.getActivity().getSupportFragmentManager().beginTransaction()
-//		       .replace(R.id.frag_container, frag).addToBackStack(null).commit();
-			headline.getActivity().getSupportFragmentManager().beginTransaction()
-		       .replace(R.id.frag_container, frag).commit();
-			
-			for(int i = 0; i < linear.getChildCount(); i++)
+		if (v.getAlpha() != 1.0) {
+			headline.getActivity().getSupportFragmentManager()
+					.beginTransaction().replace(R.id.frag_container, frag)
+					.commit();
+
+			for (int i = 0; i < linear.getChildCount(); i++)
 				linear.getChildAt(i).setAlpha((float) 0.5);
 			v.setAlpha((float) 1.0);
-		}
-	}
-}
+		}//End of if condition
+	}//End of onClick function
+}//End of ImgBtnOnClick class

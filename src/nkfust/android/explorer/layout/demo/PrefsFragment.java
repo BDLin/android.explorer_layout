@@ -43,5 +43,4 @@ public class PrefsFragment extends PreferenceFragment implements TabView {
 	public ImageButton getBtn() {
 		return settingBtn.getButton();
 	}
-
 }

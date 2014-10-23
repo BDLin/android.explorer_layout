@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 The Android Open Source Project
+FF * Copyright (C) 2012 The Android Open Source Project
  * Copyright (C) 2014 Zi-Xiang Lin <bdl9437@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,7 @@
  */
 package nkfust.android.explorer.layout.modle;
 
-
 import nkfust.android.explorer.layout.R;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -29,85 +27,26 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 public class TabFragment extends Fragment {
-    
-    public void addButtonToView(TabView view){
-    	LinearLayout linear = (LinearLayout)getActivity().findViewById(R.id.btn_layout);
-    	ImageButton imgBtn = view.getBtn();
-    	
-    	//Set init View page
-    	if(imgBtn.getId() == 0)
-    		getActivity().getSupportFragmentManager().beginTransaction()
-            	.add(R.id.frag_container, (Fragment)view).commit();
-    	
-    	imgBtn.setOnClickListener(new ImgBtnOnClick(this, linear, (Fragment)view));
-    	Log.i("HeadlineFragment", "Btn set listener Finish");
-    	linear.addView(imgBtn);
-    	Log.i("HeadlineFragment", "Btn add to linear Finish");
-    }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.i("HeadlineFragment", "onCreate()............");
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.i("HeadlineFragment", "onStrat()..........");
-    }
-    
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.i("HeadlineFragment", "onAttach()............");
-    }
- 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i("HeadlineFragment", "onCreateView()............");
-        return inflater.inflate(R.layout.headline_view, container, false);
-    }
+	public void addTabView(TabView view) {
+		LinearLayout linear = (LinearLayout) getActivity().findViewById(
+				R.id.btn_layout);
+		ImageButton imgBtn = view.getBtn();
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i("HeadlineFragment", "onActivityCreate()............");
-    }
-    
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.i("HeadlineFragment", "onDestroyView()............");
-    }
+		// Set init View page
+		if (imgBtn.getId() == 0)
+			getActivity().getSupportFragmentManager().beginTransaction()
+					.add(R.id.frag_container, (Fragment) view).commit();
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("HeadlineFragment", "onDestroy()............");
-    }
+		imgBtn.setOnClickListener(new ImgBtnOnClick(this, linear,
+				(Fragment) view));
+		linear.addView(imgBtn);
+	}
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.i("HeadlineFragment", "onDetach()............");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i("HeadlineFragment", "onPause()............");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("HeadlineFragment", "onResume()............");
-    }
-    
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i("HeadlineFragment", "onStop()............");
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		return inflater.inflate(R.layout.headline_view, container, false);
+	}
 }

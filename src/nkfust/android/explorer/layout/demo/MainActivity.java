@@ -37,13 +37,13 @@ public class MainActivity extends FragmentActivity {
 		ContentFragment article = (ContentFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.article_fragment);
 
-		headline.addButtonToView(new SdcardListFragment(this,
+		headline.addTabView(new SdcardListFragment(this,
 				R.drawable.folder_remote, article, Environment
 						.getExternalStorageDirectory().getAbsolutePath(),
 				headline));
-		headline.addButtonToView(new LocalListFragment(this,
+		headline.addTabView(new LocalListFragment(this,
 				R.drawable.download_folder_small_icon));
-		headline.addButtonToView(new PrefsFragment(this,
+		headline.addTabView(new PrefsFragment(this,
 				R.drawable.android_settings));
 	}// End of onCreate
 
