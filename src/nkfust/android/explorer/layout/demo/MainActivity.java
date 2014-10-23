@@ -42,7 +42,9 @@ public class MainActivity extends FragmentActivity {
 						.getExternalStorageDirectory().getAbsolutePath(),
 				headline));
 		headline.addTabView(new LocalListFragment(this,
-				R.drawable.download_folder_small_icon));
+				R.drawable.download_folder_small_icon, article, Environment
+				.getExternalStorageDirectory().getAbsolutePath(),
+		headline));
 		headline.addTabView(new PrefsFragment(this,
 				R.drawable.android_settings));
 	}// End of onCreate
