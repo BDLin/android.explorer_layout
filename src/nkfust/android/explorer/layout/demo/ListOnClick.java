@@ -14,58 +14,88 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
-
-import com.example.android.fragments.R;
 
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.TabFragment;
-import nkfust.android.explorer.layout.modle.Viewable;
-
-import android.R.color;
+import poisondog.android.view.list.ComplexListItem;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
+
+import com.example.android.fragments.R;
 
 public class ListOnClick implements OnItemClickListener {
 
 	private TabFragment headline;
 	private ContentFragment article;
 	private Context context;
-	private List<Viewable> array;
+	private List<ComplexListItem> array;
 	private View prevView;
-	private DisplayMetrics dm;
-	
-	public ListOnClick(ContentFragment article, Context context, List<Viewable> array, DisplayMetrics dm, TabFragment headline){
+
+	public ListOnClick(ContentFragment article, Context context,
+			List<ComplexListItem> array, TabFragment headline) {
 		this.headline = headline;
 		this.article = article;
 		this.context = context;
 		this.array = array;
-		this.dm = dm;
-	}//End of ListOnClick construct
-	
+	}// End of ListOnClick construct
+
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
-		
-		if (array.get(position).getView(context) != null){
-			article.updateArticleView(array.get(position).getView(context), dm);
-        	if(prevView != null && prevView != view){
-        		prevView.setBackgroundColor(0);
-        		view.setBackgroundColor(Color.DKGRAY);
-        		prevView = view;
-        	}else if(prevView == null){
-        		view.setBackgroundColor(Color.DKGRAY);
-        		prevView = view;
-        	}//End of if else-is condition
-		}else{
-			SdcardListFragment sdFrag = new SdcardListFragment(((SdcardFileTransform)array.get(position)).getFile().getAbsolutePath(),article,headline);
-			headline.getActivity().getSupportFragmentManager().beginTransaction()
-		       .replace(R.id.frag_container, sdFrag).addToBackStack(null).commit();
-		}
-   	}//End of onItemClick Function
-}//End of ListOnClick Class
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+
+		if (((SdcardFileTransform) array.get(position)).getFile().isFile()) {
+
+			TextView text = new TextView(context);
+			text.setText(readFromSDcard(((SdcardFileTransform) array
+					.get(position)).getFile()));
+			text.setTextSize(25);
+			article.updateArticleView(text);
+
+			if (prevView != null && prevView != view) {
+				prevView.setBackgroundColor(0);
+				view.setBackgroundColor(Color.DKGRAY);
+				prevView = view;
+			} else if (prevView == null) {
+				view.setBackgroundColor(Color.DKGRAY);
+				prevView = view;
+			}// End of if else-is condition
+		} else {
+			SdcardListFragment sdFrag = new SdcardListFragment(
+					((SdcardFileTransform) array.get(position)).getFile()
+							.getAbsolutePath(), article, headline);
+			headline.getActivity().getSupportFragmentManager()
+					.beginTransaction().replace(R.id.frag_container, sdFrag)
+					.addToBackStack(null).commit();
+		}//End of if-else condition
+	}// End of onItemClick Function
+
+	private String readFromSDcard(File file) {
+
+		StringBuilder sb = new StringBuilder();
+		try {
+			FileInputStream fin = new FileInputStream(file);
+			byte[] data = new byte[fin.available()];
+			while (fin.read(data) != -1) {
+				sb.append(new String(data));
+			}//End of while loop
+			fin.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}//End try-catch
+		return sb.toString();
+	}// End of readFromSDcard function
+}// End of ListOnClick Class

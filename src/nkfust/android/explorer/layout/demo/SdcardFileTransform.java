@@ -5,55 +5,72 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import nkfust.android.explorer.layout.modle.Viewable;
+import com.example.android.fragments.R;
+import poisondog.format.*;
+
+import poisondog.android.view.list.ComplexListItem;
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SdcardFileTransform implements Viewable {
+public class SdcardFileTransform implements ComplexListItem {
 
 	private File file;
-	
-	public SdcardFileTransform(File file){
+
+	public SdcardFileTransform(File file) {
 		this.file = file;
-	}
-	
-	@Override
-	public View getView(Context context) {
-		if(this.file.isFile()){
-			TextView text = new TextView(context);
-			text.setText(readFromSDcard(file));
-			text.setTextSize(25);
-			return text;
-		}else
-			return null;
-	}
-	
-	private String readFromSDcard(File file){
-	    
-	    StringBuilder sb = new StringBuilder();
-	    try {
-	          FileInputStream fin = new FileInputStream(file);
-	          byte[] data = new byte[fin.available()];
-	          while (fin.read(data) != -1) {
-	            sb.append(new String(data));
-	    }
-	        fin.close();
-	    } catch (FileNotFoundException e) {
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	    //Log.d("TAG", "Read from SDCARD: " + json.toString());
-	    return sb.toString();
 	}
 
 	@Override
 	public String getTitle() {
 		return file.getName();
 	}
-	
-	public File getFile(){
+
+	public File getFile() {
 		return this.file;
+	}
+
+	@Override
+	public String getHideMessage() {
+		return null;
+	}
+
+	@Override
+	public Object getData() {
+		return null;
+	}
+
+	@Override
+	public void setData(Object object) {
+
+	}
+
+	@Override
+	public void setSubTitle(TextView view) {
+		view.setText(TimeFormatUtils.toString(TimeFormatUtils.SIMPLE,
+				file.lastModified()));
+	}
+
+	@Override
+	public void setComment(TextView view) {
+
+	}
+
+	@Override
+	public void setImage(ImageView view) {
+		if (file.isFile())
+			view.setImageResource(R.drawable.file);
+		else {
+			if (new File(file.getAbsolutePath()).listFiles().length == 0)
+				view.setImageResource(R.drawable.folder_empty);
+			else
+				view.setImageResource(R.drawable.folder_documents);
+		}//End of if-else condition
+	}//End of setImage function
+
+	@Override
+	public void setState(ImageView view) {
+
 	}
 }

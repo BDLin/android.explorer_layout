@@ -6,25 +6,22 @@ import java.util.List;
 
 import android.util.Log;
 
-public class SdcardFileData{
+public class SdcardFileData {
 
 	private String filePath;
 	private File file;
 	private List<File> files;
-	
-	public SdcardFileData(String filePath){
+
+	public SdcardFileData(String filePath) {
 		this.filePath = filePath;
 		files = new ArrayList<File>();
-		Log.i("SdcardFileData", "filePath:" + this.filePath);
 		file = new File(this.filePath);
-		
-		Log.i("SdcardFileData", "file_size:" + file.listFiles().length);
-		for(File mCurrentFile:file.listFiles())
+
+		for (File mCurrentFile : file.listFiles())
 			files.add(mCurrentFile);
-		Log.i("SdcardFileData", "files_size:" + files.size());
-	}
-	
-	public List<File> getFileList(){
+	}//End of SdcardFileData construct
+
+	public List<File> getFileList() {
 		return files;
-	}
-}
+	}//End of getFileList function
+}//End of SdcardFileData class

@@ -31,92 +31,21 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class ContentFragment extends Fragment {
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("ArticleFragment", "onCreateView()............");
 
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.article_view, container, false);
 	}
-	
-	public void updateArticleView(View view, DisplayMetrics dm) {
-		
-		RelativeLayout relative = (RelativeLayout)getActivity().findViewById(R.id.relative_layout);
+
+	public void updateArticleView(View view) {
+
+		RelativeLayout relative = (RelativeLayout) getActivity().findViewById(
+				R.id.relative_layout);
 		relative.removeAllViews();
-		
-		if(view instanceof ImageView){
-			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-			params.addRule(RelativeLayout.CENTER_IN_PARENT);
-			view.setLayoutParams(params);
-		}
+
 		relative.addView(view);
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-		Log.i("ArticleFragment", "onStart()............");
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Log.i("ArticleFragment", "onCreate()............");
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		Log.i("ArticleFragment", "onActivityCreate()............");
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		Log.i("ArticleFragment", "onDestroyView()............");
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.i("ArticleFragment", "onDestroy()............");
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		Log.i("ArticleFragment", "onDetach()............");
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		Log.i("ArticleFragment", "onPause()............");
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.i("ArticleFragment", "onResume()............");
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		Log.i("ArticleFragment", "onStop()............");
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		Log.i("ArticleFragment", "onAttach()............");
-		super.onAttach(activity);
-	}
+	}//End of updateArticleView function
 }

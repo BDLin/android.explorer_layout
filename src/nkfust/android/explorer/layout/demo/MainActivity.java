@@ -36,87 +36,36 @@ import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);         
-        Log.i("MainActivity", "onCreate().......");
-        setContentView(R.layout.news_articles);
-        
-        // Check whether the activity is using the layout version with
-        // the fragment_container FrameLayout. If so, we must add the first fragment
-        if (findViewById(R.id.fragment_container) != null) {
-        	Log.i("MainActivity", "Is_Phone");
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            // Create an instance of ExampleFragment
-            TabFragment firstFragment = new TabFragment();
-
-            // In case this activity was started with special instructions from an Intent,
-            // pass the Intent's extras to the fragment as arguments
-            firstFragment.setArguments(getIntent().getExtras());
-
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, firstFragment).commit();
-        }else{
-        	Log.i("MainActivity", "Is_Tablet");
-        	
-        	TabFragment headline = (TabFragment)getSupportFragmentManager().findFragmentById(R.id.headlines_fragment);
-        	ContentFragment article = (ContentFragment)getSupportFragmentManager().findFragmentById(R.id.article_fragment);
-        	
-//        	headline.addButtonToView(new RemoteListFragment(this, R.drawable.box_small_icon, article));
-        	headline.addButtonToView(new SdcardListFragment(this, R.drawable.folder_remote,article,Environment.getExternalStorageDirectory().getAbsolutePath(), headline));
-        	headline.addButtonToView(new LocalListFragment(this, R.drawable.download_folder_small_icon));
-        	headline.addButtonToView(new PrefsFragment(this, R.drawable.android_settings));
-        }
-    }
-    
-    @Override
-    public void onConfigurationChanged(Configuration newConfig){
-        super.onConfigurationChanged(newConfig);
-
-        // Checks the orientation of the screen
-        if(newConfig.orientation ==Configuration.ORIENTATION_LANDSCAPE){
-            Toast.makeText(this,"绢家Α(landscape)",Toast.LENGTH_SHORT).show();
-        }else if(newConfig.orientation ==Configuration.ORIENTATION_PORTRAIT){
-            Toast.makeText(this,"捷家Α(portrait)",Toast.LENGTH_SHORT).show();
-        }
-    }
-    
-    @Override
-	public void onDestroy(){
-		super.onDestroy();
-		Log.i("MainActivity", "onDestroy()...");
-	}
-	
+	/** Called when the activity is first created. */
 	@Override
-	protected void onPause() {
-	    super.onPause();
-	    Log.i("MainActivity", "onPause()...");
-	}
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.news_articles);
+
+		TabFragment headline = (TabFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.headlines_fragment);
+		ContentFragment article = (ContentFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.article_fragment);
+
+		headline.addButtonToView(new SdcardListFragment(this,
+				R.drawable.folder_remote, article, Environment
+						.getExternalStorageDirectory().getAbsolutePath(),
+				headline));
+		headline.addButtonToView(new LocalListFragment(this,
+				R.drawable.download_folder_small_icon));
+		headline.addButtonToView(new PrefsFragment(this,
+				R.drawable.android_settings));
+	}// End of onCreate
 
 	@Override
-	protected void onResume() {
-	    super.onResume();
-	    Log.i("MainActivity", "onResume()...");
-	}
- 
-	@Override
-	protected void onStart() {
-	    super.onStart();
-	    Log.i("MainActivity", "onStart()...");
-	}
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 
-	@Override
-	protected void onStop() {
-	    super.onStop();
-	    Log.i("MainActivity", "onStop()...");
-	}
-    
-}
+		// Checks the orientation of the screen
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Toast.makeText(this, "绢家Α(landscape)", Toast.LENGTH_SHORT).show();
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			Toast.makeText(this, "捷家Α(portrait)", Toast.LENGTH_SHORT).show();
+		}// End of if- else if condition
+	}// End of onConfigurationChanged function
+}// End of MainActivity

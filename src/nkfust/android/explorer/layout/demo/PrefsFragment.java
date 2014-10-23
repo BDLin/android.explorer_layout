@@ -14,7 +14,6 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-
 import nkfust.android.explorer.layout.modle.CustomizeImageButton;
 import nkfust.android.explorer.layout.modle.TabView;
 
@@ -28,26 +27,26 @@ import android.support.v4.preference.PreferenceFragment;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-public class PrefsFragment extends PreferenceFragment implements TabView{
+public class PrefsFragment extends PreferenceFragment implements TabView {
 
-    private CustomizeImageButton settingBtn;
-    
-    public PrefsFragment(){}
-	
-    public PrefsFragment(Context context, int img_id){
-    	settingBtn = new CustomizeImageButton(context, img_id);
-    }
-    
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	private CustomizeImageButton settingBtn;
 
-        // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.preferences);
-    }
-    
-    public ImageButton getBtn(){
-    	return settingBtn.getButton();
-    }
-    
+	public PrefsFragment() {}
+
+	public PrefsFragment(Context context, int img_id) {
+		settingBtn = new CustomizeImageButton(context, img_id);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Load the preferences from an XML resource
+		addPreferencesFromResource(R.xml.preferences);
+	}
+
+	public ImageButton getBtn() {
+		return settingBtn.getButton();
+	}
+
 }
