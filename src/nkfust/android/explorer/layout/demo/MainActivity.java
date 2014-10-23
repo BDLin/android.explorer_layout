@@ -16,23 +16,13 @@
  */
 package nkfust.android.explorer.layout.demo;
 
+import nkfust.android.explorer.layout.R;
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.TabFragment;
-
-import com.example.android.fragments.R;
-
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
@@ -60,12 +50,5 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-
-		// Checks the orientation of the screen
-		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			Toast.makeText(this, "¾î«Ì¼Ò¦¡(landscape)", Toast.LENGTH_SHORT).show();
-		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			Toast.makeText(this, "½Ý«Ì¼Ò¦¡(portrait)", Toast.LENGTH_SHORT).show();
-		}// End of if- else if condition
 	}// End of onConfigurationChanged function
 }// End of MainActivity

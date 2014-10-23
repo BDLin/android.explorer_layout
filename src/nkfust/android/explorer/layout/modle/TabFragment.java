@@ -17,24 +17,16 @@
 package nkfust.android.explorer.layout.modle;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-import com.example.android.fragments.R;
-
+import nkfust.android.explorer.layout.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 public class TabFragment extends Fragment {
     

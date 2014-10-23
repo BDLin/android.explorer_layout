@@ -14,18 +14,13 @@
  */
 package nkfust.android.explorer.layout.demo;
 
+import nkfust.android.explorer.layout.R;
 import nkfust.android.explorer.layout.modle.CustomizeImageButton;
 import nkfust.android.explorer.layout.modle.TabView;
-
-import com.example.android.fragments.R;
-
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.preference.PreferenceFragment;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 public class PrefsFragment extends PreferenceFragment implements TabView {
 

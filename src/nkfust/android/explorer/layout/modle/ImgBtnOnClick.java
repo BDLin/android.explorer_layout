@@ -14,22 +14,12 @@
  */
 package nkfust.android.explorer.layout.modle;
 
-import java.util.List;
-
-
-import com.example.android.fragments.R;
-
+import nkfust.android.explorer.layout.R;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 @SuppressLint("NewApi")
 public class ImgBtnOnClick implements OnClickListener {

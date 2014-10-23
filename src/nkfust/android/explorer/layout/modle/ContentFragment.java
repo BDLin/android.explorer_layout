@@ -16,18 +16,12 @@
  */
 package nkfust.android.explorer.layout.modle;
 
-import com.example.android.fragments.R;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
+import nkfust.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class ContentFragment extends Fragment {

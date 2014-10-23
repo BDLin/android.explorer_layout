@@ -1,16 +1,10 @@
 package nkfust.android.explorer.layout.demo;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import com.example.android.fragments.R;
-import poisondog.format.*;
-
+import nkfust.android.explorer.layout.R;
 import poisondog.android.view.list.ComplexListItem;
-import android.content.Context;
-import android.view.View;
+import poisondog.format.TimeFormatUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
