@@ -35,13 +35,11 @@ public class LocalListFragment extends ListFragment implements TabView{
 	private List<ComplexListItem> array;
 	private ContentFragment article;
 	private String filePath;
-	private TabFragment headline;
 	
 	public LocalListFragment(String filePath, ContentFragment article,
 			TabFragment headline){
 		this.filePath = filePath + "/Download/";
 		this.article = article;
-		this.headline = headline;
 		array = new ArrayList<ComplexListItem>();
 	}
 	
@@ -71,8 +69,8 @@ public class LocalListFragment extends ListFragment implements TabView{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     	// Set listener of list item
-     		getListView().setOnItemClickListener(
-     				new ListOnClick(article, getActivity(), array, headline));
+//     		getListView().setOnItemClickListener(
+//     				new ListOnClick(article, getActivity(), array, this));
     }
     
     @Override

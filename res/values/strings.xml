@@ -35,5 +35,7 @@ limitations under the License.
 	<string name="title_send_folder_keep">Keep Day</string>
 	<string name="title_erase_offline">Erase</string>
 	<string name="title_logout">Logout</string>
-	
+	<string name="create_folder_title">Create New Folder</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_time">Sort by time</string>
 </resources>

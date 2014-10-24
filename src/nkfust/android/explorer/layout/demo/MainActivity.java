@@ -16,6 +16,7 @@
  */
 package nkfust.android.explorer.layout.demo;
 
+import poisondog.string.ExtractParentUrl;
 import nkfust.android.explorer.layout.R;
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.TabFragment;
@@ -23,34 +24,89 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity {
 
+	private TabFragment headline;
+	private ContentFragment article;
+	private SdcardListFragment sdFrag;
+	private LocalListFragment offFrag;
+	private PrefsFragment presFrag;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_articles);
 
-		TabFragment headline = (TabFragment) getSupportFragmentManager()
+		headline = (TabFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.headlines_fragment);
-		ContentFragment article = (ContentFragment) getSupportFragmentManager()
+		article = (ContentFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.article_fragment);
 
-		headline.addTabView(new SdcardListFragment(this,
+		sdFrag = new SdcardListFragment(this,
 				R.drawable.folder_remote, article, Environment
-						.getExternalStorageDirectory().getAbsolutePath(),
-				headline));
-		headline.addTabView(new LocalListFragment(this,
+				.getExternalStorageDirectory().getAbsolutePath());
+		offFrag = new LocalListFragment(this,
 				R.drawable.download_folder_small_icon, article, Environment
-				.getExternalStorageDirectory().getAbsolutePath(),
-		headline));
-		headline.addTabView(new PrefsFragment(this,
-				R.drawable.android_settings));
+				.getExternalStorageDirectory().getAbsolutePath(), headline);
+		presFrag = new PrefsFragment(this, R.drawable.android_settings);
+		
+		headline.addTabView(sdFrag);
+		headline.addTabView(offFrag);
+		headline.addTabView(presFrag);
 	}// End of onCreate
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 	}// End of onConfigurationChanged function
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.title_file_list, menu);
+		super.onCreateOptionsMenu(menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		// action with ID action_refresh was selected
+		case R.id.create_folder:
+			new CreateFolder(this, sdFrag).DisplayDialog();
+			break;
+
+		// action with ID action_settings was selected
+		case R.id.sort_by_name:
+
+			break;
+
+		case R.id.sort_by_time:
+
+			break;
+
+		default:
+			break;
+		}// End of switch-case
+		return true;
+	}// End of onOptionsItemSelected
+	
+	public void onBackPressed(){
+		Log.i("MainActivity","Back!!tempPath:" + SdcardListFragment.getPath());
+		Log.i("MainActivity","Back!!rootpath:" + SdcardListFragment.rootPath);
+		if(sdFrag.getBtn().getAlpha() == 1.0){
+			if(SdcardListFragment.getPath().equals(SdcardListFragment.rootPath))
+				super.onBackPressed();
+			else
+				sdFrag.setAdapter(new ExtractParentUrl().process(SdcardListFragment.getPath()));
+		}else if(offFrag.getBtn().getAlpha() == 1.0){
+			
+	    }else if(presFrag.getBtn().getAlpha() == 1.0) 
+			super.onBackPressed();
+	}
 }// End of MainActivity

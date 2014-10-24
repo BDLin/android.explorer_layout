@@ -15,13 +15,11 @@
 package nkfust.android.explorer.layout.modle;
 
 import nkfust.android.explorer.layout.R;
-import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
-@SuppressLint("NewApi")
 public class ImgBtnOnClick implements OnClickListener {
 
 	private TabFragment headline;

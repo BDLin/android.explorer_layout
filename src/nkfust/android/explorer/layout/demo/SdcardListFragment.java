@@ -6,13 +6,13 @@ import java.util.List;
 
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.CustomizeImageButton;
-import nkfust.android.explorer.layout.modle.TabFragment;
 import nkfust.android.explorer.layout.modle.TabView;
 import poisondog.android.view.list.ComplexListItem;
 import poisondog.android.view.list.ImageListAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.widget.ImageButton;
 
 public class SdcardListFragment extends ListFragment implements TabView {
@@ -21,25 +21,34 @@ public class SdcardListFragment extends ListFragment implements TabView {
 	private CustomizeImageButton remoteBtn;
 	private ContentFragment article;
 	private String filePath;
-	private TabFragment headline;
 
-	public SdcardListFragment(String filePath, ContentFragment article,
-			TabFragment headline) {
+	private static String tempPath;
+	public static String rootPath;
+
+	public SdcardListFragment(String filePath, ContentFragment article) {
+		rootPath = filePath;
+		tempPath = filePath;
 		this.filePath = filePath;
 		this.article = article;
-		this.headline = headline;
 		array = new ArrayList<ComplexListItem>();
 	}
 
 	public SdcardListFragment(Context context, int img_id,
-			ContentFragment article, String filePath, TabFragment headline) {
-		this(filePath, article, headline);
+			ContentFragment article, String filePath) {
+		this(filePath, article);
 		remoteBtn = new CustomizeImageButton(context, img_id);
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SdcardFileData fileData = new SdcardFileData(filePath);
+		setAdapter(filePath);
+	}
+
+	public void setAdapter(String path) {
+		array.clear();
+		tempPath = path;
+		Log.i("SdcardListFragment", "tempPath:" + tempPath);
+		SdcardFileData fileData = new SdcardFileData(path);
 
 		for (File file : fileData.getFileList())
 			if (!file.isHidden())
@@ -57,13 +66,16 @@ public class SdcardListFragment extends ListFragment implements TabView {
 		super.onActivityCreated(savedInstanceState);
 		// Set listener of list item
 		getListView().setOnItemClickListener(
-				new ListOnClick(article, getActivity(), array, headline));
+				new ListOnClick(article, getActivity(), array, this));
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		CustomizeImageButton.initBtnCounter();
-		array.clear();
+	}
+
+	public static String getPath() {
+		return tempPath;
 	}
 }
