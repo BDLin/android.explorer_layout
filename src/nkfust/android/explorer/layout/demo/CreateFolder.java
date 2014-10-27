@@ -14,48 +14,30 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.io.File;
-
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.widget.EditText;
 
 public class CreateFolder {
 
 	private EditText editText;
 	private Context context;
-	private SdcardListFragment sdFrag;
+	private DialogListener listener;
 
 	public CreateFolder(Context context, SdcardListFragment sdFrag) {
-		this.sdFrag = sdFrag;
 		this.context = context;
 		editText = new EditText(context);
 		editText.setHint("NewFolder");
+		listener = new DialogListener(context, sdFrag, editText);
 	}
 
 	public void DisplayDialog() {
-		new AlertDialog.Builder(context)
-				.setTitle("Create Folder")
-				.setMessage("Please input the folder name.")
-				.setView(editText)
-				.setNegativeButton("Cancel", null)
-				.setPositiveButton("Done",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								File file = new File(sdFrag.getCurrentPath()
-										+ "/" + editText.getText());
-								if (!file.exists()) {
-									file.mkdirs();
-									sdFrag.setAdapter(sdFrag.getCurrentPath());
-								} else
-									new AlertDialog.Builder(context)
-											.setTitle("Error!!")
-											.setMessage("The folder name is repeat!!")
-											.setNegativeButton("OK", null)
-											.show();
-							}//End of onClick
-						}).show();
+		Builder dialog = new AlertDialog.Builder(context);
+		dialog.setTitle("Create Folder")
+			  .setMessage("Please input the folder name.")
+			  .setView(editText)
+			  .setNegativeButton("Cancel", null)
+			  .setPositiveButton("Done",listener).show();
 	}//End of DisplayDialog function
 }//End of CreateFolder class

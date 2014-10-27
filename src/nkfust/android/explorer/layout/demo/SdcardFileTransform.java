@@ -14,33 +14,49 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import nkfust.android.explorer.layout.R;
 import poisondog.android.view.list.ComplexListItem;
 import poisondog.format.TimeFormatUtils;
+import poisondog.string.ExtractFileName;
+import poisondog.vfs.FileType;
+import poisondog.vfs.IFile;
+import poisondog.vfs.LocalFolder;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SdcardFileTransform implements ComplexListItem {
 
-	private File file;
+	private IFile file;
 
-	public SdcardFileTransform(File file) {
+	public SdcardFileTransform(IFile file) {
 		this.file = file;
 	}
 
 	@Override
 	public String getTitle() {
-		return file.getName();
+		try {
+			return new ExtractFileName().process(file.getUrl());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
-	public File getFile() {
+	public IFile getFile() {
 		return this.file;
 	}
-	
-	public Long getTime(){
-		return file.lastModified();
+
+	public Long getTime() {
+		try {
+			return file.getLastModifiedTime();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new Long(0);
 	}
 
 	@Override
@@ -49,8 +65,8 @@ public class SdcardFileTransform implements ComplexListItem {
 	}
 
 	@Override
-	public Object getData() {
-		return null;
+	public IFile getData() {
+		return this.file;
 	}
 
 	@Override
@@ -60,8 +76,12 @@ public class SdcardFileTransform implements ComplexListItem {
 
 	@Override
 	public void setSubTitle(TextView view) {
-		view.setText(TimeFormatUtils.toString(TimeFormatUtils.SIMPLE,
-				file.lastModified()));
+		try {
+			view.setText(TimeFormatUtils.toString(TimeFormatUtils.SIMPLE,
+					file.getLastModifiedTime()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -71,15 +91,24 @@ public class SdcardFileTransform implements ComplexListItem {
 
 	@Override
 	public void setImage(ImageView view) {
-		if (file.isFile())
-			view.setImageResource(R.drawable.file);
-		else {
-			if (new File(file.getAbsolutePath()).listFiles().length == 0)
-				view.setImageResource(R.drawable.folder_empty);
-			else
-				view.setImageResource(R.drawable.folder_documents);
-		}//End of if-else condition
-	}//End of setImage function
+		try {
+			if (file.getType() == FileType.DATA)
+				view.setImageResource(R.drawable.file);
+			else {
+				LocalFolder folder = (LocalFolder) file;
+				if (folder.getChildren().size() == 0)
+					view.setImageResource(R.drawable.folder_empty);
+				else
+					view.setImageResource(R.drawable.folder_documents);
+			}// End of if-else condition
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}// End of try-catch
+	}// End of setImage function
 
 	@Override
 	public void setState(ImageView view) {

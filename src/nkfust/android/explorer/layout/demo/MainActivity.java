@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity {
 	private TabFragment headline;
 	private ContentFragment article;
 	private SdcardListFragment sdFrag;
-	private LocalListFragment offFrag;
+	private SdcardListFragment offFrag;
 	private PrefsFragment presFrag;
 
 	/** Called when the activity is first created. */
@@ -49,10 +49,10 @@ public class MainActivity extends FragmentActivity {
 		sdFrag = new SdcardListFragment(this, R.drawable.folder_remote,
 				article, Environment.getExternalStorageDirectory()
 						.getAbsolutePath());
-		offFrag = new LocalListFragment(this,
+		offFrag = new SdcardListFragment(this,
 				R.drawable.download_folder_small_icon, article, Environment
-						.getExternalStorageDirectory().getAbsolutePath(),
-				headline);
+						.getExternalStorageDirectory().getAbsolutePath()
+						+ "/Download");
 		presFrag = new PrefsFragment(this, R.drawable.android_settings);
 
 		headline.addTabView(sdFrag);
@@ -102,15 +102,23 @@ public class MainActivity extends FragmentActivity {
 			if (sdFrag.isEqualsRootPath())
 				super.onBackPressed();
 			else
-				sdFrag.setAdapter(new ExtractParentUrl().process(sdFrag
-						.getCurrentPath()));
+				try {
+					sdFrag.setAdapter(new ExtractParentUrl().process(sdFrag
+							.getCurrentPath()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		} else if (offFrag.getBtn().getAlpha() == 1.0) {
 			if (offFrag.isEqualsRootPath())
 				super.onBackPressed();
 			else
-				offFrag.setAdapter(new ExtractParentUrl().process(offFrag
-						.getCurrentPath()));
+				try {
+					offFrag.setAdapter(new ExtractParentUrl().process(offFrag
+							.getCurrentPath()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		} else if (presFrag.getBtn().getAlpha() == 1.0)
 			super.onBackPressed();
-	}//End of onBackPressed
+	}// End of onBackPressed
 }// End of MainActivity

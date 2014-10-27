@@ -14,26 +14,30 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
+
+import poisondog.vfs.IFile;
+import poisondog.vfs.LocalFileFactory;
+import poisondog.vfs.LocalFolder;
 
 public class SdcardFileData {
 
 	private String filePath;
-	private File file;
-	private List<File> files;
+	private LocalFolder file;
+	private List<IFile> files;
+	private LocalFileFactory factory;
 
-	public SdcardFileData(String filePath) {
-		this.filePath = filePath;
-		files = new ArrayList<File>();
-		file = new File(this.filePath);
-
-		for (File mCurrentFile : file.listFiles())
-			files.add(mCurrentFile);
+	public SdcardFileData(String filePath) throws IOException,
+			URISyntaxException {
+		this.filePath = filePath + "/";
+		factory = new LocalFileFactory();
+		file = (LocalFolder) factory.getFile(this.filePath);
+		files = file.getChildren();
 	}// End of SdcardFileData construct
 
-	public List<File> getFileList() {
+	public List<IFile> getFileList() {
 		return files;
 	}// End of getFileList function
 }// End of SdcardFileData class

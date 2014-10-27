@@ -14,23 +14,23 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.CustomizeImageButton;
-import nkfust.android.explorer.layout.modle.FileData;
 import nkfust.android.explorer.layout.modle.TabView;
 import poisondog.android.view.list.ComplexListItem;
 import poisondog.android.view.list.ImageListAdapter;
+import poisondog.string.ExtractPath;
+import poisondog.vfs.IFile;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.widget.ImageButton;
 
-public class SdcardListFragment extends ListFragment implements TabView , FileData{
+public class SdcardListFragment extends ListFragment implements TabView {
 
 	private List<ComplexListItem> array;
 	private CustomizeImageButton remoteBtn;
@@ -54,16 +54,20 @@ public class SdcardListFragment extends ListFragment implements TabView , FileDa
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setAdapter(tempPath);
+		try {
+			setAdapter(tempPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void setAdapter(String path) {
+	public void setAdapter(String path) throws Exception {
 		array.clear();
 		tempPath = path;
 		Log.i("SdcardListFragment", "tempPath:" + tempPath);
 		SdcardFileData fileData = new SdcardFileData(path);
 
-		for (File file : fileData.getFileList())
+		for (IFile file : fileData.getFileList())
 			if (!file.isHidden())
 				array.add(new SdcardFileTransform(file));
 
@@ -88,25 +92,23 @@ public class SdcardListFragment extends ListFragment implements TabView , FileDa
 		CustomizeImageButton.initBtnCounter();
 	}
 
-	@Override
 	public String getCurrentPath() {
 		return tempPath;
 	}
 
-	@Override
 	public Boolean isEqualsRootPath() {
-		return tempPath.equals(rootPath);
+		return new ExtractPath().process(tempPath).equals(rootPath);
 	}
-	
-	public void doSortByName(){
+
+	public void doSortByName() {
 		array = FileDoSort.doSortByName(array);
 	}
-	
-	public void doSortByTime(){
+
+	public void doSortByTime() {
 		array = FileDoSort.doSortByTime(array);
 	}
-	
-	public void reloadList(){
+
+	public void reloadList() {
 		setListAdapter(new ImageListAdapter(getActivity(), array));
 	}
 }

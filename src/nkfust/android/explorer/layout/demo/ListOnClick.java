@@ -14,15 +14,17 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import nkfust.android.explorer.layout.modle.ContentFragment;
-import nkfust.android.explorer.layout.modle.FileData;
 import poisondog.android.view.list.ComplexListItem;
+import poisondog.vfs.FileType;
+import poisondog.vfs.IFile;
+import poisondog.vfs.LocalData;
+import poisondog.vfs.LocalFolder;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -36,10 +38,10 @@ public class ListOnClick implements OnItemClickListener {
 	private Context context;
 	private List<ComplexListItem> array;
 	private View prevView;
-	private FileData fileData;
+	private SdcardListFragment fileData;
 
 	public ListOnClick(ContentFragment article, Context context,
-			List<ComplexListItem> array, FileData fileData) {
+			List<ComplexListItem> array, SdcardListFragment fileData) {
 		this.fileData = fileData;
 		this.article = article;
 		this.context = context;
@@ -50,33 +52,37 @@ public class ListOnClick implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
-		if (((SdcardFileTransform) array.get(position)).getFile().isFile()) {
+		try {
+			if (((IFile) array.get(position).getData()).getType() == FileType.DATA) {
 
-			TextView text = new TextView(context);
-			text.setText(readFromSDcard(((SdcardFileTransform) array
-					.get(position)).getFile()));
-			text.setTextSize(25);
-			article.updateArticleView(text);
+				TextView text = new TextView(context);
+				LocalData data = (LocalData) array.get(position).getData();
+				text.setText(readFromSDcard(data));
+				text.setTextSize(25);
+				article.updateArticleView(text);
 
-			if (prevView != null && prevView != view) {
-				prevView.setBackgroundColor(0);
-				view.setBackgroundColor(Color.DKGRAY);
-				prevView = view;
-			} else if (prevView == null) {
-				view.setBackgroundColor(Color.DKGRAY);
-				prevView = view;
-			}// End of if else-is condition
-		} else {
-			fileData.setAdapter(((SdcardFileTransform) array.get(position))
-					.getFile().getAbsolutePath());
-		}// End of if-else condition
+				if (prevView != null && prevView != view) {
+					prevView.setBackgroundColor(0);
+					view.setBackgroundColor(Color.DKGRAY);
+					prevView = view;
+				} else if (prevView == null) {
+					view.setBackgroundColor(Color.DKGRAY);
+					prevView = view;
+				}// End of if else-is condition
+			} else {
+				LocalFolder folder = (LocalFolder) array.get(position)
+						.getData();
+				fileData.setAdapter(folder.getUrl());
+			}// End of if-else condition
+		} catch (Exception e) {
+			e.printStackTrace();
+		}// End of try-catch
 	}// End of onItemClick Function
 
-	private String readFromSDcard(File file) {
-
+	private String readFromSDcard(LocalData file) {
 		StringBuilder sb = new StringBuilder();
 		try {
-			FileInputStream fin = new FileInputStream(file);
+			InputStream fin = file.getInputStream();
 			byte[] data = new byte[fin.available()];
 			while (fin.read(data) != -1) {
 				sb.append(new String(data));
