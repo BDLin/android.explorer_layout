@@ -20,6 +20,7 @@ import java.util.List;
 
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.CustomizeImageButton;
+import nkfust.android.explorer.layout.modle.FileData;
 import nkfust.android.explorer.layout.modle.TabFragment;
 import nkfust.android.explorer.layout.modle.TabView;
 import poisondog.android.view.list.ComplexListItem;
@@ -27,56 +28,83 @@ import poisondog.android.view.list.ImageListAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.widget.ImageButton;
 
-public class LocalListFragment extends ListFragment implements TabView{
-	
+public class LocalListFragment extends ListFragment implements TabView,
+		FileData {
+
 	private CustomizeImageButton localBtn;
 	private List<ComplexListItem> array;
 	private ContentFragment article;
-	private String filePath;
-	
+
+	private String tempPath;
+	private String rootPath;
+
 	public LocalListFragment(String filePath, ContentFragment article,
-			TabFragment headline){
-		this.filePath = filePath + "/Download/";
+			TabFragment headline) {
+		this.rootPath = filePath + "/Download";
+		this.tempPath = this.rootPath;
 		this.article = article;
 		array = new ArrayList<ComplexListItem>();
 	}
-	
+
 	public LocalListFragment(Context context, int img_id,
-			ContentFragment article, String filePath, TabFragment headline){
+			ContentFragment article, String filePath, TabFragment headline) {
 		this(filePath, article, headline);
-	    localBtn = new CustomizeImageButton(context, img_id);
+		localBtn = new CustomizeImageButton(context, img_id);
 	}
-	
-    public ImageButton getBtn(){
-    	return localBtn.getButton();
-    }
-	
+
+	public ImageButton getBtn() {
+		return localBtn.getButton();
+	}
+
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        SdcardFileData fileData = new SdcardFileData(filePath);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setAdapter(tempPath);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		// Set listener of list item
+		getListView().setOnItemClickListener(
+				new ListOnClick(article, getActivity(), array, this));
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		array.clear();
+	}
+
+	@Override
+	public String getCurrentPath() {
+		return tempPath;
+	}
+
+	@Override
+	public Boolean isEqualsRootPath() {
+		return tempPath.equals(rootPath);
+	}
+
+	@Override
+	public void setAdapter(String path) {
+		array.clear();
+		tempPath = path;
+		SdcardFileData fileData = new SdcardFileData(path);
 
 		for (File file : fileData.getFileList())
 			if (!file.isHidden())
 				array.add(new SdcardFileTransform(file));
 
+		reloadList();
+	}
+
+	@Override
+	public void reloadList() {
+		// TODO Auto-generated method stub
 		setListAdapter(new ImageListAdapter(getActivity(), array));
 	}
-    
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    	// Set listener of list item
-//     		getListView().setOnItemClickListener(
-//     				new ListOnClick(article, getActivity(), array, this));
-    }
-    
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        array.clear();
-    }
 }
-

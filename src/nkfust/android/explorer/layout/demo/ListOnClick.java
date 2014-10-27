@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.List;
 
 import nkfust.android.explorer.layout.modle.ContentFragment;
+import nkfust.android.explorer.layout.modle.FileData;
 import poisondog.android.view.list.ComplexListItem;
 import android.content.Context;
 import android.graphics.Color;
@@ -31,17 +32,15 @@ import android.widget.TextView;
 
 public class ListOnClick implements OnItemClickListener {
 
-	//private TabFragment headline;
 	private ContentFragment article;
 	private Context context;
 	private List<ComplexListItem> array;
 	private View prevView;
-	private SdcardListFragment listFrag;
+	private FileData fileData;
 
 	public ListOnClick(ContentFragment article, Context context,
-			List<ComplexListItem> array, SdcardListFragment listFrag) {
-		//this.headline = headline;
-		this.listFrag = listFrag;
+			List<ComplexListItem> array, FileData fileData) {
+		this.fileData = fileData;
 		this.article = article;
 		this.context = context;
 		this.array = array;
@@ -68,9 +67,9 @@ public class ListOnClick implements OnItemClickListener {
 				prevView = view;
 			}// End of if else-is condition
 		} else {
-			listFrag.setAdapter(((SdcardFileTransform) array.get(position)).getFile()
-							.getAbsolutePath());
-		}//End of if-else condition
+			fileData.setAdapter(((SdcardFileTransform) array.get(position))
+					.getFile().getAbsolutePath());
+		}// End of if-else condition
 	}// End of onItemClick Function
 
 	private String readFromSDcard(File file) {
@@ -81,13 +80,13 @@ public class ListOnClick implements OnItemClickListener {
 			byte[] data = new byte[fin.available()];
 			while (fin.read(data) != -1) {
 				sb.append(new String(data));
-			}//End of while loop
+			}// End of while loop
 			fin.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}//End try-catch
+		}// End try-catch
 		return sb.toString();
 	}// End of readFromSDcard function
 }// End of ListOnClick Class
