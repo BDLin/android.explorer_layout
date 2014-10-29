@@ -14,30 +14,24 @@
  */
 package nkfust.android.explorer.layout.modle;
 
-import nkfust.android.explorer.layout.R;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
 public class ImgBtnOnClick implements OnClickListener {
 
-	private TabFragment headline;
 	private LinearLayout linear;
-	private Fragment frag;
+	private ViewPager vp;
 
-	public ImgBtnOnClick(TabFragment headline, LinearLayout linear,
-			Fragment frag) {
-		this.headline = headline;
+	public ImgBtnOnClick(LinearLayout linear, ViewPager vp) {
 		this.linear = linear;
-		this.frag = frag;
+		this.vp = vp;
 	}//End of ImgBtnOnClick construct
 
 	public void onClick(View v) {
 		if (v.getAlpha() != 1.0) {
-			headline.getActivity().getSupportFragmentManager()
-				.beginTransaction().replace(R.id.frag_container, frag)
-				.commit();
+			vp.setCurrentItem(v.getId());
 			
 			for (int i = 0; i < linear.getChildCount(); i++)
 				linear.getChildAt(i).setAlpha((float) 0.5);

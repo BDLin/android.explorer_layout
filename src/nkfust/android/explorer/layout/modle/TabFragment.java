@@ -19,6 +19,7 @@ package nkfust.android.explorer.layout.modle;
 import nkfust.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +28,20 @@ import android.widget.LinearLayout;
 
 public class TabFragment extends Fragment {
 
+	private ViewPager vp;
+	private LinearLayout linear;
+	
+	public void setViewPager(ViewPager vp){
+		this.vp = vp;
+	}
+	
+	public void setLinear(LinearLayout linear){
+		this.linear = linear;
+	}
+	
 	public void addTabView(TabView view) {
-		LinearLayout linear = (LinearLayout) getActivity().findViewById(
-				R.id.btn_layout);
 		ImageButton imgBtn = view.getBtn();
-
-		// Set init View page
-		if (imgBtn.getId() == 0)
-			getActivity().getSupportFragmentManager().beginTransaction()
-					.add(R.id.frag_container, (Fragment) view).commit();
-
-		imgBtn.setOnClickListener(new ImgBtnOnClick(this, linear,
-				(Fragment) view));
+		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
 		linear.addView(imgBtn);
 	}
 
