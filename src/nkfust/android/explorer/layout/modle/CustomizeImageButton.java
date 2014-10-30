@@ -33,6 +33,8 @@ public class CustomizeImageButton{
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
 		imgBtn.setId(temp++);
+		if(imgBtn.getId() != 0)
+			imgBtn.setAlpha((float)0.5);
 	}
 	
 	public ImageButton getButton(){

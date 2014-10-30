@@ -21,21 +21,15 @@ import java.util.List;
 
 import nkfust.android.explorer.layout.R;
 import nkfust.android.explorer.layout.modle.ContentFragment;
-import nkfust.android.explorer.layout.modle.ScreenSlidePagerAdapter;
 import nkfust.android.explorer.layout.modle.TabFragment;
+import nkfust.android.explorer.layout.modle.TabView;
 import poisondog.string.ExtractParentUrl;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-
-import com.viewpagerindicator.PageIndicator;
-import com.viewpagerindicator.UnderlinePageIndicator;
 
 public class MainActivity extends FragmentActivity {
 
@@ -44,21 +38,14 @@ public class MainActivity extends FragmentActivity {
 	private SdcardListFragment sdFrag;
 	private SdcardListFragment offFrag;
 	private PrefsFragment presFrag;
-	
-    private List<Fragment> fragmentList = new ArrayList<Fragment>();
-    private List<String>   titleList = new ArrayList<String>();
-    
-    ViewPager vp;
-    ScreenSlidePagerAdapter pagerAdapter;
-    PageIndicator mIndicator;
+
+	private List<TabView> fragmentList;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_articles);
-		
-		vp = (ViewPager)findViewById(R.id.frame_pager);
 
 		headline = (TabFragment) getSupportFragmentManager().findFragmentById(
 				R.id.headlines_fragment);
@@ -73,28 +60,13 @@ public class MainActivity extends FragmentActivity {
 						.getExternalStorageDirectory().getAbsolutePath()
 						+ "/Download");
 		presFrag = new PrefsFragment(this, R.drawable.android_settings);
-		
-		headline.setViewPager(vp);
-		headline.setLinear((LinearLayout)findViewById(R.id.btn_layout));
-		headline.addTabView(sdFrag);
-		headline.addTabView(offFrag);
-		headline.addTabView(presFrag);
-		
-		
+
+		fragmentList = new ArrayList<TabView>();
 		fragmentList.add(sdFrag);
 		fragmentList.add(offFrag);
 		fragmentList.add(presFrag);
-		
-		titleList.add("Remote");
-		titleList.add("Offline");
-		titleList.add("Setting");
-		
-		pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
-		vp.setAdapter(pagerAdapter);
-		UnderlinePageIndicator indicator = (UnderlinePageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(vp);
-        indicator.setFades(false);
-        mIndicator = indicator;
+
+		headline.addTabView(fragmentList);
 	}// End of onCreate
 
 	@Override

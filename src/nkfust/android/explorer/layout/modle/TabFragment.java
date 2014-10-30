@@ -16,6 +16,8 @@ FF * Copyright (C) 2012 The Android Open Source Project
  */
 package nkfust.android.explorer.layout.modle;
 
+import java.util.List;
+
 import nkfust.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,19 +32,17 @@ public class TabFragment extends Fragment {
 
 	private ViewPager vp;
 	private LinearLayout linear;
-	
-	public void setViewPager(ViewPager vp){
-		this.vp = vp;
-	}
-	
-	public void setLinear(LinearLayout linear){
-		this.linear = linear;
-	}
-	
-	public void addTabView(TabView view) {
-		ImageButton imgBtn = view.getBtn();
-		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
-		linear.addView(imgBtn);
+	private ScreenSlidePagerAdapter pagerAdapter;
+	private BtnWithUnderlinePageIndicator indicator;
+
+	public void addTabView(List<TabView> fragmentList) {
+		setViewPager(fragmentList);
+		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
+		for (TabView view : fragmentList) {
+			ImageButton imgBtn = view.getBtn();
+			imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
+			linear.addView(imgBtn);
+		}
 	}
 
 	@Override
@@ -50,5 +50,20 @@ public class TabFragment extends Fragment {
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.headline_view, container, false);
+	}
+
+	private void setViewPager(List<TabView> fragmentList) {
+		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
+		pagerAdapter = new ScreenSlidePagerAdapter(getActivity()
+				.getSupportFragmentManager(), fragmentList);
+		vp.setAdapter(pagerAdapter);
+		indicator = new BtnWithUnderlinePageIndicator(getActivity(),
+				fragmentList);
+		indicator.setViewPager(vp);
+		indicator.setFades(false);
+		indicator.setLayoutParams(new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, 2));
+		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout))
+				.addView(indicator);
 	}
 }

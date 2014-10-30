@@ -19,14 +19,13 @@ import nkfust.android.explorer.layout.modle.CustomizeImageButton;
 import nkfust.android.explorer.layout.modle.TabView;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.preference.PreferenceFragment;
 import android.widget.ImageButton;
 
 public class PrefsFragment extends PreferenceFragment implements TabView {
 
 	private CustomizeImageButton settingBtn;
-
-	public PrefsFragment() {}
 
 	public PrefsFragment(Context context, int img_id) {
 		settingBtn = new CustomizeImageButton(context, img_id);
@@ -42,5 +41,10 @@ public class PrefsFragment extends PreferenceFragment implements TabView {
 
 	public ImageButton getBtn() {
 		return settingBtn.getButton();
+	}
+
+	@Override
+	public Fragment getFragment() {
+		return this;
 	}
 }

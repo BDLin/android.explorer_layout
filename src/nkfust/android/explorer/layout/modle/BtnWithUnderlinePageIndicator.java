@@ -16,36 +16,23 @@ package nkfust.android.explorer.layout.modle;
 
 import java.util.List;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.content.Context;
 
-import com.viewpagerindicator.IconPagerAdapter;
+import com.viewpagerindicator.UnderlinePageIndicator;
 
-public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
-		implements IconPagerAdapter {
+public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	private List<TabView> fragmentList;
-
-	public ScreenSlidePagerAdapter(FragmentManager fm,
-			List<TabView> fragmentList) {
-		super(fm);
+	
+	public BtnWithUnderlinePageIndicator(Context context, List<TabView> fragmentList) {
+		super(context);
 		this.fragmentList = fragmentList;
 	}
-
-	@Override
-	public Fragment getItem(int position) {
-		return (fragmentList == null || fragmentList.size() == 0) ? null
-				: fragmentList.get(position).getFragment();
-	}
-
-	@Override
-	public int getCount() {
-		return fragmentList == null ? 0 : fragmentList.size();
-	}
-
-	@Override
-	public int getIconResId(int index) {
-		return 0;
+	
+	public void onPageSelected(int position) {
+		super.onPageSelected(position);
+		for (TabView view:fragmentList)
+			view.getBtn().setAlpha((float)0.5);
+		fragmentList.get(position).getBtn().setAlpha((float) 1.0);
 	}
 }

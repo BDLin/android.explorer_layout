@@ -14,8 +14,10 @@
  */
 package nkfust.android.explorer.layout.modle;
 
+import android.support.v4.app.Fragment;
 import android.widget.ImageButton;
 
 public interface TabView {
 	public ImageButton getBtn();
+	public Fragment getFragment();
 }

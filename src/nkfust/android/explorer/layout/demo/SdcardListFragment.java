@@ -26,8 +26,8 @@ import poisondog.string.ExtractPath;
 import poisondog.vfs.IFile;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.widget.ImageButton;
 
 public class SdcardListFragment extends ListFragment implements TabView {
@@ -64,7 +64,6 @@ public class SdcardListFragment extends ListFragment implements TabView {
 	public void setAdapter(String path) throws Exception {
 		array.clear();
 		tempPath = path;
-		Log.i("SdcardListFragment", "tempPath:" + tempPath);
 		SdcardFileData fileData = new SdcardFileData(path);
 
 		for (IFile file : fileData.getFileList())
@@ -110,5 +109,10 @@ public class SdcardListFragment extends ListFragment implements TabView {
 
 	public void reloadList() {
 		setListAdapter(new ImageListAdapter(getActivity(), array));
+	}
+
+	@Override
+	public Fragment getFragment() {
+		return this;
 	}
 }
