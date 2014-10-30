@@ -63,9 +63,12 @@ public class TabFragment extends Fragment {
 		setViewPager();
 	}
 	
+	public Fragment getCurrentFragment(){
+		return (Fragment)pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
+	}
+	
 	private void setViewPager() {
 		vp.setAdapter(pagerAdapter);
-		
 		indicator.setViewPager(vp);
 		indicator.setFades(false);
 		indicator.setLayoutParams(new LinearLayout.LayoutParams(
