@@ -16,8 +16,6 @@ FF * Copyright (C) 2012 The Android Open Source Project
  */
 package nkfust.android.explorer.layout.modle;
 
-import java.util.List;
-
 import nkfust.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,14 +33,12 @@ public class TabFragment extends Fragment {
 	private ScreenSlidePagerAdapter pagerAdapter;
 	private BtnWithUnderlinePageIndicator indicator;
 
-	public void addTabView(List<TabView> fragmentList) {
-		setViewPager(fragmentList);
-		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
-		for (TabView view : fragmentList) {
-			ImageButton imgBtn = view.getBtn();
-			imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
-			linear.addView(imgBtn);
-		}
+	public void addTabView(TabView view) {
+		ImageButton imgBtn = view.getBtn();
+		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
+		linear.addView(imgBtn);
+		pagerAdapter.addTabView(view);
+		indicator.addTabView(view);
 	}
 
 	@Override
@@ -51,14 +47,25 @@ public class TabFragment extends Fragment {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.headline_view, container, false);
 	}
-
-	private void setViewPager(List<TabView> fragmentList) {
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
-		pagerAdapter = new ScreenSlidePagerAdapter(getActivity()
-				.getSupportFragmentManager(), fragmentList);
+		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
+		indicator = new BtnWithUnderlinePageIndicator(getActivity());
+	}
+	
+	@Override
+	public void onStart (){
+		super.onStart();
+		setViewPager();
+	}
+	
+	private void setViewPager() {
 		vp.setAdapter(pagerAdapter);
-		indicator = new BtnWithUnderlinePageIndicator(getActivity(),
-				fragmentList);
+		
 		indicator.setViewPager(vp);
 		indicator.setFades(false);
 		indicator.setLayoutParams(new LinearLayout.LayoutParams(

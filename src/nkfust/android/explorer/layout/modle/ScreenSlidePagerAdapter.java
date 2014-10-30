@@ -14,6 +14,7 @@
  */
 package nkfust.android.explorer.layout.modle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
@@ -27,10 +28,14 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 
 	private List<TabView> fragmentList;
 
-	public ScreenSlidePagerAdapter(FragmentManager fm,
-			List<TabView> fragmentList) {
+	public ScreenSlidePagerAdapter(FragmentManager fm) {
 		super(fm);
-		this.fragmentList = fragmentList;
+		fragmentList = new ArrayList<TabView>();
+	}
+	
+	public void addTabView(TabView view){
+		fragmentList.add(view);
+		notifyDataSetChanged();
 	}
 
 	@Override

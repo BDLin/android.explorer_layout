@@ -14,6 +14,7 @@
  */
 package nkfust.android.explorer.layout.modle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -24,9 +25,13 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	private List<TabView> fragmentList;
 	
-	public BtnWithUnderlinePageIndicator(Context context, List<TabView> fragmentList) {
+	public BtnWithUnderlinePageIndicator(Context context) {
 		super(context);
-		this.fragmentList = fragmentList;
+		fragmentList = new ArrayList<TabView>();
+	}
+	
+	public void addTabView(TabView view){
+		fragmentList.add(view);
 	}
 	
 	public void onPageSelected(int position) {

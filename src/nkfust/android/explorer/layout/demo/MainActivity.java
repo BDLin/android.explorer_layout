@@ -16,13 +16,9 @@
  */
 package nkfust.android.explorer.layout.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nkfust.android.explorer.layout.R;
 import nkfust.android.explorer.layout.modle.ContentFragment;
 import nkfust.android.explorer.layout.modle.TabFragment;
-import nkfust.android.explorer.layout.modle.TabView;
 import poisondog.string.ExtractParentUrl;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,13 +29,11 @@ import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity {
 
-	private TabFragment headline;
+	private TabFragment tabView;
 	private ContentFragment article;
 	private SdcardListFragment sdFrag;
 	private SdcardListFragment offFrag;
 	private PrefsFragment presFrag;
-
-	private List<TabView> fragmentList;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -47,7 +41,7 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_articles);
 
-		headline = (TabFragment) getSupportFragmentManager().findFragmentById(
+		tabView = (TabFragment) getSupportFragmentManager().findFragmentById(
 				R.id.headlines_fragment);
 		article = (ContentFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.article_fragment);
@@ -60,14 +54,15 @@ public class MainActivity extends FragmentActivity {
 						.getExternalStorageDirectory().getAbsolutePath()
 						+ "/Download");
 		presFrag = new PrefsFragment(this, R.drawable.android_settings);
-
-		fragmentList = new ArrayList<TabView>();
-		fragmentList.add(sdFrag);
-		fragmentList.add(offFrag);
-		fragmentList.add(presFrag);
-
-		headline.addTabView(fragmentList);
 	}// End of onCreate
+	
+	@Override
+	public void onStart (){
+		super.onStart();
+		tabView.addTabView(sdFrag);
+		tabView.addTabView(offFrag);
+		tabView.addTabView(presFrag);
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
