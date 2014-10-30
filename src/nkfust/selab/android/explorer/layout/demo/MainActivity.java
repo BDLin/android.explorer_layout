@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nkfust.android.explorer.layout.demo;
+package nkfust.selab.android.explorer.layout.demo;
 
 import nkfust.android.explorer.layout.R;
-import nkfust.android.explorer.layout.modle.ContentFragment;
-import nkfust.android.explorer.layout.modle.TabFragment;
+import nkfust.selab.android.explorer.layout.model.ContentFragment;
+import nkfust.selab.android.explorer.layout.model.TabFragment;
 import poisondog.string.ExtractParentUrl;
 import android.content.res.Configuration;
 import android.os.Bundle;
