@@ -14,34 +14,31 @@
  */
 package nkfust.selab.android.explorer.layout.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
+import android.support.v4.view.ViewPager;
+import android.widget.LinearLayout;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
 
+
 public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
-	private List<TabView> fragmentList;
+	private ViewPager vp;
+	private LinearLayout linear;
 	
-	public BtnWithUnderlinePageIndicator(Context context) {
+	public BtnWithUnderlinePageIndicator(Context context, ViewPager vp, LinearLayout linear) {
 		super(context);
-		fragmentList = new ArrayList<TabView>();
-	}
-	
-	public void addTabView(TabView view){
-		fragmentList.add(view);
-	}
-	
-	public void clean(){
-		fragmentList.clear();
+		this.vp = vp;
+		this.linear = linear;
 	}
 	
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
-		for (TabView view:fragmentList)
-			view.getIndexButton().setAlpha((float)0.5);
-		fragmentList.get(position).getIndexButton().setAlpha((float) 1.0);
+		for (int i = 0; i < linear.getChildCount(); i++){
+			if(vp.getCurrentItem() != i)
+				linear.getChildAt(i).setAlpha((float) 0.5);
+			else
+				linear.getChildAt(i).setAlpha((float) 1.0);
+		}
 	}
 }

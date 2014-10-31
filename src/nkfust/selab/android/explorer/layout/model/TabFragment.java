@@ -42,13 +42,11 @@ public class TabFragment extends Fragment {
 		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
 		linear.addView(imgBtn);
 		pagerAdapter.addTabView(view);
-		indicator.addTabView(view);
 	}
 
 	public void clean() {
 		linear.removeAllViews();
 		pagerAdapter.clean();
-		indicator.clean();
 	}
 
 	public Boolean isFragmentStatePagerAdapterNull() {
@@ -68,7 +66,7 @@ public class TabFragment extends Fragment {
 		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-		indicator = new BtnWithUnderlinePageIndicator(getActivity());
+		indicator = new BtnWithUnderlinePageIndicator(getActivity(), vp, linear);
 		params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
 		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
 	}
