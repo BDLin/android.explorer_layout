@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i("MainActivity","onCreate()~~");
+		Log.i("MainActivity","onCreate()~~Q_Q");
 		setContentView(R.layout.news_articles);
 		
 		tabView = (TabFragment) getSupportFragmentManager().findFragmentById(
