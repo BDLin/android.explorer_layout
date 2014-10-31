@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.preference.PreferenceFragment;
-import android.widget.ImageButton;
 
 public class PrefsFragment extends PreferenceFragment implements TabView {
 
@@ -39,8 +38,8 @@ public class PrefsFragment extends PreferenceFragment implements TabView {
 		addPreferencesFromResource(R.xml.preferences);
 	}
 
-	public ImageButton getBtn() {
-		return settingBtn.getButton();
+	public CustomizeImageButton getCustomizeImageButton() {
+		return settingBtn;
 	}
 
 	@Override

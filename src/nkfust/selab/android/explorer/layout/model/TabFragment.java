@@ -34,11 +34,21 @@ public class TabFragment extends Fragment {
 	private BtnWithUnderlinePageIndicator indicator;
 
 	public void addTabView(TabView view) {
-		ImageButton imgBtn = view.getBtn();
+		ImageButton imgBtn = view.getCustomizeImageButton().getButton();
 		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
 		linear.addView(imgBtn);
 		pagerAdapter.addTabView(view);
 		indicator.addTabView(view);
+	}
+
+	public void clean() {
+		linear.removeAllViews();
+		pagerAdapter.clean();
+		indicator.clean();
+	}
+
+	public Boolean isFragmentStatePagerAdapterNull() {
+		return (vp.getAdapter() == null) ? true : false;
 	}
 
 	@Override
@@ -47,7 +57,7 @@ public class TabFragment extends Fragment {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.headline_view, container, false);
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -55,25 +65,30 @@ public class TabFragment extends Fragment {
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
 		indicator = new BtnWithUnderlinePageIndicator(getActivity());
+		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
 	}
-	
+
 	@Override
-	public void onStart (){
+	public void onStart() {
 		super.onStart();
-		setViewPager();
 	}
-	
-	public Fragment getCurrentFragment(){
-		return (Fragment)pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (isFragmentStatePagerAdapterNull())
+			setViewPager();
 	}
-	
+
+	public Fragment getCurrentFragment() {
+		return (Fragment) pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
+	}
+
 	private void setViewPager() {
 		vp.setAdapter(pagerAdapter);
 		indicator.setViewPager(vp);
 		indicator.setFades(false);
 		indicator.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 2));
-		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout))
-				.addView(indicator);
 	}
 }

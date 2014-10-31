@@ -28,7 +28,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.widget.ImageButton;
 
 public class SdcardListFragment extends ListFragment implements TabView {
 
@@ -73,8 +72,8 @@ public class SdcardListFragment extends ListFragment implements TabView {
 		reloadList();
 	}
 
-	public ImageButton getBtn() {
-		return remoteBtn.getButton();
+	public CustomizeImageButton getCustomizeImageButton() {
+		return remoteBtn;
 	}
 
 	@Override

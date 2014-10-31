@@ -37,7 +37,12 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 		fragmentList.add(view);
 		notifyDataSetChanged();
 	}
-
+	
+	public void clean(){
+		fragmentList.clear();
+		notifyDataSetChanged();
+	}
+	
 	@Override
 	public Fragment getItem(int position) {
 		return (fragmentList == null || fragmentList.size() == 0) ? null

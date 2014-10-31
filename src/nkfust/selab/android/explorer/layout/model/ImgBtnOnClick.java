@@ -30,12 +30,10 @@ public class ImgBtnOnClick implements OnClickListener {
 	}//End of ImgBtnOnClick construct
 
 	public void onClick(View v) {
-		if (v.getAlpha() != 1.0) {
 			vp.setCurrentItem(v.getId());
 			
 			for (int i = 0; i < linear.getChildCount(); i++)
 				linear.getChildAt(i).setAlpha((float) 0.5);
 			v.setAlpha((float) 1.0);
-		}//End of if condition
 	}//End of onClick function
 }//End of ImgBtnOnClick class

@@ -15,9 +15,8 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import android.support.v4.app.Fragment;
-import android.widget.ImageButton;
 
 public interface TabView {
-	public ImageButton getBtn();
+	public CustomizeImageButton getCustomizeImageButton();
 	public Fragment getFragment();
 }

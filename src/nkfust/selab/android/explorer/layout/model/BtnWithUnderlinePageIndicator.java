@@ -34,10 +34,14 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 		fragmentList.add(view);
 	}
 	
+	public void clean(){
+		fragmentList.clear();
+	}
+	
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
 		for (TabView view:fragmentList)
-			view.getBtn().setAlpha((float)0.5);
-		fragmentList.get(position).getBtn().setAlpha((float) 1.0);
+			view.getCustomizeImageButton().getButton().setAlpha((float)0.5);
+		fragmentList.get(position).getCustomizeImageButton().getButton().setAlpha((float) 1.0);
 	}
 }

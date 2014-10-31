@@ -16,6 +16,7 @@
  */
 package nkfust.selab.android.explorer.layout.demo;
 
+
 import nkfust.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
@@ -24,6 +25,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -39,8 +41,9 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("MainActivity","onCreate()~~");
 		setContentView(R.layout.news_articles);
-
+		
 		tabView = (TabFragment) getSupportFragmentManager().findFragmentById(
 				R.id.headlines_fragment);
 		article = (ContentFragment) getSupportFragmentManager()
@@ -59,11 +62,14 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onStart (){
 		super.onStart();
-		tabView.addTabView(sdFrag);
-		tabView.addTabView(offFrag);
-		tabView.addTabView(presFrag);
+		if(tabView.isFragmentStatePagerAdapterNull()){
+			tabView.clean();
+			tabView.addTabView(sdFrag);
+			tabView.addTabView(offFrag);
+			tabView.addTabView(presFrag);
+		}
 	}
-
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -78,31 +84,21 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
-		switch (item.getItemId()) {
-		// action with ID action_refresh was selected
-		case R.id.create_folder:
+		
+		if (item.getItemId() == R.id.create_folder){
 			new CreateFolder(this, sdFrag).DisplayDialog();
-			break;
-
-		case R.id.sort_by_name:
+		}else if (item.getItemId() == R.id.sort_by_name){
 			sdFrag.doSortByName();
 			sdFrag.reloadList();
-			break;
-
-		case R.id.sort_by_time:
+		}else if (item.getItemId() == R.id.sort_by_time){
 			sdFrag.doSortByTime();
 			sdFrag.reloadList();
-			break;
-
-		default:
-			break;
-		}// End of switch-case
+		}
 		return true;
 	}// End of onOptionsItemSelected
 
 	public void onBackPressed() {
-		if (sdFrag.getBtn().getAlpha() == 1.0) {
+		if (tabView.getCurrentFragment() == sdFrag) {
 			if (sdFrag.isEqualsRootPath())
 				super.onBackPressed();
 			else
@@ -112,7 +108,7 @@ public class MainActivity extends FragmentActivity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-		} else if (offFrag.getBtn().getAlpha() == 1.0) {
+		} else if (tabView.getCurrentFragment() == offFrag) {
 			if (offFrag.isEqualsRootPath())
 				super.onBackPressed();
 			else
@@ -122,7 +118,7 @@ public class MainActivity extends FragmentActivity {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-		} else if (presFrag.getBtn().getAlpha() == 1.0)
+		} else if (tabView.getCurrentFragment() == presFrag)
 			super.onBackPressed();
 	}// End of onBackPressed
 }// End of MainActivity
