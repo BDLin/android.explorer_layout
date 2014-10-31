@@ -15,19 +15,20 @@
 package nkfust.selab.android.explorer.layout.demo;
 
 import nkfust.android.explorer.layout.R;
-import nkfust.selab.android.explorer.layout.model.CustomizeImageButton;
 import nkfust.selab.android.explorer.layout.model.TabView;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.preference.PreferenceFragment;
+import android.widget.ImageButton;
 
 public class PrefsFragment extends PreferenceFragment implements TabView {
 
-	private CustomizeImageButton settingBtn;
+	private ImageButton settingBtn;
 
 	public PrefsFragment(Context context, int img_id) {
-		settingBtn = new CustomizeImageButton(context, img_id);
+		settingBtn = new ImageButton(context);
+		settingBtn.setImageResource(img_id);
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class PrefsFragment extends PreferenceFragment implements TabView {
 		addPreferencesFromResource(R.xml.preferences);
 	}
 
-	public CustomizeImageButton getCustomizeImageButton() {
+	public ImageButton getIndexButton() {
 		return settingBtn;
 	}
 

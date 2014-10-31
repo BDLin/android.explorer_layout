@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
-import nkfust.selab.android.explorer.layout.model.CustomizeImageButton;
 import nkfust.selab.android.explorer.layout.model.TabView;
 import poisondog.android.view.list.ComplexListItem;
 import poisondog.android.view.list.ImageListAdapter;
@@ -28,11 +27,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.widget.ImageButton;
 
 public class SdcardListFragment extends ListFragment implements TabView {
 
 	private List<ComplexListItem> array;
-	private CustomizeImageButton remoteBtn;
+	private ImageButton remoteBtn;
 	private ContentFragment article;
 
 	private String tempPath;
@@ -48,7 +48,8 @@ public class SdcardListFragment extends ListFragment implements TabView {
 	public SdcardListFragment(Context context, int img_id,
 			ContentFragment article, String filePath) {
 		this(filePath, article);
-		remoteBtn = new CustomizeImageButton(context, img_id);
+		remoteBtn = new ImageButton(context);
+		remoteBtn.setImageResource(img_id);
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class SdcardListFragment extends ListFragment implements TabView {
 		reloadList();
 	}
 
-	public CustomizeImageButton getCustomizeImageButton() {
+	public ImageButton getIndexButton() {
 		return remoteBtn;
 	}
 
@@ -82,12 +83,6 @@ public class SdcardListFragment extends ListFragment implements TabView {
 		// Set listener of list item
 		getListView().setOnItemClickListener(
 				new ListOnClick(article, getActivity(), array, this));
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		CustomizeImageButton.initBtnCounter();
 	}
 
 	public String getCurrentPath() {

@@ -32,9 +32,13 @@ public class TabFragment extends Fragment {
 	private LinearLayout linear;
 	private ScreenSlidePagerAdapter pagerAdapter;
 	private BtnWithUnderlinePageIndicator indicator;
+	private ImageButton imgBtn;
+	private LinearLayout.LayoutParams params;
 
 	public void addTabView(TabView view) {
-		ImageButton imgBtn = view.getCustomizeImageButton().getButton();
+		imgBtn = view.getIndexButton();
+		params.weight = 1;
+		imgBtn.setLayoutParams(params);
 		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
 		linear.addView(imgBtn);
 		pagerAdapter.addTabView(view);
@@ -65,6 +69,7 @@ public class TabFragment extends Fragment {
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
 		indicator = new BtnWithUnderlinePageIndicator(getActivity());
+		params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
 		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
 	}
 
@@ -76,8 +81,11 @@ public class TabFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (isFragmentStatePagerAdapterNull())
+		if (isFragmentStatePagerAdapterNull()){
 			setViewPager();
+			for (int i = 1; i < linear.getChildCount(); i++)
+				linear.getChildAt(i).setAlpha((float) 0.5);
+		}
 	}
 
 	public Fragment getCurrentFragment() {
