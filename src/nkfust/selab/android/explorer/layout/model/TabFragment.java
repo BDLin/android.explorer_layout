@@ -81,10 +81,14 @@ public class TabFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (isFragmentStatePagerAdapterNull()){
+		if (isFragmentStatePagerAdapterNull())
 			setViewPager();
-			for (int i = 1; i < linear.getChildCount(); i++)
+		
+		for (int i = 0; i < linear.getChildCount(); i++){
+			if(vp.getCurrentItem() != i)
 				linear.getChildAt(i).setAlpha((float) 0.5);
+			else
+				linear.getChildAt(i).setAlpha((float) 1.0);
 		}
 	}
 
