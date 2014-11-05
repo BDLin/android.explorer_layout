@@ -17,20 +17,29 @@ package nkfust.selab.android.explorer.layout.demo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.util.PDFImageWriter;
+
 import poisondog.android.view.list.ComplexListItem;
+import poisondog.string.ExtractFileName;
 import poisondog.vfs.FileType;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
+import poisondog.vfs.LocalFileFactory;
 import poisondog.vfs.LocalFolder;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
 
 public class ListOnClick implements OnItemClickListener {
 
@@ -54,13 +63,29 @@ public class ListOnClick implements OnItemClickListener {
 
 		try {
 			if (((IFile) array.get(position).getData()).getType() == FileType.DATA) {
-
-				TextView text = new TextView(context);
-				LocalData data = (LocalData) array.get(position).getData();
-				text.setText(readFromSDcard(data));
-				text.setTextSize(25);
-				article.updateArticleView(text);
-
+				
+				
+//				TextView text = new TextView(context);
+//				LocalData data = (LocalData) array.get(position).getData();
+//				text.setText(readFromSDcard(data));
+//				text.setTextSize(25);
+//				article.updateArticleView(text);
+				String outUrl = URLDecoder.decode(((IFile) array.get(position).getData()).getUrl().replace("file:", ""));
+				Log.i("ListOnClick", "Url:" + outUrl);
+				PDDocument document = PDDocument.load(outUrl);
+				List<PDPage> pages = document.getDocumentCatalog().getAllPages();
+				Log.i("ListOnClick", "Pages count:" + pages.size());
+				IFile iFile = new LocalFileFactory().getFile(Environment
+					.getExternalStorageDirectory().getAbsolutePath()
+						+ "/Download/" + new ExtractFileName().process(URLDecoder.decode(((IFile) array.get(position).getData()).getUrl())) + "/");
+				int i = 0;
+				Log.i("CreateImage", "Boolean:" + new PDFImageWriter().writeImage(document, "png", "" , 1, 10, outUrl + new ExtractFileName().process(URLDecoder.decode(outUrl))+ i++));
+				
+//				for(PDPage page : pages){
+//					String url = URLDecoder.decode(iFile.getUrl().replace("file:", ""));
+//					Log.i("CreateImage", "Bool:" + ImageIO.write(page.convertToImage(), "png", new LocalData(new File(url, new ExtractFileName().process(URLDecoder.decode(url))+ i++)).getOutputStream()));
+//				}
+				
 				if (prevView != null && prevView != view) {
 					prevView.setBackgroundColor(0);
 					view.setBackgroundColor(Color.DKGRAY);

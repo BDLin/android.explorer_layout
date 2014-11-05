@@ -16,6 +16,7 @@ package nkfust.selab.android.explorer.layout.demo;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
 
 import nkfust.android.explorer.layout.R;
 import poisondog.android.view.list.ComplexListItem;
@@ -35,10 +36,11 @@ public class SdcardFileTransform implements ComplexListItem {
 		this.file = file;
 	}
 
+
 	@Override
 	public String getTitle() {
 		try {
-			return new ExtractFileName().process(file.getUrl());
+			return new ExtractFileName().process(URLDecoder.decode(file.getUrl()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
