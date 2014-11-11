@@ -17,7 +17,8 @@
 package nkfust.selab.android.explorer.layout.demo;
 
 
-import nkfust.android.explorer.layout.R;
+
+import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import poisondog.string.ExtractParentUrl;

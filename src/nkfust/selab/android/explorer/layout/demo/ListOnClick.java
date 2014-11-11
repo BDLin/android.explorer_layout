@@ -17,29 +17,27 @@ package nkfust.selab.android.explorer.layout.demo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.util.PDFImageWriter;
-
 import poisondog.android.view.list.ComplexListItem;
-import poisondog.string.ExtractFileName;
 import poisondog.vfs.FileType;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
-import poisondog.vfs.LocalFileFactory;
 import poisondog.vfs.LocalFolder;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+
+import com.epapyrus.plugpdf.SimpleDocumentReader;
+import com.epapyrus.plugpdf.SimpleDocumentReaderListener;
+import com.epapyrus.plugpdf.SimpleReaderFactory;
+import com.epapyrus.plugpdf.core.PlugPDF;
+import com.epapyrus.plugpdf.core.PlugPDFException.InvalidLicense;
+import com.epapyrus.plugpdf.core.viewer.DocumentState;
 
 public class ListOnClick implements OnItemClickListener {
 
@@ -70,22 +68,16 @@ public class ListOnClick implements OnItemClickListener {
 //				text.setText(readFromSDcard(data));
 //				text.setTextSize(25);
 //				article.updateArticleView(text);
-				String outUrl = URLDecoder.decode(((IFile) array.get(position).getData()).getUrl().replace("file:", ""));
-				Log.i("ListOnClick", "Url:" + outUrl);
-				PDDocument document = PDDocument.load(outUrl);
-				List<PDPage> pages = document.getDocumentCatalog().getAllPages();
-				Log.i("ListOnClick", "Pages count:" + pages.size());
-				IFile iFile = new LocalFileFactory().getFile(Environment
-					.getExternalStorageDirectory().getAbsolutePath()
-						+ "/Download/" + new ExtractFileName().process(URLDecoder.decode(((IFile) array.get(position).getData()).getUrl())) + "/");
-				int i = 0;
-				Log.i("CreateImage", "Boolean:" + new PDFImageWriter().writeImage(document, "png", "" , 1, 10, outUrl + new ExtractFileName().process(URLDecoder.decode(outUrl))+ i++));
-				
-//				for(PDPage page : pages){
-//					String url = URLDecoder.decode(iFile.getUrl().replace("file:", ""));
-//					Log.i("CreateImage", "Bool:" + ImageIO.write(page.convertToImage(), "png", new LocalData(new File(url, new ExtractFileName().process(URLDecoder.decode(url))+ i++)).getOutputStream()));
-//				}
-				
+				InputStream is = ((LocalData) array.get(position).getData()).getInputStream();
+				int size = is.available();
+				Log.i("ListOnClick", "File Size:" + size);
+                if (size > 0) {
+                	byte[] data = new byte[size];
+                	is.read(data);
+                	open(data);
+                }
+                is.close();
+                
 				if (prevView != null && prevView != view) {
 					prevView.setBackgroundColor(0);
 					view.setBackgroundColor(Color.DKGRAY);
@@ -103,6 +95,24 @@ public class ListOnClick implements OnItemClickListener {
 			e.printStackTrace();
 		}// End of try-catch
 	}// End of onItemClick Function
+	
+	public void open(byte[] data) {
+		// pdfviewer create.
+		SimpleDocumentReader viewer = SimpleReaderFactory.createSimpleViewer(
+				article.getActivity(), m_listener);
+		article.updateArticleView(viewer.getReaderView());
+		// pdf data load.
+		viewer.openData(data, data.length, "");
+ 
+	}
+ 
+	// create a listener for receiving provide pdf loading results
+	SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
+ 
+		@Override
+		public void onLoadFinish(DocumentState.OPEN state) {
+		}
+	};
 
 	private String readFromSDcard(LocalData file) {
 		StringBuilder sb = new StringBuilder();

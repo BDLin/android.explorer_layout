@@ -16,7 +16,8 @@
  */
 package nkfust.selab.android.explorer.layout.model;
 
-import nkfust.android.explorer.layout.R;
+
+import nkfust.selab.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

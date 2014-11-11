@@ -14,7 +14,8 @@
  */
 package nkfust.selab.android.explorer.layout.demo;
 
-import nkfust.android.explorer.layout.R;
+
+import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.model.TabView;
 import android.content.Context;
 import android.os.Bundle;
