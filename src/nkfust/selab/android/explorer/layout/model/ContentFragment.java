@@ -20,12 +20,10 @@ package nkfust.selab.android.explorer.layout.model;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.epapyrus.plugpdf.SimpleDocumentReader;
-import com.epapyrus.plugpdf.SimpleDocumentReaderListener;
-import com.epapyrus.plugpdf.SimpleReaderFactory;
-import com.epapyrus.plugpdf.core.viewer.DocumentState;
-
 import nkfust.selab.android.explorer.layout.R;
+import poisondog.net.URLUtils;
+import poisondog.vfs.IFile;
+import poisondog.vfs.LocalData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,21 +31,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.epapyrus.plugpdf.SimpleDocumentReader;
+import com.epapyrus.plugpdf.SimpleDocumentReaderListener;
+import com.epapyrus.plugpdf.SimpleReaderFactory;
+import com.epapyrus.plugpdf.core.viewer.DocumentState;
 
 public class ContentFragment extends Fragment {
 
 	private RelativeLayout relative;
-	private	InputStream is;
+	private	LocalData local;
 	
-	public void setInputStream (InputStream is){
-		this.is = is;
-		Log.i("ContentFragment", "Set InputStream Finish....");
+	public void setIFile (IFile file){
+		local = (LocalData)file;
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("ContentFragment", "onCreateView....");
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.article_view, container, false);
 	}
@@ -67,7 +69,7 @@ public class ContentFragment extends Fragment {
         if (args != null){
         	Log.i("ContentFragment", "args not null~~");
 			try {
-				updateArticleView(is);
+				updateArticleView(local);
 				Log.i("ContentFragment", "Inner onStart update finish....");
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -76,19 +78,37 @@ public class ContentFragment extends Fragment {
         	Log.i("ContentFragment", "args is null~~");
     }
 
-	public void updateArticleView(InputStream is) throws IOException {
+	public void updateArticleView(IFile file) throws IOException {
 		relative.removeAllViews();
+		local = (LocalData)file;
+		InputStream is = local.getInputStream();
 		int size = is.available();
 		Log.i("ContentFragment", "File Size:" + size);
 		
-        if (size > 0) {
-        	byte[] data = new byte[size];
-        	is.read(data);
-        	open(data);
+        if(getFileSubtype(URLUtils.guessContentType(local.getName())).equals("pdf")){
+        	if (size > 0) {
+            	byte[] data = new byte[size];
+            	is.read(data);
+            	open(data);
+            }
+            
+            is.close();
+        }else{
+        	TextView text = new TextView(getActivity());
+        	text.setText(local.getName());
+        	relative.addView(text);
         }
-        
-        is.close();
 	}//End of updateArticleView function
+	
+	public String getFileSubtype(String fileName){
+		String[] token = fileName.split("/");
+		return token[1];
+	}
+	
+	public String getFileType(String fileName){
+		String[] token = fileName.split("/");
+		return token[0];
+	}
 	
 	public void open(byte[] data) {
 		// pdfviewer create.
@@ -106,9 +126,4 @@ public class ContentFragment extends Fragment {
 		public void onLoadFinish(DocumentState.OPEN state) {
 		}
 	};
-
-//	public void updateArticleView(View view) {
-//		relative.removeAllViews();
-//		relative.addView(view);
-//	}//End of updateArticleView function
 }
