@@ -16,7 +16,6 @@
  */
 package nkfust.selab.android.explorer.layout.model;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -57,25 +56,20 @@ public class ContentFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Log.i("ContentFragment", "onActivityCreated....");
 		relative = (RelativeLayout) getActivity().findViewById(R.id.relative_layout);
 	}
 	
 	@Override
     public void onStart() {
         super.onStart();
-        Log.i("ContentFragment", "onStart....");
         Bundle args = getArguments();
         if (args != null){
-        	Log.i("ContentFragment", "args not null~~");
 			try {
 				updateArticleView(local);
-				Log.i("ContentFragment", "Inner onStart update finish....");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-        }else
-        	Log.i("ContentFragment", "args is null~~");
+        }
     }
 
 	public void updateArticleView(IFile file) throws IOException {
