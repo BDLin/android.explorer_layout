@@ -79,7 +79,7 @@ public class ContentFragment extends Fragment {
 		int size = is.available();
 		Log.i("ContentFragment", "File Size:" + size);
 		
-        if(getFileSubtype(URLUtils.guessContentType(local.getName())).equals("pdf")){
+        if(getFileSubtype(local.getName()).equals("pdf")){
         	if (size > 0) {
             	byte[] data = new byte[size];
             	is.read(data);
@@ -95,12 +95,12 @@ public class ContentFragment extends Fragment {
 	}//End of updateArticleView function
 	
 	public String getFileSubtype(String fileName){
-		String[] token = fileName.split("/");
+		String[] token = URLUtils.guessContentType(local.getName()).split("/");
 		return token[1];
 	}
 	
 	public String getFileType(String fileName){
-		String[] token = fileName.split("/");
+		String[] token = URLUtils.guessContentType(local.getName()).split("/");
 		return token[0];
 	}
 	
