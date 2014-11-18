@@ -39,12 +39,10 @@ import com.epapyrus.plugpdf.core.viewer.DocumentState;
 
 public class ContentFragment extends Fragment {
 
+	private MusicPlayerView audioPlayer;
 	private RelativeLayout relative;
 	private	LocalData local;
-	
-	public void setIFile (IFile file){
-		local = (LocalData)file;
-	}
+	private int position;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +62,7 @@ public class ContentFragment extends Fragment {
         super.onStart();
         Bundle args = getArguments();
         if (args != null){
+        	position = args.getInt("position");
 			try {
 				updateArticleView(local);
 			} catch (IOException e) {
@@ -71,28 +70,53 @@ public class ContentFragment extends Fragment {
 			}
         }
     }
-
+	
+	public void setIFile (IFile file){
+		local = (LocalData)file;
+	}
+	
+	public void setPosition(int position){
+		this.position = position;
+	}
+	
 	public void updateArticleView(IFile file) throws IOException {
 		relative.removeAllViews();
 		local = (LocalData)file;
 		InputStream is = local.getInputStream();
 		int size = is.available();
 		Log.i("ContentFragment", "File Size:" + size);
+		Log.i("ContentFragment", "local Url:" + local.getUrl());
 		
         if(getFileSubtype(local.getName()).equals("pdf")){
+        	ReleaseMusicPlayer();
         	if (size > 0) {
             	byte[] data = new byte[size];
             	is.read(data);
             	open(data);
             }
-            
             is.close();
+            
+        }else if(getFileType(local.getName()).equals("audio")){
+        	if(audioPlayer != null)
+        		audioPlayer.playSong(position);
+        	else
+        		audioPlayer = new MusicPlayerView(getActivity(), local, position);
+        	
+        	relative.addView(audioPlayer);
         }else{
+        	ReleaseMusicPlayer();
         	TextView text = new TextView(getActivity());
         	text.setText(local.getName());
         	relative.addView(text);
         }
 	}//End of updateArticleView function
+	
+	public void ReleaseMusicPlayer(){
+		if(audioPlayer != null){
+    		audioPlayer.endPlayer();
+    		audioPlayer = null;
+    	}
+	}
 	
 	public String getFileSubtype(String fileName){
 		String[] token = URLUtils.guessContentType(local.getName()).split("/");
@@ -106,8 +130,7 @@ public class ContentFragment extends Fragment {
 	
 	public void open(byte[] data) {
 		// pdfviewer create.
-		SimpleDocumentReader viewer = SimpleReaderFactory.createSimpleViewer(
-				this.getActivity(), m_listener);
+		SimpleDocumentReader viewer = SimpleReaderFactory.createSimpleViewer(this.getActivity(), m_listener);
 		// pdf data load.
 		relative.addView(viewer.getReaderView());
 		viewer.openData(data, data.length, "");

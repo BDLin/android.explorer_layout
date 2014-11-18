@@ -16,7 +16,6 @@ FF * Copyright (C) 2012 The Android Open Source Project
  */
 package nkfust.selab.android.explorer.layout.model;
 
-
 import nkfust.selab.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -58,7 +57,6 @@ public class TabFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.i("TabFragment", "onCreateView....");
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.headline_view, container, false);
 	}
@@ -66,18 +64,12 @@ public class TabFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Log.i("TabFragment", "onActivityCreated....");
 		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
 		indicator = new BtnWithUnderlinePageIndicator(getActivity(), vp, linear);
 		params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
 		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
 	}
 
 	@Override
