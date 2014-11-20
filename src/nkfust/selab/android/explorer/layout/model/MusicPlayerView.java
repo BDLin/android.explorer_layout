@@ -94,7 +94,7 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		
 		// Mediaplayer
 		mp = new MediaPlayer();
-		songManager = new SongsManager(local);
+		songManager = new SongsManager(local, context);
 		utils = new Utilities();
 		
 		// Listeners

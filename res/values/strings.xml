@@ -38,4 +38,5 @@ limitations under the License.
 	<string name="create_folder_title">Create New Folder</string>
     <string name="sort_by_name">Sort by name</string>
     <string name="sort_by_time">Sort by time</string>
+    <string name="description">Media Controls</string>
 </resources>

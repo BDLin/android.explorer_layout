@@ -40,7 +40,9 @@ import com.epapyrus.plugpdf.core.viewer.DocumentState;
 public class ContentFragment extends Fragment {
 
 	private MusicPlayerView audioPlayer;
+	private VideoPlayerView video ;
 	private RelativeLayout relative;
+	private Fragment frag;
 	private	LocalData local;
 	private int position;
 	
@@ -71,6 +73,10 @@ public class ContentFragment extends Fragment {
         }
     }
 	
+	public void setTabFragment(Fragment frag){
+		this.frag = frag;
+	}
+	
 	public void setIFile (IFile file){
 		local = (LocalData)file;
 	}
@@ -86,36 +92,46 @@ public class ContentFragment extends Fragment {
 		int size = is.available();
 		Log.i("ContentFragment", "File Size:" + size);
 		Log.i("ContentFragment", "local Url:" + local.getUrl());
-		
+		ReleaseMediaPlayer();
         if(getFileSubtype(local.getName()).equals("pdf")){
-        	ReleaseMusicPlayer();
         	if (size > 0) {
             	byte[] data = new byte[size];
             	is.read(data);
             	open(data);
             }
             is.close();
-            
         }else if(getFileType(local.getName()).equals("audio")){
-        	if(audioPlayer != null)
-        		audioPlayer.playSong(position);
-        	else
-        		audioPlayer = new MusicPlayerView(getActivity(), local, position);
-        	
+        	audioPlayer = new MusicPlayerView(getActivity(), local, position);
         	relative.addView(audioPlayer);
+        }else if(getFileType(local.getName()).equals("video")){
+//        	VideoView video = new VideoView(getActivity());
+//        	video.setVideoPath(local.getUrl().replace("file:", ""));
+//        	MediaController vidControl = new MediaController(getActivity());
+//        	vidControl.setAnchorView(video);
+//        	video.setMediaController(vidControl);
+//        	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        	params.addRule(RelativeLayout.CENTER_IN_PARENT);
+//        	video.setLayoutParams(params);
+//        	video.requestFocus();
+//        	video.start();
+        	video = new VideoPlayerView(getActivity(), local, frag);
+        	relative.addView(video);
         }else{
-        	ReleaseMusicPlayer();
         	TextView text = new TextView(getActivity());
         	text.setText(local.getName());
         	relative.addView(text);
         }
 	}//End of updateArticleView function
 	
-	public void ReleaseMusicPlayer(){
+	public void ReleaseMediaPlayer(){
 		if(audioPlayer != null){
     		audioPlayer.endPlayer();
     		audioPlayer = null;
     	}
+		if(video != null){
+			video.releasePlayer();
+			video = null;
+		}
 	}
 	
 	public String getFileSubtype(String fileName){

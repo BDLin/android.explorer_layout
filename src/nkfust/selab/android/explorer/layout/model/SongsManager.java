@@ -22,13 +22,14 @@ import java.util.HashMap;
 
 import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
+import android.content.Context;
 
 public class SongsManager {
 	// SDCard Path
 	private String current_path;
 	private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
 	// Constructor
-	public SongsManager(LocalData local){
+	public SongsManager(LocalData local, Context context){
 		try {
 			current_path = URLDecoder.decode(local.getUrl());
 		} catch (Exception e) {
