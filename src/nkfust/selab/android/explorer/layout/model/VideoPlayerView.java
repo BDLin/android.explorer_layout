@@ -1,15 +1,32 @@
+/* Copyright (C) 2014 Zi-Xiang Lin <bdl9437@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package nkfust.selab.android.explorer.layout.model;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
+import nkfust.selab.android.explorer.layout.listener.VideoControllerListener;
+import nkfust.selab.android.explorer.layout.listener.VideoDoFullScreenListener;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -26,7 +43,8 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 	private Context context;
 	private LocalData local;
 	private Fragment frag, content;
-	private long lastClickTime = 0;
+	
+	private List<TouchListener> listenerList;
 	
 	public VideoPlayerView(Context context, LocalData local, Fragment tabFrag, Fragment contentFrag) {
 		super(context);
@@ -47,6 +65,10 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
         player = new MediaPlayer();
         controller = new VideoControllerView(context, videoSurface, frag);
         
+        listenerList = new ArrayList<TouchListener>();
+    	addListener(new VideoControllerListener(controller));
+    	addListener(new VideoDoFullScreenListener(controller));
+        
         try {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             player.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:", ""));
@@ -65,23 +87,17 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
     public int getVideoHeight(){
     	return player.getVideoHeight();
     }
+    
+    public void addListener(TouchListener listener){
+    	listenerList.add(listener);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-    	switch (event.getAction() & MotionEvent.ACTION_MASK) {
-    		case MotionEvent.ACTION_DOWN:
-    			controller.show();
-    		    break;
-    		case MotionEvent. ACTION_UP:
-            case MotionEvent. ACTION_POINTER_UP:
-            	long now = System.currentTimeMillis();
-            	if ((now - lastClickTime) < 300){
-            		controller.doToggleFullscreen();
-            		now = 0;
-            	}
-            	lastClickTime = now;
-    			break;
-    	}
+    	
+    	for(TouchListener listener : listenerList)
+    		listener.onTouch(event);
+    	
         return true;
     }
 
@@ -109,35 +125,12 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
         VideoControllerView.setVideoSize(player.getVideoHeight(), player.getVideoWidth());
-        Log.i("VideoPlayer","getHeight:" + content.getView().getHeight());
-   	 	Log.i("VideoPlayer","getWidth:" + content.getView().getWidth());
         VideoControllerView.setContentSize(content.getView().getHeight(), content.getView().getWidth());
-        setSurfaceSize();
         controller.setScreenSize();
         player.start();
     }
     // End MediaPlayer.OnPreparedListener
     
-    public void setSurfaceSize(){
-//    	DisplayMetrics metrics = new DisplayMetrics(); 
-//     	WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//     	windowManager.getDefaultDisplay().getMetrics(metrics);
-//     	FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoSurface.getLayoutParams();
-//     	int contentWidth = content.getView().getWidth();
-//     	int contentHeight = content.getView().getHeight();
-//     	float videoProportion = (float) player.getVideoWidth() / (float) player.getVideoHeight();
-//     	float contentScreenProportion = (float) contentWidth / (float) contentHeight;
-//     	if (videoProportion > contentScreenProportion) {
-//            params.width = contentWidth;
-//            params.height = (int) ((float) contentWidth / videoProportion);
-//        } else {
-//            params.width = (int) (videoProportion * (float) contentHeight);
-//            params.height = contentHeight;
-//        }
-//     	params.setMargins(0, 0, 0, 0);
-//        videoSurface.setLayoutParams(params);
-    }
-
     // Implement VideoMediaController.MediaPlayerControl
     @Override
     public boolean canPause() {

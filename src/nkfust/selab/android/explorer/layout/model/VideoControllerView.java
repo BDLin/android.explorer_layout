@@ -73,7 +73,6 @@ import android.widget.TextView;
  * </ul>
  */
 public class VideoControllerView extends FrameLayout {
-    private static final String TAG = "VideoControllerView";
     
     private MediaPlayerControl  mPlayer;
     private Context             mContext;
@@ -101,8 +100,8 @@ public class VideoControllerView extends FrameLayout {
     private Handler             mHandler = new MessageHandler(this);
     
     private Fragment frag;
-    private boolean mFullScreen = false;
     private SurfaceView videoSurface;
+    private boolean mFullScreen = false;
     private static int videoHeight, videoWidth, contentHeight, contentWidth;
 
     public VideoControllerView(Context context, AttributeSet attrs) {
@@ -111,23 +110,18 @@ public class VideoControllerView extends FrameLayout {
         mContext = context;
         mUseFastForward = true;
         mFromXml = true;
-        
-        Log.i(TAG, TAG);
     }
 
     public VideoControllerView(Context context, boolean useFastForward) {
         super(context);
         mContext = context;
         mUseFastForward = useFastForward;
-        
-        Log.i(TAG, TAG);
     }
 
     public VideoControllerView(Context context, SurfaceView videoSurface, Fragment frag) {
         this(context, true);
         this.frag = frag;
         this.videoSurface = videoSurface;
-        Log.i(TAG, TAG);
     }
 
     @Override
@@ -509,11 +503,6 @@ public class VideoControllerView extends FrameLayout {
         float screenProportion = (float) screenWidth / (float) screenHeight;
      	float videoProportion = (float) videoWidth / (float) videoHeight;
      	float contentScreenProportion = (float) contentWidth / (float) contentHeight;
-     	Log.i("VideoController", "videoH:" + videoHeight);
-     	Log.i("VideoController", "videoW:" + videoWidth);
-     	Log.i("VideoController", "videoProportion:" + videoProportion);
-     	Log.i("VideoController", "screenProortion:" + screenProportion);
-     	Log.i("VideoController", "contentScreenProportion:" + contentScreenProportion);
      	if(isFullScreen()){
      		if (videoProportion > screenProportion) {
                 params.width = screenWidth;
