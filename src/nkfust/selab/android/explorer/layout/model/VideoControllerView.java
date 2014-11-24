@@ -26,7 +26,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -102,10 +101,10 @@ public class VideoControllerView extends FrameLayout {
     private Handler             mHandler = new MessageHandler(this);
     
     private Fragment frag;
-    private boolean mFullScreen = true;
+    private boolean mFullScreen = false;
     private SurfaceView videoSurface;
-    private int width, height;
-    
+    private static int videoHeight, videoWidth, contentHeight, contentWidth;
+
     public VideoControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mRoot = null;
@@ -124,7 +123,7 @@ public class VideoControllerView extends FrameLayout {
         Log.i(TAG, TAG);
     }
 
-    public VideoControllerView(Context context, Fragment frag, SurfaceView videoSurface) {
+    public VideoControllerView(Context context, SurfaceView videoSurface, Fragment frag) {
         this(context, true);
         this.frag = frag;
         this.videoSurface = videoSurface;
@@ -486,55 +485,73 @@ public class VideoControllerView extends FrameLayout {
     }
     
     public boolean isFullScreen() {   
-        if(mFullScreen){    
-            Log.v("FullScreen", "--set icon full screen--");
-            return false;
-        }else{
-            Log.v("FullScreen", "--set icon small full screen--");
-            return true;
-        }   
-    }
-
-    public void toggleFullScreen(boolean fullScreen) {
-        Log.v("FullScreen", "-----------------click toggleFullScreen-----------");
-        fullScreen = false;
-        FragmentTransaction ft = frag.getActivity().getSupportFragmentManager().beginTransaction();
-        DisplayMetrics metrics = new DisplayMetrics(); 
-    	WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-    	windowManager.getDefaultDisplay().getMetrics(metrics);
-        if (mFullScreen){
-            Log.v("FullScreen", "-----------Set full screen SCREEN_ORIENTATION_LANDSCAPE------------"); 
-            int height = metrics.heightPixels;
-            int width = metrics.widthPixels;
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoSurface.getLayoutParams();
-            this.width = videoSurface.getWidth();
-            this.height = videoSurface.getHeight();
-            params.width = width;
-            params.height=height;
-            params.setMargins(0, 0, 0, 0);
-            frag.getActivity().getActionBar().hide();
-            ft.hide(frag).commit();
-            videoSurface.setLayoutParams(params);
-            //set icon is full screen
-            mFullScreen = fullScreen;
-        }else{
-            Log.v("FullScreen", "-----------Set small screen SCREEN_ORIENTATION_PORTRAIT------------");             
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoSurface.getLayoutParams();
-            params.width = this.width;
-            params.height= this.height;
-            params.setMargins(0, 0, 0, 0);
-            frag.getActivity().getActionBar().show();
-            ft.show(frag).commit();
-            videoSurface.setLayoutParams(params);
-            //set icon is small screen
-            mFullScreen = !fullScreen;
-        }
+    	return mFullScreen;
     }
     
-    private void doToggleFullscreen() {
+    public static void setVideoSize(int Height, int Width){
+    	videoHeight = Height;
+    	videoWidth = Width;
+    }
+    
+    public static void setContentSize(int Height, int Width){
+    	contentHeight = Height;
+    	contentWidth = Width;
+    }
+
+    public void setScreenSize(){
+        DisplayMetrics metrics = new DisplayMetrics(); 
+     	WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+     	windowManager.getDefaultDisplay().getMetrics(metrics);
+     	FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+     	// Get the width of the screen
+        int screenWidth =  windowManager.getDefaultDisplay().getWidth();
+        int screenHeight = windowManager.getDefaultDisplay().getHeight();
+        float screenProportion = (float) screenWidth / (float) screenHeight;
+     	float videoProportion = (float) videoWidth / (float) videoHeight;
+     	float contentScreenProportion = (float) contentWidth / (float) contentHeight;
+     	Log.i("VideoController", "videoH:" + videoHeight);
+     	Log.i("VideoController", "videoW:" + videoWidth);
+     	Log.i("VideoController", "videoProportion:" + videoProportion);
+     	Log.i("VideoController", "screenProortion:" + screenProportion);
+     	Log.i("VideoController", "contentScreenProportion:" + contentScreenProportion);
+     	if(isFullScreen()){
+     		if (videoProportion > screenProportion) {
+                params.width = screenWidth;
+                params.height = (int) ((float) screenWidth / videoProportion);
+            } else {
+                params.width = (int) (videoProportion * (float) screenHeight);
+                params.height = screenHeight;
+            }
+     	}else{
+     		if (videoProportion > contentScreenProportion) {
+         		params.width = contentWidth;
+                params.height = (int) ((float) contentWidth / videoProportion);
+            } else {
+                params.width = (int) (videoProportion * (float) contentHeight);
+                params.height = contentHeight;
+            }
+     	}
+     	 params.setMargins(0, 0, 0, 0);
+         videoSurface.setLayoutParams(params);
+    }
+
+    private void toggleFullScreen(boolean fullScreen) {
+       
+        if (fullScreen){
+            frag.getActivity().getActionBar().hide();
+            frag.getActivity().getSupportFragmentManager().beginTransaction().hide(frag).commit();
+        }else{
+            frag.getActivity().getActionBar().show();
+            frag.getActivity().getSupportFragmentManager().beginTransaction().show(frag).commit();
+        }
+        setScreenSize();
+    }
+    
+    public void doToggleFullscreen() {
         if (mPlayer == null) {
             return;
         }
+        mFullScreen = !mFullScreen;
         toggleFullScreen(isFullScreen());
     }
 

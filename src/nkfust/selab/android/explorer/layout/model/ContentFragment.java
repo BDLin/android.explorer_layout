@@ -104,17 +104,7 @@ public class ContentFragment extends Fragment {
         	audioPlayer = new MusicPlayerView(getActivity(), local, position);
         	relative.addView(audioPlayer);
         }else if(getFileType(local.getName()).equals("video")){
-//        	VideoView video = new VideoView(getActivity());
-//        	video.setVideoPath(local.getUrl().replace("file:", ""));
-//        	MediaController vidControl = new MediaController(getActivity());
-//        	vidControl.setAnchorView(video);
-//        	video.setMediaController(vidControl);
-//        	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//        	params.addRule(RelativeLayout.CENTER_IN_PARENT);
-//        	video.setLayoutParams(params);
-//        	video.requestFocus();
-//        	video.start();
-        	video = new VideoPlayerView(getActivity(), local, frag);
+        	video = new VideoPlayerView(getActivity(), local, frag, this);
         	relative.addView(video);
         }else{
         	TextView text = new TextView(getActivity());
@@ -132,6 +122,10 @@ public class ContentFragment extends Fragment {
 			video.releasePlayer();
 			video = null;
 		}
+	}
+	
+	public VideoPlayerView getVideoView(){
+		return video;
 	}
 	
 	public String getFileSubtype(String fileName){
@@ -154,7 +148,6 @@ public class ContentFragment extends Fragment {
  
 	// create a listener for receiving provide pdf loading results
 	SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
- 
 		@Override
 		public void onLoadFinish(DocumentState.OPEN state) {
 		}

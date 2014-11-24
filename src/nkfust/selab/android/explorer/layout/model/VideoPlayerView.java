@@ -9,14 +9,15 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
-public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
+public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
 
 	private SurfaceView videoSurface;
 	private MediaPlayer player;
@@ -24,14 +25,15 @@ public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callb
 	
 	private Context context;
 	private LocalData local;
-	private Fragment frag;
+	private Fragment frag, content;
 	private long lastClickTime = 0;
 	
-	public VideoPlayerView(Context context, LocalData local, Fragment frag) {
+	public VideoPlayerView(Context context, LocalData local, Fragment tabFrag, Fragment contentFrag) {
 		super(context);
 		this.context = context;
 		this.local = local;
-		this.frag = frag;
+		this.frag = tabFrag;
+		this.content = contentFrag;
 		LayoutInflater.from(context).inflate(R.layout.video_player, this);
 		init();
 	}
@@ -43,7 +45,7 @@ public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callb
         videoHolder.addCallback(this);
 
         player = new MediaPlayer();
-        controller = new VideoControllerView(context, frag, videoSurface);
+        controller = new VideoControllerView(context, videoSurface, frag);
         
         try {
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -59,6 +61,10 @@ public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callb
             e.printStackTrace();
         }
     }
+    
+    public int getVideoHeight(){
+    	return player.getVideoHeight();
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -70,7 +76,7 @@ public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callb
             case MotionEvent. ACTION_POINTER_UP:
             	long now = System.currentTimeMillis();
             	if ((now - lastClickTime) < 300){
-            		controller.toggleFullScreen(controller.isFullScreen());
+            		controller.doToggleFullscreen();
             		now = 0;
             	}
             	lastClickTime = now;
@@ -102,9 +108,35 @@ public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callb
     public void onPrepared(MediaPlayer mp) {
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+        VideoControllerView.setVideoSize(player.getVideoHeight(), player.getVideoWidth());
+        Log.i("VideoPlayer","getHeight:" + content.getView().getHeight());
+   	 	Log.i("VideoPlayer","getWidth:" + content.getView().getWidth());
+        VideoControllerView.setContentSize(content.getView().getHeight(), content.getView().getWidth());
+        setSurfaceSize();
+        controller.setScreenSize();
         player.start();
     }
     // End MediaPlayer.OnPreparedListener
+    
+    public void setSurfaceSize(){
+//    	DisplayMetrics metrics = new DisplayMetrics(); 
+//     	WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//     	windowManager.getDefaultDisplay().getMetrics(metrics);
+//     	FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoSurface.getLayoutParams();
+//     	int contentWidth = content.getView().getWidth();
+//     	int contentHeight = content.getView().getHeight();
+//     	float videoProportion = (float) player.getVideoWidth() / (float) player.getVideoHeight();
+//     	float contentScreenProportion = (float) contentWidth / (float) contentHeight;
+//     	if (videoProportion > contentScreenProportion) {
+//            params.width = contentWidth;
+//            params.height = (int) ((float) contentWidth / videoProportion);
+//        } else {
+//            params.width = (int) (videoProportion * (float) contentHeight);
+//            params.height = contentHeight;
+//        }
+//     	params.setMargins(0, 0, 0, 0);
+//        videoSurface.setLayoutParams(params);
+    }
 
     // Implement VideoMediaController.MediaPlayerControl
     @Override
@@ -166,13 +198,16 @@ public class VideoPlayerView extends LinearLayout implements SurfaceHolder.Callb
 
     @Override
     public boolean isFullScreen() {
-        return false;
+        return controller.isFullScreen();
     }
 
     @Override
     public void toggleFullScreen() {
         
     }
+    
+    public void setScreenSize(){
+    	controller.setScreenSize();
+    }
     // End VideoMediaController.MediaPlayerControl
-
 }
