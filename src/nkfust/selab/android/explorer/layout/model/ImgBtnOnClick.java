@@ -27,15 +27,15 @@ public class ImgBtnOnClick implements OnClickListener {
 	public ImgBtnOnClick(LinearLayout linear, ViewPager vp) {
 		this.linear = linear;
 		this.vp = vp;
-	}//End of ImgBtnOnClick construct
+	}// End of ImgBtnOnClick construct
 
 	public void onClick(View v) {
-		for (int i = 0; i < linear.getChildCount(); i++){
-			if(linear.getChildAt(i) == v){
+		for (int i = 0; i < linear.getChildCount(); i++) {
+			if (linear.getChildAt(i) == v) {
 				vp.setCurrentItem(i);
 				v.setAlpha((float) 1.0);
-			}else
+			} else
 				linear.getChildAt(i).setAlpha((float) 0.5);
 		}
-	}//End of onClick function
-}//End of ImgBtnOnClick class
+	}// End of onClick function
+}// End of ImgBtnOnClick class

@@ -32,17 +32,17 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 		super(fm);
 		fragmentList = new ArrayList<TabView>();
 	}
-	
-	public void addTabView(TabView view){
+
+	public void addTabView(TabView view) {
 		fragmentList.add(view);
 		notifyDataSetChanged();
 	}
-	
-	public void clean(){
+
+	public void clean() {
 		fragmentList.clear();
 		notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public Fragment getItem(int position) {
 		return (fragmentList == null || fragmentList.size() == 0) ? null

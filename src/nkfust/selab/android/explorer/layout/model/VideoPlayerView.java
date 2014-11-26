@@ -33,17 +33,19 @@ import android.view.SurfaceView;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl {
+public class VideoPlayerView extends RelativeLayout implements
+		SurfaceHolder.Callback, MediaPlayer.OnPreparedListener,
+		VideoControllerView.MediaPlayerControl {
 
 	private SurfaceView videoSurface;
 	private MediaPlayer player;
 	private VideoControllerView controller;
-	
+
 	private Context context;
 	private LocalData local;
-	
+
 	private List<TouchListener> listenerList;
-	
+
 	public VideoPlayerView(Context context, LocalData local) {
 		super(context);
 		this.context = context;
@@ -52,142 +54,148 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 		init();
 	}
 
-    public void init() {
-        
-        videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
-        SurfaceHolder videoHolder = videoSurface.getHolder();
-        videoHolder.addCallback(this);
+	public void init() {
 
-        player = new MediaPlayer();
-        controller = new VideoControllerView(context, videoSurface);
-        
-        listenerList = new ArrayList<TouchListener>();
-    	addListener(new VideoControllerListener(controller));
-    	addListener(new VideoDoFullScreenListener(controller));
-        
-        try {
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            player.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:", ""));
-            player.setOnPreparedListener(this);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public int getVideoHeight(){
-    	return player.getVideoHeight();
-    }
-    
-    public void addListener(TouchListener listener){
-    	listenerList.add(listener);
-    }
-    
-    public void setScreenSize(){
-    	controller.setScreenSize();
-    }
-    
-    public void releasePlayer(){
-    	player.stop();
-    	player.reset();
-    	player.release();
-    	controller.removeHandler();
-    }
+		videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
+		SurfaceHolder videoHolder = videoSurface.getHolder();
+		videoHolder.addCallback(this);
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-    	
-    	for(TouchListener listener : listenerList)
-    		listener.onTouch(event);
-    	
-        return true;
-    }
+		player = new MediaPlayer();
+		controller = new VideoControllerView(context, videoSurface);
 
-    // Implement SurfaceHolder.Callback
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-    	player.setDisplay(holder);
-        player.prepareAsync();
-    }
-    
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
+		listenerList = new ArrayList<TouchListener>();
+		addListener(new VideoControllerListener(controller));
+		addListener(new VideoDoFullScreenListener(controller));
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {}
-    // End SurfaceHolder.Callback
+		try {
+			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			player.setDataSource(URLDecoder.decode(local.getUrl()).replace(
+					"file:", ""));
+			player.setOnPreparedListener(this);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-    // Implement MediaPlayer.OnPreparedListener
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        controller.setMediaPlayer(this);
-        controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-        VideoControllerView.setVideoSize(player.getVideoHeight(), player.getVideoWidth());
-        VideoControllerView.setContentSize(ContentFragment.getContentFragmentHeight(), 
-        		                           ContentFragment.getContentFragmentWidth());
-        controller.setScreenSize();
-        player.start();
-    }
-    // End MediaPlayer.OnPreparedListener
-    
-    // Implement VideoMediaController.MediaPlayerControl
-    @Override
-    public boolean canPause() {
-        return true;
-    }
+	public int getVideoHeight() {
+		return player.getVideoHeight();
+	}
 
-    @Override
-    public boolean canSeekBackward() {
-        return true;
-    }
+	public void addListener(TouchListener listener) {
+		listenerList.add(listener);
+	}
 
-    @Override
-    public boolean canSeekForward() {
-        return true;
-    }
+	public void setScreenSize() {
+		controller.setScreenSize();
+	}
 
-    @Override
-    public int getBufferPercentage() {
-        return 0;
-    }
-    
-    @Override
-    public int getCurrentPosition() {
-        return player.getCurrentPosition();
-    }
+	public void releasePlayer() {
+		player.stop();
+		player.reset();
+		player.release();
+		controller.removeHandler();
+	}
 
-    @Override
-    public int getDuration() {
-        return player.getDuration();
-    }
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
 
-    @Override
-    public boolean isPlaying() {
-        return player.isPlaying();
-    }
-    
-    @Override
-    public void pause() {
-        player.pause();
-    }
-    
-    public void stop() {
-        player.stop();
-    }
+		for (TouchListener listener : listenerList)
+			listener.onTouch(event);
 
-    @Override
-    public void seekTo(int i) {
-        player.seekTo(i);
-    }
+		return true;
+	}
 
-    @Override
-    public void start() {
-    	try {
+	// Implement SurfaceHolder.Callback
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		player.setDisplay(holder);
+		player.prepareAsync();
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+	}
+
+	// End SurfaceHolder.Callback
+
+	// Implement MediaPlayer.OnPreparedListener
+	@Override
+	public void onPrepared(MediaPlayer mp) {
+		controller.setMediaPlayer(this);
+		controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+		VideoControllerView.setVideoSize(player.getVideoHeight(),player.getVideoWidth());
+		VideoControllerView.setContentSize(ContentFragment.getContentFragmentHeight(),
+				                           ContentFragment.getContentFragmentWidth());
+		controller.setScreenSize();
+		player.start();
+	}
+
+	// End MediaPlayer.OnPreparedListener
+
+	// Implement VideoMediaController.MediaPlayerControl
+	@Override
+	public boolean canPause() {
+		return true;
+	}
+
+	@Override
+	public boolean canSeekBackward() {
+		return true;
+	}
+
+	@Override
+	public boolean canSeekForward() {
+		return true;
+	}
+
+	@Override
+	public int getBufferPercentage() {
+		return 0;
+	}
+
+	@Override
+	public int getCurrentPosition() {
+		return player.getCurrentPosition();
+	}
+
+	@Override
+	public int getDuration() {
+		return player.getDuration();
+	}
+
+	@Override
+	public boolean isPlaying() {
+		return player.isPlaying();
+	}
+
+	@Override
+	public void pause() {
+		player.pause();
+	}
+
+	public void stop() {
+		player.stop();
+	}
+
+	@Override
+	public void seekTo(int i) {
+		player.seekTo(i);
+	}
+
+	@Override
+	public void start() {
+		try {
 			player.prepare();
 			return;
 		} catch (IllegalStateException e) {
@@ -195,15 +203,16 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	player.start();
-    }
+		player.start();
+	}
 
-    @Override
-    public boolean isFullScreen() {
-        return controller.isFullScreen();
-    }
+	@Override
+	public boolean isFullScreen() {
+		return controller.isFullScreen();
+	}
 
-    @Override
-    public void toggleFullScreen() {}
-    // End VideoMediaController.MediaPlayerControl
+	@Override
+	public void toggleFullScreen() {
+	}
+	// End VideoMediaController.MediaPlayerControl
 }

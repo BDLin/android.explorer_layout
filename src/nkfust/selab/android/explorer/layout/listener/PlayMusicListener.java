@@ -23,30 +23,29 @@ import android.widget.ImageButton;
 public class PlayMusicListener implements OnClickListener {
 
 	private ImageButton btnPlay;
-	private  MediaPlayer mp;
-	
-	public PlayMusicListener(ImageButton btnPlay, MediaPlayer mp){
+	private MediaPlayer mp;
+
+	public PlayMusicListener(ImageButton btnPlay, MediaPlayer mp) {
 		this.btnPlay = btnPlay;
 		this.mp = mp;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		/**
-		 * Play button click event
-		 * plays a song and changes button to pause image
-		 * pauses a song and changes button to play image
+		 * Play button click event plays a song and changes button to pause
+		 * image pauses a song and changes button to play image
 		 * */
 		// check for already playing
-		if(mp.isPlaying()){
-			if(mp!=null){
+		if (mp.isPlaying()) {
+			if (mp != null) {
 				mp.pause();
 				// Changing button image to play button
 				btnPlay.setImageResource(R.drawable.btn_play);
 			}
-		}else{
+		} else {
 			// Resume song
-			if(mp!=null){
+			if (mp != null) {
 				mp.start();
 				// Changing button image to pause button
 				btnPlay.setImageResource(R.drawable.btn_pause);

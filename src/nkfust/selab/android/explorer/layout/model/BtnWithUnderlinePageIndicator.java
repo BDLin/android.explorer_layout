@@ -20,22 +20,22 @@ import android.widget.LinearLayout;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
 
-
 public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	private ViewPager vp;
 	private LinearLayout linear;
-	
-	public BtnWithUnderlinePageIndicator(Context context, ViewPager vp, LinearLayout linear) {
+
+	public BtnWithUnderlinePageIndicator(Context context, ViewPager vp,
+			LinearLayout linear) {
 		super(context);
 		this.vp = vp;
 		this.linear = linear;
 	}
-	
+
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
-		for (int i = 0; i < linear.getChildCount(); i++){
-			if(vp.getCurrentItem() != i)
+		for (int i = 0; i < linear.getChildCount(); i++) {
+			if (vp.getCurrentItem() != i)
 				linear.getChildAt(i).setAlpha((float) 0.5);
 			else
 				linear.getChildAt(i).setAlpha((float) 1.0);

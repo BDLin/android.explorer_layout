@@ -44,37 +44,39 @@ public class PreviousOrNextListener implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if(ShuffleOrRepeatListener.isShuffle()){
+		if (ShuffleOrRepeatListener.isShuffle()) {
 			// shuffle is on - play a random song
 			Random rand = new Random();
 			int currentSongIndex = rand.nextInt(songList.size());
-			player.playSong((LocalData)songList.get(currentSongIndex).getData());
-		}else{
+			player.playSong((LocalData) songList.get(currentSongIndex).getData());
+		} else {
 			if (v == btnNext) {
 				// check if next song is there or not
 				for (int i = MusicPlayerView.getCurrentSongIndex(); i < arrayList.size(); i++)
-					if (i != (arrayList.size() - 1) && URLUtils.guessContentType(
-							((LocalData) arrayList.get(i+1).getData()).getName())
-							.split("/")[0].equals("audio")) {
-						player.playSong((LocalData) arrayList.get(i+1).getData());
-						MusicPlayerView.setCurrentSongIndex(i+1);
+					if (i != (arrayList.size() - 1)
+							&& URLUtils.guessContentType(
+									((LocalData) arrayList.get(i + 1).getData())
+											.getName()).split("/")[0].equals("audio")) {
+						player.playSong((LocalData) arrayList.get(i + 1).getData());
+						MusicPlayerView.setCurrentSongIndex(i + 1);
 						break;
 					} else if (i == (arrayList.size() - 1)) {
 						i = -2;
 					}
 			} else {
-				
+
 				for (int i = MusicPlayerView.getCurrentSongIndex(); i >= 0; i--)
-					if (i != 0 && URLUtils.guessContentType(
-									((LocalData) arrayList.get(i-1).getData())
+					if (i != 0
+							&& URLUtils.guessContentType(
+									((LocalData) arrayList.get(i - 1).getData())
 											.getName()).split("/")[0].equals("audio")) {
-						player.playSong((LocalData) arrayList.get(i-1).getData());
-						MusicPlayerView.setCurrentSongIndex(i-1);
+						player.playSong((LocalData) arrayList.get(i - 1).getData());
+						MusicPlayerView.setCurrentSongIndex(i - 1);
 						break;
 					} else if (i == 0) {
-						i = arrayList.size()+1;
+						i = arrayList.size() + 1;
 					}
-			}//End of inner if-else
-		}//End of outer if-else
-	}//End of onClick function
-}//End of PreviousOrNextListener class
+			}// End of inner if-else
+		}// End of outer if-else
+	}// End of onClick function
+}// End of PreviousOrNextListener class

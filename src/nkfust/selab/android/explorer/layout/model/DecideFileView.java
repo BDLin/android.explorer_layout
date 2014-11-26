@@ -36,20 +36,21 @@ public class DecideFileView {
 	private static VideoPlayerView video;
 	private static MusicPlayerView audioPlayer;
 
-	public DecideFileView(Context context, LocalData local, RelativeLayout relative) {
+	public DecideFileView(Context context, LocalData local,
+			RelativeLayout relative) {
 		this.local = local;
 		this.context = context;
 		this.relative = relative;
 	}
 
 	public void showView() throws IOException {
-		
+
 		if (getFileType(local.getName()).equals("audio")) {
-			if(audioPlayer == null)
+			if (audioPlayer == null)
 				audioPlayer = new MusicPlayerView(context, local);
 			else
 				audioPlayer.playSong(local);
-				
+
 			relative.addView(audioPlayer);
 		} else {
 			ReleaseMediaPlayer();
@@ -63,14 +64,15 @@ public class DecideFileView {
 					byte[] data = new byte[size];
 					is.read(data);
 					// pdfviewer create.
-					SimpleDocumentReader viewer = SimpleReaderFactory.createSimpleViewer(
-							TabFragment.getTabFragment().getActivity(), m_listener);
+					SimpleDocumentReader viewer = SimpleReaderFactory
+							.createSimpleViewer(TabFragment.getTabFragment()
+									.getActivity(), m_listener);
 					// pdf data load.
 					relative.addView(viewer.getReaderView());
 					viewer.openData(data, data.length, "");
 				}
 				is.close();
-			}else {
+			} else {
 				TextView text = new TextView(context);
 				text.setText(local.getName());
 				relative.addView(text);
@@ -88,7 +90,7 @@ public class DecideFileView {
 			video = null;
 		}
 	}
-	
+
 	public String getFileSubtype(String fileName) {
 		String[] token = URLUtils.guessContentType(local.getName()).split("/");
 		return token[1];
@@ -109,7 +111,7 @@ public class DecideFileView {
 	public static VideoPlayerView getVideoView() {
 		return video;
 	}
-	
+
 	public static MusicPlayerView getMusicView() {
 		return audioPlayer;
 	}

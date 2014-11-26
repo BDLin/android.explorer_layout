@@ -19,5 +19,6 @@ import android.widget.ImageButton;
 
 public interface TabView {
 	public ImageButton getIndexButton();
+
 	public Fragment getFragment();
 }

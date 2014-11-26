@@ -25,43 +25,42 @@ public class ForwardOrBackwardListener implements OnClickListener {
 	private ImageButton btnBackward;
 	private int seekForwardTime = 5000; // 5000 milliseconds
 	private int seekBackwardTime = 5000; // 5000 milliseconds
-	private  MediaPlayer mp;
-	
-	public ForwardOrBackwardListener(ImageButton btnForward, ImageButton btnBackward, MediaPlayer mp){
+	private MediaPlayer mp;
+
+	public ForwardOrBackwardListener(ImageButton btnForward,
+			ImageButton btnBackward, MediaPlayer mp) {
 		this.btnForward = btnForward;
 		this.btnBackward = btnBackward;
 		this.mp = mp;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		if(v == btnForward){
+		if (v == btnForward) {
 			/**
-			 * Forward button click event
-			 * Forwards song specified seconds
+			 * Forward button click event Forwards song specified seconds
 			 * */
-			// get current song position				
+			// get current song position
 			int currentPosition = mp.getCurrentPosition();
 			// check if seekForward time is lesser than song duration
-			if(currentPosition + seekForwardTime <= mp.getDuration()){
+			if (currentPosition + seekForwardTime <= mp.getDuration()) {
 				// forward song
 				mp.seekTo(currentPosition + seekForwardTime);
-			}else{
+			} else {
 				// forward to end position
 				mp.seekTo(mp.getDuration());
 			}
-		}else{
+		} else {
 			/**
-			 * Backward button click event
-			 * Backward song to specified seconds
+			 * Backward button click event Backward song to specified seconds
 			 * */
-			// get current song position				
+			// get current song position
 			int currentPosition = mp.getCurrentPosition();
 			// check if seekBackward time is greater than 0 sec
-			if(currentPosition - seekBackwardTime >= 0){
+			if (currentPosition - seekBackwardTime >= 0) {
 				// forward song
 				mp.seekTo(currentPosition - seekBackwardTime);
-			}else{
+			} else {
 				// backward to starting position
 				mp.seekTo(0);
 			}

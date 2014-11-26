@@ -166,8 +166,7 @@ public class MusicPlayerView extends RelativeLayout implements
 		// Play song
 		try {
 			mp.reset();
-			mp.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:",
-					""));
+			mp.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:",""));
 			mp.prepare();
 			mp.start();
 			// Displaying Song title
@@ -213,9 +212,10 @@ public class MusicPlayerView extends RelativeLayout implements
 		} else {
 			// no repeat or shuffle ON - play next song
 			for (int i = currentSongIndex; i < array.size(); i++)
-				if (i != (array.size() - 1) && URLUtils.guessContentType(
+				if (i != (array.size() - 1)
+						&& URLUtils.guessContentType(
 								((LocalData) array.get(i + 1).getData())
-								.getName()).split("/")[0].equals("audio")) {
+										.getName()).split("/")[0].equals("audio")) {
 					playSong((LocalData) array.get(i + 1).getData());
 					currentSongIndex = i + 1;
 					break;
@@ -243,8 +243,7 @@ public class MusicPlayerView extends RelativeLayout implements
 					+ utils.milliSecondsToTimer(currentDuration));
 
 			// Updating progress bar
-			int progress = (int) (utils.getProgressPercentage(currentDuration,
-					totalDuration));
+			int progress = (int) (utils.getProgressPercentage(currentDuration,totalDuration));
 			// Log.d("Progress", ""+progress);
 			songProgressBar.setProgress(progress);
 
@@ -270,8 +269,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		mHandler.removeCallbacks(mUpdateTimeTask);
 		int totalDuration = mp.getDuration();
-		int currentPosition = utils.progressToTimer(seekBar.getProgress(),
-				totalDuration);
+		int currentPosition = utils.progressToTimer(seekBar.getProgress(),totalDuration);
 
 		// forward or backward to certain seconds
 		mp.seekTo(currentPosition);

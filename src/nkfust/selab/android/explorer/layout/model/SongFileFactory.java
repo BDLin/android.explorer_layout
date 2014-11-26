@@ -9,18 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SongFileFactory implements ComplexListItem {
-	
+
 	private LocalData file;
-	
-	public SongFileFactory(LocalData file){
+
+	public SongFileFactory(LocalData file) {
 		this.file = file;
 	}
-	
+
 	public Long getTime() {
 		try {
 			return file.getLastModifiedTime();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new Long(0);
@@ -30,12 +29,11 @@ public class SongFileFactory implements ComplexListItem {
 	public IFile getData() {
 		return this.file;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return URLDecoder.decode(file.getName());
 	}
-
 
 	@Override
 	public String getHideMessage() {
@@ -43,17 +41,22 @@ public class SongFileFactory implements ComplexListItem {
 	}
 
 	@Override
-	public void setData(Object object) {}
+	public void setData(Object object) {
+	}
 
 	@Override
-	public void setSubTitle(TextView view) {}
+	public void setSubTitle(TextView view) {
+	}
 
 	@Override
-	public void setComment(TextView view) {}
+	public void setComment(TextView view) {
+	}
 
 	@Override
-	public void setImage(ImageView view) {}
+	public void setImage(ImageView view) {
+	}
 
 	@Override
-	public void setState(ImageView view) {}
+	public void setState(ImageView view) {
+	}
 }
