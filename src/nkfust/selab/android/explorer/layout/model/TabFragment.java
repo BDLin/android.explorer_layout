@@ -20,7 +20,6 @@ import nkfust.selab.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,8 @@ public class TabFragment extends Fragment {
 	private BtnWithUnderlinePageIndicator indicator;
 	private ImageButton imgBtn;
 	private LinearLayout.LayoutParams params;
+	
+	private static Fragment tabFragment;
 
 	public void addTabView(TabView view) {
 		imgBtn = view.getIndexButton();
@@ -70,6 +71,7 @@ public class TabFragment extends Fragment {
 		indicator = new BtnWithUnderlinePageIndicator(getActivity(), vp, linear);
 		params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT);
 		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
+		tabFragment = this;
 	}
 
 	@Override
@@ -84,6 +86,10 @@ public class TabFragment extends Fragment {
 			else
 				linear.getChildAt(i).setAlpha((float) 1.0);
 		}
+	}
+	
+	public static Fragment getTabFragment(){
+		return tabFragment;
 	}
 
 	public Fragment getCurrentFragment() {

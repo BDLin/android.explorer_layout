@@ -25,7 +25,6 @@ import nkfust.selab.android.explorer.layout.R;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -99,7 +98,6 @@ public class VideoControllerView extends FrameLayout {
     private ImageButton         mFullscreenButton;
     private Handler             mHandler = new MessageHandler(this);
     
-    private Fragment frag;
     private SurfaceView videoSurface;
     private boolean mFullScreen = false;
     private static int videoHeight, videoWidth, contentHeight, contentWidth;
@@ -118,9 +116,8 @@ public class VideoControllerView extends FrameLayout {
         mUseFastForward = useFastForward;
     }
 
-    public VideoControllerView(Context context, SurfaceView videoSurface, Fragment frag) {
+    public VideoControllerView(Context context, SurfaceView videoSurface) {
         this(context, true);
-        this.frag = frag;
         this.videoSurface = videoSurface;
     }
 
@@ -527,11 +524,11 @@ public class VideoControllerView extends FrameLayout {
     private void toggleFullScreen(boolean fullScreen) {
        
         if (fullScreen){
-            frag.getActivity().getActionBar().hide();
-            frag.getActivity().getSupportFragmentManager().beginTransaction().hide(frag).commit();
+            TabFragment.getTabFragment().getActivity().getActionBar().hide();
+            TabFragment.getTabFragment().getActivity().getSupportFragmentManager().beginTransaction().hide(TabFragment.getTabFragment()).commit();
         }else{
-            frag.getActivity().getActionBar().show();
-            frag.getActivity().getSupportFragmentManager().beginTransaction().show(frag).commit();
+        	TabFragment.getTabFragment().getActivity().getActionBar().show();
+        	TabFragment.getTabFragment().getActivity().getSupportFragmentManager().beginTransaction().show(TabFragment.getTabFragment()).commit();
         }
         setScreenSize();
     }
@@ -723,7 +720,7 @@ public class VideoControllerView extends FrameLayout {
                         sendMessageDelayed(msg, 1000 - (pos % 1000));
                     }
                     break;
-            }
-        }
-    }
+            }//End of switch case
+        }//End of handleMessage function
+    }//End of MessageHandler class
 }

@@ -20,7 +20,6 @@ import java.io.InputStream;
 import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,41 +36,45 @@ public class DecideFileView {
 	private static VideoPlayerView video;
 	private static MusicPlayerView audioPlayer;
 
-	private Fragment tabFrag, contentFrag;
-	private int position;
-
-	public DecideFileView(Context context, LocalData local,
-			RelativeLayout relative, int position, Fragment tabFrag,
-			Fragment contentFrag) {
+	public DecideFileView(Context context, LocalData local, RelativeLayout relative) {
 		this.local = local;
 		this.context = context;
 		this.relative = relative;
-		this.position = position;
-		this.tabFrag = tabFrag;
-		this.contentFrag = contentFrag;
 	}
 
-	public void setView() throws IOException {
-		ReleaseMediaPlayer();
-		if (getFileSubtype(local.getName()).equals("pdf")) {
-			InputStream is = local.getInputStream();
-			int size = is.available();
-			if (size > 0) {
-				byte[] data = new byte[size];
-				is.read(data);
-				open(data);
-			}
-			is.close();
-		} else if (getFileType(local.getName()).equals("audio")) {
-			audioPlayer = new MusicPlayerView(context, local, position);
+	public void showView() throws IOException {
+		
+		if (getFileType(local.getName()).equals("audio")) {
+			if(audioPlayer == null)
+				audioPlayer = new MusicPlayerView(context, local);
+			else
+				audioPlayer.playSong(local);
+				
 			relative.addView(audioPlayer);
-		} else if (getFileType(local.getName()).equals("video")) {
-			video = new VideoPlayerView(context, local, tabFrag, contentFrag);
-			relative.addView(video);
 		} else {
-			TextView text = new TextView(context);
-			text.setText(local.getName());
-			relative.addView(text);
+			ReleaseMediaPlayer();
+			if (getFileType(local.getName()).equals("video")) {
+				video = new VideoPlayerView(context, local);
+				relative.addView(video);
+			} else if (getFileSubtype(local.getName()).equals("pdf")) {
+				InputStream is = local.getInputStream();
+				int size = is.available();
+				if (size > 0) {
+					byte[] data = new byte[size];
+					is.read(data);
+					// pdfviewer create.
+					SimpleDocumentReader viewer = SimpleReaderFactory.createSimpleViewer(
+							TabFragment.getTabFragment().getActivity(), m_listener);
+					// pdf data load.
+					relative.addView(viewer.getReaderView());
+					viewer.openData(data, data.length, "");
+				}
+				is.close();
+			}else {
+				TextView text = new TextView(context);
+				text.setText(local.getName());
+				relative.addView(text);
+			}
 		}
 	}
 
@@ -103,16 +106,11 @@ public class DecideFileView {
 		}
 	};
 
-	public void open(byte[] data) {
-		// pdfviewer create.
-		SimpleDocumentReader viewer = SimpleReaderFactory.createSimpleViewer(
-				tabFrag.getActivity(), m_listener);
-		// pdf data load.
-		relative.addView(viewer.getReaderView());
-		viewer.openData(data, data.length, "");
-	}
-
 	public static VideoPlayerView getVideoView() {
 		return video;
+	}
+	
+	public static MusicPlayerView getMusicView() {
+		return audioPlayer;
 	}
 }

@@ -26,7 +26,6 @@ import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -42,16 +41,13 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 	
 	private Context context;
 	private LocalData local;
-	private Fragment frag, content;
 	
 	private List<TouchListener> listenerList;
 	
-	public VideoPlayerView(Context context, LocalData local, Fragment tabFrag, Fragment contentFrag) {
+	public VideoPlayerView(Context context, LocalData local) {
 		super(context);
 		this.context = context;
 		this.local = local;
-		this.frag = tabFrag;
-		this.content = contentFrag;
 		LayoutInflater.from(context).inflate(R.layout.video_player, this);
 		init();
 	}
@@ -63,7 +59,7 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
         videoHolder.addCallback(this);
 
         player = new MediaPlayer();
-        controller = new VideoControllerView(context, videoSurface, frag);
+        controller = new VideoControllerView(context, videoSurface);
         
         listenerList = new ArrayList<TouchListener>();
     	addListener(new VideoControllerListener(controller));
@@ -103,9 +99,7 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 
     // Implement SurfaceHolder.Callback
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        
-    }
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -114,9 +108,7 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        
-    }
+    public void surfaceDestroyed(SurfaceHolder holder) {}
     // End SurfaceHolder.Callback
 
     // Implement MediaPlayer.OnPreparedListener
@@ -125,7 +117,8 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
         controller.setMediaPlayer(this);
         controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
         VideoControllerView.setVideoSize(player.getVideoHeight(), player.getVideoWidth());
-        VideoControllerView.setContentSize(content.getView().getHeight(), content.getView().getWidth());
+        VideoControllerView.setContentSize(ContentFragment.getContentFragmentHeight(), 
+        		                           ContentFragment.getContentFragmentWidth());
         controller.setScreenSize();
         player.start();
     }
@@ -173,6 +166,10 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
     public boolean isPlaying() {
         return player.isPlaying();
     }
+    
+    public void stop() {
+        player.stop();
+    }
 
     @Override
     public void pause() {
@@ -195,9 +192,7 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
     }
 
     @Override
-    public void toggleFullScreen() {
-        
-    }
+    public void toggleFullScreen() {}
     
     public void setScreenSize(){
     	controller.setScreenSize();

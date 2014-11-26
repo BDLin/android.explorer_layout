@@ -18,8 +18,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import poisondog.android.view.list.ComplexListItem;
 import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
 import android.content.Context;
@@ -27,9 +27,10 @@ import android.content.Context;
 public class SongsManager {
 	// SDCard Path
 	private String current_path;
-	private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+	private ArrayList<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
+
 	// Constructor
-	public SongsManager(LocalData local, Context context){
+	public SongsManager(LocalData local, Context context) {
 		try {
 			current_path = URLDecoder.decode(local.getUrl());
 		} catch (Exception e) {
@@ -38,28 +39,23 @@ public class SongsManager {
 		current_path = current_path.replace("file:", "");
 		current_path = current_path.replace(local.getName(), "");
 	}
-	
+
 	/**
-	 * Function to read all mp3 files from sdcard
-	 * and store the details in ArrayList
+	 * Function to read all mp3 files from sdcard and store the details in
+	 * ArrayList
 	 * */
-	public ArrayList<HashMap<String, String>> getPlayList(){
+	public ArrayList<ComplexListItem> getPlayList() {
 		File home = new File(current_path);
-		
+
 		if (home.listFiles(new FileExtensionFilter()).length > 0) {
 			for (File file : home.listFiles(new FileExtensionFilter())) {
-				HashMap<String, String> song = new HashMap<String, String>();
-				song.put("songTitle", file.getName().substring(0, (file.getName().length() - 4)));
-				song.put("songPath", file.getPath());
-				
-				// Adding each song to SongList
-				songsList.add(song);
+				songsList.add(new SongFileFactory(new LocalData(file)));
 			}
 		}
 		// return songs list array
 		return songsList;
 	}
-	
+
 	/**
 	 * Class to filter files which are having .mp3 extension
 	 * */

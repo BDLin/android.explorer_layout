@@ -17,8 +17,11 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
+import poisondog.android.view.list.ComplexListItem;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;
@@ -31,8 +34,10 @@ import android.widget.RelativeLayout;
 public class ContentFragment extends Fragment {
 
 	private RelativeLayout relative;
-	private Fragment tabFrag;
 	private LocalData local;
+	private static List<ComplexListItem> tablist = new ArrayList<ComplexListItem>();
+	
+	private static Fragment contentFragment;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,26 +59,38 @@ public class ContentFragment extends Fragment {
 		Bundle args = getArguments();
 		if (args != null) {
 			try {
-				updateArticleView(local, args.getInt("position"));
+				updateArticleView(local);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		contentFragment = this;
 	}
-
-	public void setTabFragment(Fragment tabFrag) {
-		this.tabFrag = tabFrag;
-	}
+	
+	public void updateArticleView(IFile file) throws IOException {
+		relative.removeAllViews();
+		local = (LocalData) file;
+		DecideFileView decideFileView = new DecideFileView(getActivity(), local, relative);
+		decideFileView.showView();
+	}// End of updateArticleView function
 
 	public void setIFile(IFile file) {
 		local = (LocalData) file;
 	}
-
-	public void updateArticleView(IFile file, int position) throws IOException {
-		relative.removeAllViews();
-		local = (LocalData) file;
-		DecideFileView decideFileView = new DecideFileView(getActivity(), local,
-				relative, position, tabFrag, this);
-		decideFileView.setView();
-	}// End of updateArticleView function
+	
+	public static void setMusicList(List<ComplexListItem> list){
+		tablist = list;
+	}
+	
+	public static List<ComplexListItem> getMusicList(){
+		return tablist;
+	}
+	
+	public static int getContentFragmentHeight(){
+		return contentFragment.getView().getHeight();
+	}
+	
+	public static int getContentFragmentWidth(){
+		return contentFragment.getView().getWidth();
+	}
 }

@@ -15,8 +15,9 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import nkfust.selab.android.explorer.layout.R;
@@ -24,6 +25,8 @@ import nkfust.selab.android.explorer.layout.listener.ForwardOrBackwardListener;
 import nkfust.selab.android.explorer.layout.listener.PlayMusicListener;
 import nkfust.selab.android.explorer.layout.listener.PreviousOrNextListener;
 import nkfust.selab.android.explorer.layout.listener.ShuffleOrRepeatListener;
+import poisondog.android.view.list.ComplexListItem;
+import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -52,13 +55,13 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 	private  MediaPlayer mp;
 	// Handler to update UI timer, progress bar etc,.
 	private Handler mHandler = new Handler();;
-	private SongsManager songManager;
+	private static SongsManager songManager;
 	private Utilities utils;
 	private static int currentSongIndex = 0; 
-	private ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
+	private static List<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
+	private static List<ComplexListItem> array = new ArrayList<ComplexListItem>();
 	
-	private LocalData local;
-	private int position;
+	private static LocalData local;
 	
 	private long totalDuration, currentDuration;
 	
@@ -68,11 +71,11 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 	private ForwardOrBackwardListener fbListener;
 	private PlayMusicListener playListener;
 	
-	public MusicPlayerView(Context context, LocalData local, int position){
+	public MusicPlayerView(Context context, LocalData localData){
 		super(context);
 		this.context = context;
-		this.local = local;
-		this.position = position;
+		local = localData;
+		array = ContentFragment.getMusicList();
 		LayoutInflater.from(context).inflate(R.layout.player, this);
 		init();
 	}
@@ -105,11 +108,11 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		songsList = songManager.getPlayList();
 		
 		// By default play first song
-		playSong(position);
+		playSong(local);
 		
 		//All Listener
 		srListener = new ShuffleOrRepeatListener(false, false, context, btnRepeat, btnShuffle);
-		poListener = new PreviousOrNextListener(this, songsList, btnNext, btnPrevious);
+		poListener = new PreviousOrNextListener(this, array, songsList, btnNext, btnPrevious);
 		fbListener = new ForwardOrBackwardListener(btnForward, btnBackward, mp);
 		playListener = new PlayMusicListener(btnPlay, mp);		
 		
@@ -130,20 +133,37 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		return currentSongIndex;
 	}
 	
+	public static void setCurrentSongIndex(int songIndex){
+		currentSongIndex = songIndex;
+	}
+	
+	private static void refreshCurrentSongIndex(){
+		for(int i = 0; i < array.size(); i++){
+			if(((LocalData)array.get(i).getData()).getName().equals(local.getName()))
+				setCurrentSongIndex(i);
+		}
+	}
+	
 	/**
 	 * Function to play a song
 	 * @param songIndex - index of song
 	 * */
-	public void  playSong(int songIndex){
-		currentSongIndex = songIndex;
+	public void  playSong(LocalData localData){
+
+		local = localData;
+		
+		for(int i = 0; i < array.size(); i++)
+			if(local.getName().equals(((LocalData)array.get(i).getData()).getName()))
+					currentSongIndex = i;
+
 		// Play song
 		try {
         	mp.reset();
-			mp.setDataSource(songsList.get(songIndex).get("songPath"));
+			mp.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:", ""));
 			mp.prepare();
 			mp.start();
 			// Displaying Song title
-			String songTitle = songsList.get(songIndex).get("songTitle");
+			String songTitle = URLDecoder.decode(local.getName());
         	songTitleLabel.setText(songTitle);
 			
         	// Changing Button Image to pause image
@@ -165,17 +185,43 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Update timer on seekbar
+	 * On Song Playing completed
+	 * if repeat is ON play same song again
+	 * if shuffle is ON play random song
 	 * */
+	@Override
+	public void onCompletion(MediaPlayer arg0) {
+		
+		// check for repeat is ON or OFF
+		if(ShuffleOrRepeatListener.isRepeat()){
+			// repeat is on play same song again
+			playSong(local);
+		} else if(ShuffleOrRepeatListener.isShuffle()){
+			// shuffle is on - play a random song
+			Random rand = new Random();
+			currentSongIndex = rand.nextInt(songsList.size());
+			playSong((LocalData)songsList.get(currentSongIndex).getData());
+		} else{
+			// no repeat or shuffle ON - play next song
+			for(int i = currentSongIndex; i < array.size(); i++)
+				if(i != (array.size() - 1) && URLUtils.guessContentType(((LocalData)array.get(i+1).getData()).getName()).split("/")[0].equals("audio")){
+					playSong((LocalData)array.get(i+1).getData());
+					currentSongIndex = i+1;
+					break;
+				}else if(i == (array.size() - 1)){
+					i = -2;
+				}
+		}
+	}
+	
+	/*** Update timer on seekbar***/
 	public void updateProgressBar() {
         mHandler.postDelayed(mUpdateTimeTask, 100);        
     }	
 	
-	/**
-	 * Background Runnable thread
-	 * */
+	/*** Background Runnable thread***/
 	private Runnable mUpdateTimeTask = new Runnable() {
 		   public void run() {
 			   currentDuration = mp.getCurrentPosition();
@@ -196,22 +242,16 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		};
 		
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-		
-	}
-
-	/**
-	 * When user starts moving the progress handler
-	 * */
+	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {}
+	
+	/*** When user starts moving the progress handler***/
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		// remove message Handler from updating progress bar
 		mHandler.removeCallbacks(mUpdateTimeTask);
     }
 	
-	/**
-	 * When user stops moving the progress hanlder
-	 * */
+	/*** When user stops moving the progress hanlder***/
 	@Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 		mHandler.removeCallbacks(mUpdateTimeTask);
@@ -224,33 +264,11 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		// update timer progress again
 		updateProgressBar();
     }
+	
 
-	/**
-	 * On Song Playing completed
-	 * if repeat is ON play same song again
-	 * if shuffle is ON play random song
-	 * */
-	@Override
-	public void onCompletion(MediaPlayer arg0) {
-		
-		// check for repeat is ON or OFF
-		if(srListener.isRepeat()){
-			// repeat is on play same song again
-			playSong(currentSongIndex);
-		} else if(srListener.isShuffle()){
-			// shuffle is on - play a random song
-			Random rand = new Random();
-			currentSongIndex = rand.nextInt((songsList.size() - 1) - 0 + 1) + 0;
-			playSong(currentSongIndex);
-		} else{
-			// no repeat or shuffle ON - play next song
-			if(currentSongIndex < (songsList.size() - 1)){
-				playSong(currentSongIndex + 1);
-			}else{
-				// play first song
-				playSong(0);
-			}
-		}
+	public static void setMusicList(List<ComplexListItem> list){
+		array = list;
+		refreshCurrentSongIndex();
 	}
 	
 	public void endPlayer(){
