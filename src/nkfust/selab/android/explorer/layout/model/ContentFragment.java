@@ -36,7 +36,7 @@ public class ContentFragment extends Fragment {
 	private RelativeLayout relative;
 	private LocalData local;
 	private static List<ComplexListItem> tablist = new ArrayList<ComplexListItem>();
-	
+
 	private static Fragment contentFragment;
 
 	@Override
@@ -66,31 +66,32 @@ public class ContentFragment extends Fragment {
 		}
 		contentFragment = this;
 	}
-	
+
 	public void updateArticleView(IFile file) throws IOException {
 		relative.removeAllViews();
 		local = (LocalData) file;
-		DecideFileView decideFileView = new DecideFileView(getActivity(), local, relative);
+		DecideFileView decideFileView = new DecideFileView(getActivity(),
+				local, relative);
 		decideFileView.showView();
 	}// End of updateArticleView function
 
 	public void setIFile(IFile file) {
 		local = (LocalData) file;
 	}
-	
-	public static void setMusicList(List<ComplexListItem> list){
+
+	public static void setMusicList(List<ComplexListItem> list) {
 		tablist = list;
 	}
-	
-	public static List<ComplexListItem> getMusicList(){
+
+	public static List<ComplexListItem> getMusicList() {
 		return tablist;
 	}
-	
-	public static int getContentFragmentHeight(){
+
+	public static int getContentFragmentHeight() {
 		return contentFragment.getView().getHeight();
 	}
-	
-	public static int getContentFragmentWidth(){
+
+	public static int getContentFragmentWidth() {
 		return contentFragment.getView().getWidth();
 	}
 }

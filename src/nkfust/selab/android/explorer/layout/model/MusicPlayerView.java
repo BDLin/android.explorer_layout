@@ -38,7 +38,8 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class MusicPlayerView extends RelativeLayout implements OnCompletionListener, SeekBar.OnSeekBarChangeListener {
+public class MusicPlayerView extends RelativeLayout implements
+		OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
 	private ImageButton btnPlay;
 	private ImageButton btnForward;
@@ -52,26 +53,26 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 	private TextView songCurrentDurationLabel;
 	private TextView songTotalDurationLabel;
 	// Media Player
-	private  MediaPlayer mp;
+	private MediaPlayer mp;
 	// Handler to update UI timer, progress bar etc,.
 	private Handler mHandler = new Handler();;
 	private static SongsManager songManager;
 	private Utilities utils;
-	private static int currentSongIndex = 0; 
+	private static int currentSongIndex = 0;
 	private static List<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
 	private static List<ComplexListItem> array = new ArrayList<ComplexListItem>();
-	
+
 	private static LocalData local;
-	
+
 	private long totalDuration, currentDuration;
-	
+
 	private Context context;
 	private ShuffleOrRepeatListener srListener;
 	private PreviousOrNextListener poListener;
 	private ForwardOrBackwardListener fbListener;
 	private PlayMusicListener playListener;
-	
-	public MusicPlayerView(Context context, LocalData localData){
+
+	public MusicPlayerView(Context context, LocalData localData) {
 		super(context);
 		this.context = context;
 		local = localData;
@@ -79,9 +80,9 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		LayoutInflater.from(context).inflate(R.layout.player, this);
 		init();
 	}
-	
+
 	public void init() {
-		
+
 		// All player buttons
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
 		btnForward = (ImageButton) findViewById(R.id.btnForward);
@@ -94,89 +95,96 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 		songTitleLabel = (TextView) findViewById(R.id.songTitle);
 		songCurrentDurationLabel = (TextView) findViewById(R.id.songCurrentDurationLabel);
 		songTotalDurationLabel = (TextView) findViewById(R.id.songTotalDurationLabel);
-		
+
 		// Mediaplayer
 		mp = new MediaPlayer();
 		songManager = new SongsManager(local, context);
 		utils = new Utilities();
-		
+
 		// Listeners
 		songProgressBar.setOnSeekBarChangeListener(this); // Important
 		mp.setOnCompletionListener(this); // Important
-		
+
 		// Getting all songs list
 		songsList = songManager.getPlayList();
-		
+
 		// By default play first song
 		playSong(local);
-		
-		//All Listener
-		srListener = new ShuffleOrRepeatListener(false, false, context, btnRepeat, btnShuffle);
-		poListener = new PreviousOrNextListener(this, array, songsList, btnNext, btnPrevious);
+
+		// All Listener
+		srListener = new ShuffleOrRepeatListener(false, false, context,
+				btnRepeat, btnShuffle);
+		poListener = new PreviousOrNextListener(this, array, songsList,
+				btnNext, btnPrevious);
 		fbListener = new ForwardOrBackwardListener(btnForward, btnBackward, mp);
-		playListener = new PlayMusicListener(btnPlay, mp);		
-		
-		//Set Button Listener
+		playListener = new PlayMusicListener(btnPlay, mp);
+
+		// Set Button Listener
 		btnPlay.setOnClickListener(playListener);
-		
+
 		btnForward.setOnClickListener(fbListener);
 		btnBackward.setOnClickListener(fbListener);
-		
+
 		btnNext.setOnClickListener(poListener);
 		btnPrevious.setOnClickListener(poListener);
-		
+
 		btnRepeat.setOnClickListener(srListener);
 		btnShuffle.setOnClickListener(srListener);
 	}
-	
-	public static int getCurrentSongIndex(){
+
+	public static int getCurrentSongIndex() {
 		return currentSongIndex;
 	}
-	
-	public static void setCurrentSongIndex(int songIndex){
+
+	public static void setCurrentSongIndex(int songIndex) {
 		currentSongIndex = songIndex;
 	}
-	
-	private static void refreshCurrentSongIndex(){
-		for(int i = 0; i < array.size(); i++){
-			if(((LocalData)array.get(i).getData()).getName().equals(local.getName()))
+
+	private static void refreshCurrentSongIndex() {
+		for (int i = 0; i < array.size(); i++) {
+			if (((LocalData) array.get(i).getData()).getName().equals(
+					local.getName()))
 				setCurrentSongIndex(i);
 		}
 	}
-	
+
 	/**
 	 * Function to play a song
-	 * @param songIndex - index of song
+	 * 
+	 * @param songIndex
+	 *            - index of song
 	 * */
-	public void  playSong(LocalData localData){
+	public void playSong(LocalData localData) {
 
 		local = localData;
-		
-		for(int i = 0; i < array.size(); i++)
-			if(local.getName().equals(((LocalData)array.get(i).getData()).getName()))
-					currentSongIndex = i;
+
+		for (int i = 0; i < array.size(); i++)
+			if (local.getName().equals(
+					((LocalData) array.get(i).getData()).getName()))
+				currentSongIndex = i;
 
 		// Play song
 		try {
-        	mp.reset();
-			mp.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:", ""));
+			mp.reset();
+			mp.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:",
+					""));
 			mp.prepare();
 			mp.start();
 			// Displaying Song title
 			String songTitle = URLDecoder.decode(local.getName());
-        	songTitleLabel.setText(songTitle);
-			
-        	// Changing Button Image to pause image
+			songTitleLabel.setText(songTitle);
+
+			// Changing Button Image to pause image
 			btnPlay.setImageResource(R.drawable.btn_pause);
-			
+
 			totalDuration = mp.getDuration();
 			currentDuration = mp.getCurrentPosition();
 			// set Progress bar values
 			songProgressBar.setProgress(0);
 			songProgressBar.setMax(100);
-			
+
 			// Updating progress bar
-			updateProgressBar();			
+			updateProgressBar();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -187,92 +195,98 @@ public class MusicPlayerView extends RelativeLayout implements OnCompletionListe
 	}
 
 	/**
-	 * On Song Playing completed
-	 * if repeat is ON play same song again
-	 * if shuffle is ON play random song
+	 * On Song Playing completed if repeat is ON play same song again if shuffle
+	 * is ON play random song
 	 * */
 	@Override
 	public void onCompletion(MediaPlayer arg0) {
-		
+
 		// check for repeat is ON or OFF
-		if(ShuffleOrRepeatListener.isRepeat()){
+		if (ShuffleOrRepeatListener.isRepeat()) {
 			// repeat is on play same song again
 			playSong(local);
-		} else if(ShuffleOrRepeatListener.isShuffle()){
+		} else if (ShuffleOrRepeatListener.isShuffle()) {
 			// shuffle is on - play a random song
 			Random rand = new Random();
 			currentSongIndex = rand.nextInt(songsList.size());
-			playSong((LocalData)songsList.get(currentSongIndex).getData());
-		} else{
+			playSong((LocalData) songsList.get(currentSongIndex).getData());
+		} else {
 			// no repeat or shuffle ON - play next song
-			for(int i = currentSongIndex; i < array.size(); i++)
-				if(i != (array.size() - 1) && URLUtils.guessContentType(((LocalData)array.get(i+1).getData()).getName()).split("/")[0].equals("audio")){
-					playSong((LocalData)array.get(i+1).getData());
-					currentSongIndex = i+1;
+			for (int i = currentSongIndex; i < array.size(); i++)
+				if (i != (array.size() - 1) && URLUtils.guessContentType(
+								((LocalData) array.get(i + 1).getData())
+								.getName()).split("/")[0].equals("audio")) {
+					playSong((LocalData) array.get(i + 1).getData());
+					currentSongIndex = i + 1;
 					break;
-				}else if(i == (array.size() - 1)){
+				} else if (i == (array.size() - 1)) {
 					i = -2;
 				}
 		}
 	}
-	
-	/*** Update timer on seekbar***/
+
+	/*** Update timer on seekbar ***/
 	public void updateProgressBar() {
-        mHandler.postDelayed(mUpdateTimeTask, 100);        
-    }	
-	
-	/*** Background Runnable thread***/
+		mHandler.postDelayed(mUpdateTimeTask, 100);
+	}
+
+	/*** Background Runnable thread ***/
 	private Runnable mUpdateTimeTask = new Runnable() {
-		   public void run() {
-			   currentDuration = mp.getCurrentPosition();
-			  
-			   // Displaying Total Duration time
-			   songTotalDurationLabel.setText(""+utils.milliSecondsToTimer(totalDuration));
-			   // Displaying time completed playing
-			   songCurrentDurationLabel.setText(""+utils.milliSecondsToTimer(currentDuration));
-			   
-			   // Updating progress bar
-			   int progress = (int)(utils.getProgressPercentage(currentDuration, totalDuration));
-			   //Log.d("Progress", ""+progress);
-			   songProgressBar.setProgress(progress);
-			   
-			   // Running this thread after 100 milliseconds
-		       mHandler.postDelayed(this, 100);
-		   }
-		};
-		
+		public void run() {
+			currentDuration = mp.getCurrentPosition();
+
+			// Displaying Total Duration time
+			songTotalDurationLabel.setText(""
+					+ utils.milliSecondsToTimer(totalDuration));
+			// Displaying time completed playing
+			songCurrentDurationLabel.setText(""
+					+ utils.milliSecondsToTimer(currentDuration));
+
+			// Updating progress bar
+			int progress = (int) (utils.getProgressPercentage(currentDuration,
+					totalDuration));
+			// Log.d("Progress", ""+progress);
+			songProgressBar.setProgress(progress);
+
+			// Running this thread after 100 milliseconds
+			mHandler.postDelayed(this, 100);
+		}
+	};
+
 	@Override
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {}
-	
-	/*** When user starts moving the progress handler***/
+	public void onProgressChanged(SeekBar seekBar, int progress,
+			boolean fromTouch) {
+	}
+
+	/*** When user starts moving the progress handler ***/
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		// remove message Handler from updating progress bar
 		mHandler.removeCallbacks(mUpdateTimeTask);
-    }
-	
-	/*** When user stops moving the progress hanlder***/
+	}
+
+	/*** When user stops moving the progress hanlder ***/
 	@Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+	public void onStopTrackingTouch(SeekBar seekBar) {
 		mHandler.removeCallbacks(mUpdateTimeTask);
 		int totalDuration = mp.getDuration();
-		int currentPosition = utils.progressToTimer(seekBar.getProgress(), totalDuration);
-		
+		int currentPosition = utils.progressToTimer(seekBar.getProgress(),
+				totalDuration);
+
 		// forward or backward to certain seconds
 		mp.seekTo(currentPosition);
-		
+
 		// update timer progress again
 		updateProgressBar();
-    }
-	
+	}
 
-	public static void setMusicList(List<ComplexListItem> list){
+	public static void setMusicList(List<ComplexListItem> list) {
 		array = list;
 		refreshCurrentSongIndex();
 	}
-	
-	public void endPlayer(){
-		if(mp != null){
+
+	public void endPlayer() {
+		if (mp != null) {
 			mHandler.removeCallbacks(mUpdateTimeTask);
 			mp.release();
 		}
