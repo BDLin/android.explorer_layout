@@ -88,8 +88,8 @@ public class VideoControllerView extends FrameLayout {
     private boolean             mFromXml;
     private boolean             mListenersSet;
     private View.OnClickListener mNextListener, mPrevListener;
-    StringBuilder               mFormatBuilder;
-    Formatter                   mFormatter;
+    private StringBuilder       mFormatBuilder;
+    private Formatter           mFormatter;
     private ImageButton         mPauseButton;
     private ImageButton         mFfwdButton;
     private ImageButton         mRewButton;

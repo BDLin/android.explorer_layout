@@ -87,6 +87,17 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
     public void addListener(TouchListener listener){
     	listenerList.add(listener);
     }
+    
+    public void setScreenSize(){
+    	controller.setScreenSize();
+    }
+    
+    public void releasePlayer(){
+    	player.stop();
+    	player.reset();
+    	player.release();
+    	controller.removeHandler();
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -99,13 +110,13 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 
     // Implement SurfaceHolder.Callback
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
-
-    @Override
     public void surfaceCreated(SurfaceHolder holder) {
     	player.setDisplay(holder);
         player.prepareAsync();
     }
+    
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {}
@@ -145,13 +156,6 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
         return 0;
     }
     
-    public void releasePlayer(){
-    	player.stop();
-    	player.reset();
-    	player.release();
-    	controller.removeHandler();
-    }
-
     @Override
     public int getCurrentPosition() {
         return player.getCurrentPosition();
@@ -167,13 +171,13 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
         return player.isPlaying();
     }
     
-    public void stop() {
-        player.stop();
-    }
-
     @Override
     public void pause() {
         player.pause();
+    }
+    
+    public void stop() {
+        player.stop();
     }
 
     @Override
@@ -183,7 +187,15 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 
     @Override
     public void start() {
-        player.start();
+    	try {
+			player.prepare();
+			return;
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	player.start();
     }
 
     @Override
@@ -193,9 +205,5 @@ public class VideoPlayerView extends RelativeLayout implements SurfaceHolder.Cal
 
     @Override
     public void toggleFullScreen() {}
-    
-    public void setScreenSize(){
-    	controller.setScreenSize();
-    }
     // End VideoMediaController.MediaPlayerControl
 }
