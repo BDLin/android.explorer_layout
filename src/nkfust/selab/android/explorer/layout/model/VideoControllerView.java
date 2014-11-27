@@ -174,7 +174,8 @@ public class VideoControllerView extends FrameLayout {
 			mPauseButton.setOnClickListener(mPauseListener);
 		}
 
-		mFullscreenButton = (ImageButton) v.findViewById(R.id.fullscreen);
+		if(TabFragment.getFrameLayout() == null)
+			mFullscreenButton = (ImageButton) v.findViewById(R.id.fullscreen);
 		if (mFullscreenButton != null) {
 			mFullscreenButton.requestFocus();
 			mFullscreenButton.setOnClickListener(mFullscreenListener);

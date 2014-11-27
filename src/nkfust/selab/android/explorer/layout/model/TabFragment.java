@@ -23,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -36,6 +37,7 @@ public class TabFragment extends Fragment {
 	private LinearLayout.LayoutParams params;
 
 	private static Fragment tabFragment;
+	private static FrameLayout frame;
 
 	public void addTabView(TabView view) {
 		imgBtn = view.getIndexButton();
@@ -86,6 +88,14 @@ public class TabFragment extends Fragment {
 			else
 				linear.getChildAt(i).setAlpha((float) 1.0);
 		}
+	}
+	
+	public static void setFrameLayout(FrameLayout framelayout){
+		frame = framelayout;
+	}
+	
+	public static FrameLayout getFrameLayout(){
+		return frame;
 	}
 
 	public static Fragment getTabFragment() {

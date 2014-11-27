@@ -55,6 +55,8 @@ public class DecideFileView {
 		} else {
 			ReleaseMediaPlayer();
 			if (getFileType(local.getName()).equals("video")) {
+				if(TabFragment.getFrameLayout() != null)
+					TabFragment.getTabFragment().getActivity().getActionBar().hide();
 				video = new VideoPlayerView(context, local);
 				relative.addView(video);
 			} else if (getFileSubtype(local.getName()).equals("pdf")) {

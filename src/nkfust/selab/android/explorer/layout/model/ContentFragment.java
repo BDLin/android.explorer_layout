@@ -56,6 +56,7 @@ public class ContentFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		contentFragment = this;
 		Bundle args = getArguments();
 		if (args != null) {
 			try {
@@ -64,7 +65,6 @@ public class ContentFragment extends Fragment {
 				e.printStackTrace();
 			}
 		}
-		contentFragment = this;
 	}
 
 	public void updateArticleView(IFile file) throws IOException {

@@ -105,9 +105,13 @@ public class VideoPlayerView extends RelativeLayout implements
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
+		if(TabFragment.getFrameLayout() != null){
+			new VideoControllerListener(controller).onTouch(event);
+			return false;
+		}
+		
 		for (TouchListener listener : listenerList)
 			listener.onTouch(event);
-
 		return true;
 	}
 
