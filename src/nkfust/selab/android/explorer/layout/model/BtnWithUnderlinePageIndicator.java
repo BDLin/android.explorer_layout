@@ -15,36 +15,33 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.widget.LinearLayout;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
-	private ViewPager vp;
-	private LinearLayout linear;
-	private ScreenSlidePagerAdapter adapter;
+	private TabFragment tabFragment;
 
-	public BtnWithUnderlinePageIndicator(Context context, ViewPager vp,
-			LinearLayout linear, ScreenSlidePagerAdapter adapter) {
+	public BtnWithUnderlinePageIndicator(Context context,
+			TabFragment tabFragment) {
 		super(context);
-		this.vp = vp;
-		this.linear = linear;
-		this.adapter = adapter;
+		this.tabFragment = tabFragment;
 	}
 
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
-		TabView tabView = (TabView)adapter.instantiateItem(vp, vp.getCurrentItem());
-		TabFragment.getMenu().clear();
-		TabFragment.getTabFragment().getActivity().getMenuInflater().inflate(tabView.getMenuResource(), TabFragment.getMenu());
-		
-		for (int i = 0; i < linear.getChildCount(); i++) {
-			if (vp.getCurrentItem() != i)
-				linear.getChildAt(i).setAlpha((float) 0.5);
+		TabView tabView = tabFragment.getCurrentTabView();
+		tabFragment.getMenu().clear();
+		tabFragment.getActivity().getMenuInflater()
+				.inflate(tabView.getMenuResource(), tabFragment.getMenu());
+
+		for (int i = 0; i < tabFragment.getButtonLinearLayout().getChildCount(); i++) {
+			if (tabFragment.getViewpager().getCurrentItem() != i)
+				tabFragment.getButtonLinearLayout().getChildAt(i)
+						.setAlpha((float) 0.5);
 			else
-				linear.getChildAt(i).setAlpha((float) 1.0);
+				tabFragment.getButtonLinearLayout().getChildAt(i)
+						.setAlpha((float) 1.0);
 		}
 	}
 }
