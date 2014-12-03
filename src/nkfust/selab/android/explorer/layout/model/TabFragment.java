@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -30,14 +31,15 @@ import android.widget.LinearLayout;
 public class TabFragment extends Fragment {
 
 	private ViewPager vp;
-	private LinearLayout linear;
 	private ScreenSlidePagerAdapter pagerAdapter;
+	private LinearLayout linear;
 	private BtnWithUnderlinePageIndicator indicator;
 	private ImageButton imgBtn;
 	private LinearLayout.LayoutParams params;
 
 	private static Fragment tabFragment;
 	private static FrameLayout frame;
+	private static Menu mMenu;
 
 	public void addTabView(TabView view) {
 		imgBtn = view.getIndexButton();
@@ -70,7 +72,7 @@ public class TabFragment extends Fragment {
 		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-		indicator = new BtnWithUnderlinePageIndicator(getActivity(), vp, linear);
+		indicator = new BtnWithUnderlinePageIndicator(getActivity(), vp, linear, pagerAdapter);
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
 		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
 		tabFragment = this;
@@ -90,6 +92,14 @@ public class TabFragment extends Fragment {
 		}
 	}
 	
+	public static void setMenu(Menu menu){
+		mMenu = menu;
+	}
+	
+	public static Menu getMenu(){
+		return mMenu;
+	}
+	
 	public static void setFrameLayout(FrameLayout framelayout){
 		frame = framelayout;
 	}
@@ -105,7 +115,7 @@ public class TabFragment extends Fragment {
 	public Fragment getCurrentFragment() {
 		return (Fragment) pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
 	}
-
+	
 	private void setViewPager() {
 		vp.setAdapter(pagerAdapter);
 		indicator.setViewPager(vp);

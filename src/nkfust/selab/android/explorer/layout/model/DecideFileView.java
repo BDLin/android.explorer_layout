@@ -20,6 +20,7 @@ import java.io.InputStream;
 import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
 import android.content.Context;
+import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,7 +45,7 @@ public class DecideFileView {
 	}
 
 	public void showView() throws IOException {
-
+		Log.i("DecideFile", "title:" + getFileSubtype(local.getName()));
 		if (getFileType(local.getName()).equals("audio")) {
 			if (audioPlayer == null)
 				audioPlayer = new MusicPlayerView(context, local);

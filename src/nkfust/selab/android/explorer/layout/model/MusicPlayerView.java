@@ -192,7 +192,7 @@ public class MusicPlayerView extends RelativeLayout implements
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * On Song Playing completed if repeat is ON play same song again if shuffle
 	 * is ON play random song

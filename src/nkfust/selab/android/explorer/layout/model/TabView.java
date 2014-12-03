@@ -21,4 +21,5 @@ public interface TabView {
 	public ImageButton getIndexButton();
 
 	public Fragment getFragment();
+	public int getMenuResource();
 }

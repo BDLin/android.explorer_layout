@@ -24,16 +24,22 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	private ViewPager vp;
 	private LinearLayout linear;
+	private ScreenSlidePagerAdapter adapter;
 
 	public BtnWithUnderlinePageIndicator(Context context, ViewPager vp,
-			LinearLayout linear) {
+			LinearLayout linear, ScreenSlidePagerAdapter adapter) {
 		super(context);
 		this.vp = vp;
 		this.linear = linear;
+		this.adapter = adapter;
 	}
 
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
+		TabView tabView = (TabView)adapter.instantiateItem(vp, vp.getCurrentItem());
+		TabFragment.getMenu().clear();
+		TabFragment.getTabFragment().getActivity().getMenuInflater().inflate(tabView.getMenuResource(), TabFragment.getMenu());
+		
 		for (int i = 0; i < linear.getChildCount(); i++) {
 			if (vp.getCurrentItem() != i)
 				linear.getChildAt(i).setAlpha((float) 0.5);
