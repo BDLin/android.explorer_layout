@@ -58,7 +58,7 @@ public class TabFragment extends Fragment {
 	public Boolean isFragmentStatePagerAdapterNull() {
 		return (vp.getAdapter() == null) ? true : false;
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

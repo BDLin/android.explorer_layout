@@ -15,11 +15,12 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 
 public interface TabView {
 	public ImageButton getIndexButton();
-
 	public Fragment getFragment();
 	public int getMenuResource();
+	public boolean onOptionsMenuItemSelected(MenuItem item);
 }
