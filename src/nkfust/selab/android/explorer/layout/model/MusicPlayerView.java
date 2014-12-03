@@ -56,8 +56,9 @@ public class MusicPlayerView extends RelativeLayout implements
 	private MediaPlayer mp;
 	// Handler to update UI timer, progress bar etc,.
 	private Handler mHandler = new Handler();;
-	private static SongsManager songManager;
 	private Utilities utils;
+	
+	private static SongsManager songManager;
 	private static int currentSongIndex = 0;
 	private static List<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
 	private static List<ComplexListItem> array = new ArrayList<ComplexListItem>();
@@ -142,8 +143,7 @@ public class MusicPlayerView extends RelativeLayout implements
 
 	private static void refreshCurrentSongIndex() {
 		for (int i = 0; i < array.size(); i++) {
-			if (((LocalData) array.get(i).getData()).getName().equals(
-					local.getName()))
+			if (((LocalData) array.get(i).getData()).getName().equals(local.getName()))
 				setCurrentSongIndex(i);
 		}
 	}
@@ -159,8 +159,7 @@ public class MusicPlayerView extends RelativeLayout implements
 		local = localData;
 
 		for (int i = 0; i < array.size(); i++)
-			if (local.getName().equals(
-					((LocalData) array.get(i).getData()).getName()))
+			if (local.getName().equals(((LocalData) array.get(i).getData()).getName()))
 				currentSongIndex = i;
 
 		// Play song
