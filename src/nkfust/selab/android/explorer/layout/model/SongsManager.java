@@ -21,23 +21,28 @@ import java.util.ArrayList;
 
 import poisondog.android.view.list.ComplexListItem;
 import poisondog.net.URLUtils;
+import poisondog.string.ExtractPath;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 
 public class SongsManager {
 	// SDCard Path
-	private String current_path;
+	public static String current_path;
 	private ArrayList<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
 
 	// Constructor
 	public SongsManager(LocalData local, Context context) {
+		String path = null;
 		try {
-			current_path = URLDecoder.decode(local.getUrl());
+			path = URLDecoder.decode(local.getUrl());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		current_path = current_path.replace("file:", "");
-		current_path = current_path.replace(local.getName(), "");
+		current_path = new ExtractPath().process(URLDecoder.decode(path)).replace(local.getName(), "");
+	}
+	
+	public static String getmusicDataPath(){
+		return current_path;
 	}
 
 	/**

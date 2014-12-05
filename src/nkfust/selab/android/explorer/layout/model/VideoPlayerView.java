@@ -22,6 +22,7 @@ import java.util.List;
 import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.listener.VideoControllerListener;
 import nkfust.selab.android.explorer.layout.listener.VideoDoFullScreenListener;
+import poisondog.string.ExtractPath;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.AudioManager;
@@ -69,8 +70,7 @@ public class VideoPlayerView extends RelativeLayout implements
 
 		try {
 			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			player.setDataSource(URLDecoder.decode(local.getUrl()).replace(
-					"file:", ""));
+			player.setDataSource(new ExtractPath().process(URLDecoder.decode(local.getUrl())));
 			player.setOnPreparedListener(this);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
@@ -81,10 +81,6 @@ public class VideoPlayerView extends RelativeLayout implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public int getVideoHeight() {
-		return player.getVideoHeight();
 	}
 
 	public void addListener(TouchListener listener) {
@@ -138,9 +134,7 @@ public class VideoPlayerView extends RelativeLayout implements
 	public void onPrepared(MediaPlayer mp) {
 		controller.setMediaPlayer(this);
 		controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-		VideoControllerView.setVideoSize(player.getVideoHeight(),player.getVideoWidth());
-		VideoControllerView.setContentSize(ContentFragment.getContentFragmentHeight(),
-				                           ContentFragment.getContentFragmentWidth());
+		controller.setVideoSize(player.getVideoHeight(),player.getVideoWidth());
 		controller.setScreenSize();
 		player.start();
 	}

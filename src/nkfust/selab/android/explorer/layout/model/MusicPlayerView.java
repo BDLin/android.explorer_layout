@@ -27,6 +27,7 @@ import nkfust.selab.android.explorer.layout.listener.PreviousOrNextListener;
 import nkfust.selab.android.explorer.layout.listener.ShuffleOrRepeatListener;
 import poisondog.android.view.list.ComplexListItem;
 import poisondog.net.URLUtils;
+import poisondog.string.ExtractPath;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -58,7 +59,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	private Handler mHandler = new Handler();;
 	private Utilities utils;
 	
-	private static SongsManager songManager;
+	private SongsManager songManager;
 	private static int currentSongIndex = 0;
 	private static List<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
 	private static List<ComplexListItem> array = new ArrayList<ComplexListItem>();
@@ -113,10 +114,8 @@ public class MusicPlayerView extends RelativeLayout implements
 		playSong(local);
 
 		// All Listener
-		srListener = new ShuffleOrRepeatListener(false, false, context,
-				btnRepeat, btnShuffle);
-		poListener = new PreviousOrNextListener(this, array, songsList,
-				btnNext, btnPrevious);
+		srListener = new ShuffleOrRepeatListener(context, btnRepeat, btnShuffle);
+		poListener = new PreviousOrNextListener(this, btnNext, btnPrevious);
 		fbListener = new ForwardOrBackwardListener(btnForward, btnBackward, mp);
 		playListener = new PlayMusicListener(btnPlay, mp);
 
@@ -141,13 +140,6 @@ public class MusicPlayerView extends RelativeLayout implements
 		currentSongIndex = songIndex;
 	}
 
-	private static void refreshCurrentSongIndex() {
-		for (int i = 0; i < array.size(); i++) {
-			if (((LocalData) array.get(i).getData()).getName().equals(local.getName()))
-				setCurrentSongIndex(i);
-		}
-	}
-
 	/**
 	 * Function to play a song
 	 * 
@@ -157,15 +149,12 @@ public class MusicPlayerView extends RelativeLayout implements
 	public void playSong(LocalData localData) {
 
 		local = localData;
-
-		for (int i = 0; i < array.size(); i++)
-			if (local.getName().equals(((LocalData) array.get(i).getData()).getName()))
-				currentSongIndex = i;
+		updateCurrentSongIndex();
 
 		// Play song
 		try {
 			mp.reset();
-			mp.setDataSource(URLDecoder.decode(local.getUrl()).replace("file:",""));
+			mp.setDataSource(new ExtractPath().process(URLDecoder.decode(local.getUrl())));
 			mp.prepare();
 			mp.start();
 			// Displaying Song title
@@ -224,6 +213,13 @@ public class MusicPlayerView extends RelativeLayout implements
 		}
 	}
 
+	private static void updateCurrentSongIndex() {
+		for (int i = 0; i < array.size(); i++) {
+			if (((LocalData) array.get(i).getData()).getName().equals(local.getName()))
+				setCurrentSongIndex(i);
+		}
+	}
+	
 	/*** Update timer on seekbar ***/
 	public void updateProgressBar() {
 		mHandler.postDelayed(mUpdateTimeTask, 100);
@@ -279,7 +275,15 @@ public class MusicPlayerView extends RelativeLayout implements
 
 	public static void setMusicList(List<ComplexListItem> list) {
 		array = list;
-		refreshCurrentSongIndex();
+		updateCurrentSongIndex();
+	}
+	
+	public List<ComplexListItem> getMusicList(){
+		return array;
+	}
+	
+	public List<ComplexListItem> getSongList(){
+		return songsList;
 	}
 
 	public void endPlayer() {

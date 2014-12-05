@@ -37,8 +37,6 @@ public class ContentFragment extends Fragment {
 	private LocalData local;
 	private static List<ComplexListItem> tablist = new ArrayList<ComplexListItem>();
 
-	private static Fragment contentFragment;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -56,7 +54,6 @@ public class ContentFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		contentFragment = this;
 		Bundle args = getArguments();
 		if (args != null) {
 			try {
@@ -79,19 +76,11 @@ public class ContentFragment extends Fragment {
 		local = (LocalData) file;
 	}
 
-	public static void setMusicList(List<ComplexListItem> list) {
+	public void setMusicList(List<ComplexListItem> list) {
 		tablist = list;
 	}
 
 	public static List<ComplexListItem> getMusicList() {
 		return tablist;
-	}
-
-	public static int getContentFragmentHeight() {
-		return contentFragment.getView().getHeight();
-	}
-
-	public static int getContentFragmentWidth() {
-		return contentFragment.getView().getWidth();
 	}
 }

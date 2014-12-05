@@ -98,7 +98,8 @@ public class VideoControllerView extends FrameLayout {
 
 	private SurfaceView videoSurface;
 	private boolean mFullScreen = false;
-	private static int videoHeight, videoWidth, contentHeight, contentWidth;
+	private int videoHeight, videoWidth;
+	private static int contentHeight, contentWidth;
 
 	public VideoControllerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -485,7 +486,7 @@ public class VideoControllerView extends FrameLayout {
 		return mFullScreen;
 	}
 
-	public static void setVideoSize(int Height, int Width) {
+	public void setVideoSize(int Height, int Width) {
 		videoHeight = Height;
 		videoWidth = Width;
 	}
@@ -507,8 +508,7 @@ public class VideoControllerView extends FrameLayout {
 		int screenHeight = windowManager.getDefaultDisplay().getHeight();
 		float screenProportion = (float) screenWidth / (float) screenHeight;
 		float videoProportion = (float) videoWidth / (float) videoHeight;
-		float contentScreenProportion = (float) contentWidth
-				/ (float) contentHeight;
+		float contentScreenProportion = (float) contentWidth / (float) contentHeight;
 		if (isFullScreen()) {
 			if (videoProportion > screenProportion) {
 				params.width = screenWidth;

@@ -23,16 +23,13 @@ import android.widget.Toast;
 
 public class ShuffleOrRepeatListener implements OnClickListener {
 
-	private static boolean isShuffle;
-	private static boolean isRepeat;
+	private static boolean isShuffle = false;
+	private static boolean isRepeat = false;
 	private Context context;
 	private ImageButton btnRepeat;
 	private ImageButton btnShuffle;
 
-	public ShuffleOrRepeatListener(boolean shuffle, boolean repeat,
-			Context context, ImageButton btnRepeat, ImageButton btnShuffle) {
-		isShuffle = shuffle;
-		isRepeat = repeat;
+	public ShuffleOrRepeatListener(Context context, ImageButton btnRepeat, ImageButton btnShuffle) {
 		this.context = context;
 		this.btnRepeat = btnRepeat;
 		this.btnShuffle = btnShuffle;

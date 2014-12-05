@@ -33,11 +33,10 @@ public class PreviousOrNextListener implements OnClickListener {
 	private List<ComplexListItem> arrayList, songList;
 
 	public PreviousOrNextListener(MusicPlayerView player,
-			List<ComplexListItem> arrayList, List<ComplexListItem> songList,
 			ImageButton btnNext, ImageButton btnPrevious) {
 		this.player = player;
-		this.arrayList = arrayList;
-		this.songList = songList;
+		this.arrayList = player.getMusicList();
+		this.songList = player.getSongList();
 		this.btnNext = btnNext;
 		this.btnNext = btnNext;
 	}

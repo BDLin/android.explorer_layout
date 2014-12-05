@@ -17,6 +17,9 @@ package nkfust.selab.android.explorer.layout.model;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.usermodel.Range;
+
 import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
 import android.content.Context;
@@ -75,6 +78,14 @@ public class DecideFileView {
 					viewer.openData(data, data.length, "");
 				}
 				is.close();
+			} else if(getFileSubtype(local.getName()).equals("msword")){
+				HWPFDocument doc = new HWPFDocument(local.getInputStream());
+				Range r = doc.getRange();  
+		        String content = r.text();  
+		        r.delete();
+		        TextView text = new TextView(context);
+		        text.setText(content);
+		        relative.addView(text);
 			} else {
 				TextView text = new TextView(context);
 				text.setText(local.getName());
