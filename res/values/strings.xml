@@ -16,7 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<resources>
+<resources 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    
     <string name="app_name">android.explore_layout</string>
     <string name="setting_category_account">Account</string>
     <string name="setting_category_setting">Setting</string>
@@ -39,4 +42,9 @@ limitations under the License.
     <string name="sort_by_name">Sort by name</string>
     <string name="sort_by_time">Sort by time</string>
     <string name="description">Media Controls</string>
+    <string name="refreshing">refreshing</string>
+    <string name="loading">loading</string>
+    <string name="release_ref">release to refresh</string>
+    <string name="pull_toref">pull down to refresh</string>
+    <string name="latest_update_time">latest update time: <xliff:g id="UPDATE_TIME">%1$s</xliff:g></string>
 </resources>

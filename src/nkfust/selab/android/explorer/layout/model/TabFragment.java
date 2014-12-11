@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,7 +35,6 @@ public class TabFragment extends Fragment {
 	private BtnWithUnderlinePageIndicator indicator;
 	private ImageButton imgBtn;
 	private LinearLayout.LayoutParams params;
-	private Menu mMenu;
 
 	private static Fragment tabFragment;
 	private static FrameLayout frame;
@@ -98,14 +96,6 @@ public class TabFragment extends Fragment {
 		indicator.setFades(false);
 		indicator.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 2));
-	}
-	
-	public void setMenu(Menu menu){
-		mMenu = menu;
-	}
-	
-	public Menu getMenu(){
-		return mMenu;
 	}
 	
 	public Fragment getCurrentFragment() {

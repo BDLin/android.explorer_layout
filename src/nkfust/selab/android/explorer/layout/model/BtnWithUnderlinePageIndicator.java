@@ -30,11 +30,6 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
-		TabView tabView = tabFragment.getCurrentTabView();
-		tabFragment.getMenu().clear();
-		tabFragment.getActivity().getMenuInflater()
-				.inflate(tabView.getMenuResource(), tabFragment.getMenu());
-
 		for (int i = 0; i < tabFragment.getButtonLinearLayout().getChildCount(); i++) {
 			if (tabFragment.getViewpager().getCurrentItem() != i)
 				tabFragment.getButtonLinearLayout().getChildAt(i)
