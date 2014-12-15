@@ -21,11 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
-import poisondog.android.view.list.ComplexListItem;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +35,7 @@ public class ContentFragment extends Fragment {
 
 	private RelativeLayout relative;
 	private LocalData local;
-	private static List<ComplexListItem> tablist = new ArrayList<ComplexListItem>();
+	private static List<IFile> tablist = new ArrayList<IFile>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,11 +76,13 @@ public class ContentFragment extends Fragment {
 		local = (LocalData) file;
 	}
 
-	public void setMusicList(List<ComplexListItem> list) {
+	public void setMusicList(List<IFile> list) {
 		tablist = list;
 	}
 
-	public static List<ComplexListItem> getMusicList() {
+	public static List<IFile> getMusicList() {
+		Log.i("ContentFragment", "tablist size: " + tablist.size());
+		Log.i("ContentFragment", "tablist[0]: " + ((LocalData)tablist.get(0)).getName());
 		return tablist;
 	}
 }

@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Random;
 
 import nkfust.selab.android.explorer.layout.model.MusicPlayerView;
-import poisondog.android.view.list.ComplexListItem;
 import poisondog.net.URLUtils;
+import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,10 +30,10 @@ public class PreviousOrNextListener implements OnClickListener {
 	private ImageButton btnNext;
 	private ImageButton btnPrevious;
 	private MusicPlayerView player;
-	private List<ComplexListItem> arrayList, songList;
+	private List<IFile> arrayList, songList;
 
-	public PreviousOrNextListener(MusicPlayerView player,
-			ImageButton btnNext, ImageButton btnPrevious) {
+	public PreviousOrNextListener(MusicPlayerView player, ImageButton btnNext,
+			ImageButton btnPrevious) {
 		this.player = player;
 		this.arrayList = player.getMusicList();
 		this.songList = player.getSongList();
@@ -47,16 +47,16 @@ public class PreviousOrNextListener implements OnClickListener {
 			// shuffle is on - play a random song
 			Random rand = new Random();
 			int currentSongIndex = rand.nextInt(songList.size());
-			player.playSong((LocalData) songList.get(currentSongIndex).getData());
+			player.playSong((LocalData) songList.get(currentSongIndex));
 		} else {
 			if (v == btnNext) {
 				// check if next song is there or not
-				for (int i = MusicPlayerView.getCurrentSongIndex(); i < arrayList.size(); i++)
-					if (i != (arrayList.size() - 1)
-							&& URLUtils.guessContentType(
-									((LocalData) arrayList.get(i + 1).getData())
-											.getName()).split("/")[0].equals("audio")) {
-						player.playSong((LocalData) arrayList.get(i + 1).getData());
+				for (int i = MusicPlayerView.getCurrentSongIndex(); i < arrayList
+						.size(); i++)
+					if (i != (arrayList.size() - 1) && URLUtils.guessContentType(
+									(((LocalData) arrayList.get(i + 1)).getName()))
+									                       .split("/")[0].equals("audio")) {
+						player.playSong((LocalData) arrayList.get(i + 1));
 						MusicPlayerView.setCurrentSongIndex(i + 1);
 						break;
 					} else if (i == (arrayList.size() - 1)) {
@@ -65,11 +65,10 @@ public class PreviousOrNextListener implements OnClickListener {
 			} else {
 
 				for (int i = MusicPlayerView.getCurrentSongIndex(); i >= 0; i--)
-					if (i != 0
-							&& URLUtils.guessContentType(
-									((LocalData) arrayList.get(i - 1).getData())
-											.getName()).split("/")[0].equals("audio")) {
-						player.playSong((LocalData) arrayList.get(i - 1).getData());
+					if (i != 0 && URLUtils.guessContentType(
+									(((LocalData) arrayList.get(i - 1)).getName()))
+											               .split("/")[0].equals("audio")) {
+						player.playSong((LocalData) arrayList.get(i - 1));
 						MusicPlayerView.setCurrentSongIndex(i - 1);
 						break;
 					} else if (i == 0) {

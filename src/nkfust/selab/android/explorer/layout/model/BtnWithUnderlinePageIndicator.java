@@ -15,6 +15,7 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import android.content.Context;
+import android.view.Menu;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
 
@@ -30,6 +31,13 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
+		
+		TabView tabView = tabFragment.getCurrentTabView();
+		Menu menu = tabFragment.getMenu();
+		menu.clear();
+		if(tabView.getMenuResource() != 0)
+			tabFragment.getActivity().getMenuInflater().inflate(tabView.getMenuResource(), menu);
+		
 		for (int i = 0; i < tabFragment.getButtonLinearLayout().getChildCount(); i++) {
 			if (tabFragment.getViewpager().getCurrentItem() != i)
 				tabFragment.getButtonLinearLayout().getChildAt(i)

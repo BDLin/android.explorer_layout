@@ -25,14 +25,15 @@ import nkfust.selab.android.explorer.layout.listener.ForwardOrBackwardListener;
 import nkfust.selab.android.explorer.layout.listener.PlayMusicListener;
 import nkfust.selab.android.explorer.layout.listener.PreviousOrNextListener;
 import nkfust.selab.android.explorer.layout.listener.ShuffleOrRepeatListener;
-import poisondog.android.view.list.ComplexListItem;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractPath;
+import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -61,8 +62,8 @@ public class MusicPlayerView extends RelativeLayout implements
 	
 	private SongsManager songManager;
 	private static int currentSongIndex = 0;
-	private static List<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
-	private static List<ComplexListItem> array = new ArrayList<ComplexListItem>();
+	private static List<IFile> songsList = new ArrayList<IFile>();
+	private static List<IFile> array = new ArrayList<IFile>();
 
 	private static LocalData local;
 
@@ -196,15 +197,14 @@ public class MusicPlayerView extends RelativeLayout implements
 			// shuffle is on - play a random song
 			Random rand = new Random();
 			currentSongIndex = rand.nextInt(songsList.size());
-			playSong((LocalData) songsList.get(currentSongIndex).getData());
+			playSong((LocalData) songsList.get(currentSongIndex));
 		} else {
 			// no repeat or shuffle ON - play next song
 			for (int i = currentSongIndex; i < array.size(); i++)
 				if (i != (array.size() - 1)
 						&& URLUtils.guessContentType(
-								((LocalData) array.get(i + 1).getData())
-										.getName()).split("/")[0].equals("audio")) {
-					playSong((LocalData) array.get(i + 1).getData());
+								((LocalData) array.get(i + 1)).getName()).split("/")[0].equals("audio")) {
+					playSong((LocalData) array.get(i + 1));
 					currentSongIndex = i + 1;
 					break;
 				} else if (i == (array.size() - 1)) {
@@ -213,9 +213,12 @@ public class MusicPlayerView extends RelativeLayout implements
 		}
 	}
 
-	private static void updateCurrentSongIndex() {
+	private static void updateCurrentSongIndex(){
+		Log.i("MusicPlayer", "Size: " + array.size());
+		Log.i("MusicPlayer", "array[0]: " + ((LocalData)array.get(0)).getName());
 		for (int i = 0; i < array.size(); i++) {
-			if (((LocalData) array.get(i).getData()).getName().equals(local.getName()))
+			Log.i("MusicPlayer", "music file name: " + ((LocalData)array.get(i)).getName());
+			if (((LocalData)array.get(i)).getName().equals(local.getName()))
 				setCurrentSongIndex(i);
 		}
 	}
@@ -273,16 +276,16 @@ public class MusicPlayerView extends RelativeLayout implements
 		updateProgressBar();
 	}
 
-	public static void setMusicList(List<ComplexListItem> list) {
+	public static void setMusicList(List<IFile> list) {
 		array = list;
 		updateCurrentSongIndex();
 	}
 	
-	public List<ComplexListItem> getMusicList(){
+	public List<IFile> getMusicList(){
 		return array;
 	}
 	
-	public List<ComplexListItem> getSongList(){
+	public List<IFile> getSongList(){
 		return songsList;
 	}
 

@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -35,6 +36,7 @@ public class TabFragment extends Fragment {
 	private BtnWithUnderlinePageIndicator indicator;
 	private ImageButton imgBtn;
 	private LinearLayout.LayoutParams params;
+	private Menu mMenu;
 
 	private static Fragment tabFragment;
 	private static FrameLayout frame;
@@ -57,11 +59,26 @@ public class TabFragment extends Fragment {
 		return (vp.getAdapter() == null) ? true : false;
 	}
 	
+	public Menu getMenu(){
+		return mMenu;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.headline_view, container, false);
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu){
+		mMenu = menu;
 	}
 
 	@Override
@@ -103,7 +120,7 @@ public class TabFragment extends Fragment {
 	}
 	
 	public TabView getCurrentTabView() {
-		return (TabView) pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
+		return (TabView) pagerAdapter.getItemTabView(vp.getCurrentItem());
 	}
 	
 	public ViewPager getViewpager(){

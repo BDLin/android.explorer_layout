@@ -18,17 +18,19 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.List;
 
-import poisondog.android.view.list.ComplexListItem;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractPath;
+import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.content.Context;
+import android.util.Log;
 
 public class SongsManager {
 	// SDCard Path
 	public static String current_path;
-	private ArrayList<ComplexListItem> songsList = new ArrayList<ComplexListItem>();
+	private List<IFile> songsList = new ArrayList<IFile>();
 
 	// Constructor
 	public SongsManager(LocalData local, Context context) {
@@ -38,7 +40,7 @@ public class SongsManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		current_path = new ExtractPath().process(URLDecoder.decode(path)).replace(local.getName(), "");
+		current_path = new ExtractPath().process(path).replace(local.getName(), "");
 	}
 	
 	public static String getmusicDataPath(){
@@ -49,12 +51,13 @@ public class SongsManager {
 	 * Function to read all mp3 files from sdcard and store the details in
 	 * ArrayList
 	 * */
-	public ArrayList<ComplexListItem> getPlayList() {
+	public List<IFile> getPlayList() {
 		File home = new File(current_path);
+		Log.i("SongManager", "path: " + current_path);
 
 		if (home.listFiles(new FileExtensionFilter()).length > 0) {
 			for (File file : home.listFiles(new FileExtensionFilter())) {
-				songsList.add(new SongFileFactory(new LocalData(file)));
+				songsList.add(new LocalData(file));
 			}
 		}
 		// return songs list array
