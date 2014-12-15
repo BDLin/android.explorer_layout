@@ -81,8 +81,6 @@ public class ContentFragment extends Fragment {
 	}
 
 	public static List<IFile> getMusicList() {
-		Log.i("ContentFragment", "tablist size: " + tablist.size());
-		Log.i("ContentFragment", "tablist[0]: " + ((LocalData)tablist.get(0)).getName());
 		return tablist;
 	}
 }

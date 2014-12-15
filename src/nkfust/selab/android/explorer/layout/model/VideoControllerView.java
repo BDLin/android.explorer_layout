@@ -531,17 +531,14 @@ public class VideoControllerView extends FrameLayout {
 	}
 
 	private void toggleFullScreen(boolean fullScreen) {
-
 		if (fullScreen) {
-			TabFragment.getTabFragment().getActivity().getActionBar().hide();
-			TabFragment.getTabFragment().getActivity()
-					.getSupportFragmentManager().beginTransaction()
-					.hide(TabFragment.getTabFragment()).commit();
+			TabFragment.getActionBarActivity().getSupportActionBar().hide();
+			TabFragment.getActionBarActivity().getSupportFragmentManager()
+			        .beginTransaction().hide(TabFragment.getTabFragment()).commit();
 		} else {
-			TabFragment.getTabFragment().getActivity().getActionBar().show();
-			TabFragment.getTabFragment().getActivity()
-					.getSupportFragmentManager().beginTransaction()
-					.show(TabFragment.getTabFragment()).commit();
+			TabFragment.getActionBarActivity().getSupportActionBar().show();
+			TabFragment.getActionBarActivity().getSupportFragmentManager()
+			        .beginTransaction().show(TabFragment.getTabFragment()).commit();
 		}
 		setScreenSize();
 	}

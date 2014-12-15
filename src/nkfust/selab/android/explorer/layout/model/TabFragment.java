@@ -20,6 +20,7 @@ import nkfust.selab.android.explorer.layout.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -38,6 +39,7 @@ public class TabFragment extends Fragment {
 	private LinearLayout.LayoutParams params;
 	private Menu mMenu;
 
+	private static ActionBarActivity activity;
 	private static Fragment tabFragment;
 	private static FrameLayout frame;
 
@@ -90,7 +92,6 @@ public class TabFragment extends Fragment {
 		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
 		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
-		tabFragment = this;
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class TabFragment extends Fragment {
 	}
 	
 	private void setViewPager() {
+//		tabFragment = this;
 		vp.setAdapter(pagerAdapter);
 		indicator.setViewPager(vp);
 		indicator.setFades(false);
@@ -141,5 +143,17 @@ public class TabFragment extends Fragment {
 
 	public static Fragment getTabFragment() {
 		return tabFragment;
+	}
+	
+	public static void setTabFragment(Fragment frag) {
+		tabFragment = frag;;
+	}
+
+	public static void setActionBarActivity(ActionBarActivity actionBarActivity) {
+		activity = actionBarActivity;
+	}
+	
+	public static ActionBarActivity getActionBarActivity() {
+		return activity;
 	}
 }

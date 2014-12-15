@@ -214,8 +214,6 @@ public class MusicPlayerView extends RelativeLayout implements
 	}
 
 	private static void updateCurrentSongIndex(){
-		Log.i("MusicPlayer", "Size: " + array.size());
-		Log.i("MusicPlayer", "array[0]: " + ((LocalData)array.get(0)).getName());
 		for (int i = 0; i < array.size(); i++) {
 			Log.i("MusicPlayer", "music file name: " + ((LocalData)array.get(i)).getName());
 			if (((LocalData)array.get(i)).getName().equals(local.getName()))
