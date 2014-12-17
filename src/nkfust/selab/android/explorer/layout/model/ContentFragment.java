@@ -60,7 +60,7 @@ public class ContentFragment extends Fragment {
 			}
 		}
 	}
-
+	
 	public void updateArticleView(IFile file) throws IOException {
 		relative.removeAllViews();
 		local = (LocalData) file;

@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -68,6 +69,7 @@ public class TabFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("TabFragment", "onCreate...");
 		setHasOptionsMenu(true);
 	}
 	
@@ -75,17 +77,20 @@ public class TabFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
+		Log.i("TabFragment", "onCreateView...");
 		return inflater.inflate(R.layout.headline_view, container, false);
 	}
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu){
 		mMenu = menu;
+		Log.i("TabFragment", "onPrepareOptionMenu...");
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Log.i("TabFragment", "onActivityCreated...");
 		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
 		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
@@ -97,6 +102,7 @@ public class TabFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.i("TabFragment", "onResume...");
 		if (isFragmentStatePagerAdapterNull())
 			setViewPager();
 
@@ -109,7 +115,6 @@ public class TabFragment extends Fragment {
 	}
 	
 	private void setViewPager() {
-//		tabFragment = this;
 		vp.setAdapter(pagerAdapter);
 		indicator.setViewPager(vp);
 		indicator.setFades(false);
@@ -146,7 +151,7 @@ public class TabFragment extends Fragment {
 	}
 	
 	public static void setTabFragment(Fragment frag) {
-		tabFragment = frag;;
+		tabFragment = frag;
 	}
 
 	public static void setActionBarActivity(ActionBarActivity actionBarActivity) {
