@@ -33,6 +33,7 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 		super.onPageSelected(position);
 		
 		TabView tabView = tabFragment.getCurrentTabView();
+		tabView.updateContent();
 		Menu menu = tabFragment.getMenu();
 		menu.clear();
 		if(tabView.getMenuResource() != 0)

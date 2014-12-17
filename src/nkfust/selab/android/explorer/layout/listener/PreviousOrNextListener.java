@@ -30,19 +30,20 @@ public class PreviousOrNextListener implements OnClickListener {
 	private ImageButton btnNext;
 	private ImageButton btnPrevious;
 	private MusicPlayerView player;
-	private List<IFile> arrayList, songList;
 
 	public PreviousOrNextListener(MusicPlayerView player, ImageButton btnNext,
 			ImageButton btnPrevious) {
 		this.player = player;
-		this.arrayList = player.getMusicList();
-		this.songList = player.getSongList();
 		this.btnNext = btnNext;
 		this.btnNext = btnNext;
 	}
 
 	@Override
 	public void onClick(View v) {
+		
+		List<IFile>arrayList = player.getMusicList();
+		List<IFile>songList = player.getSongList();
+		
 		if (ShuffleOrRepeatListener.isShuffle()) {
 			// shuffle is on - play a random song
 			Random rand = new Random();
@@ -55,7 +56,7 @@ public class PreviousOrNextListener implements OnClickListener {
 						.size(); i++)
 					if (i != (arrayList.size() - 1) && URLUtils.guessContentType(
 									(((LocalData) arrayList.get(i + 1)).getName()))
-									                       .split("/")[0].equals("audio")) {
+									                       .startsWith("audio/")) {
 						player.playSong((LocalData) arrayList.get(i + 1));
 						MusicPlayerView.setCurrentSongIndex(i + 1);
 						break;
@@ -67,7 +68,7 @@ public class PreviousOrNextListener implements OnClickListener {
 				for (int i = MusicPlayerView.getCurrentSongIndex(); i >= 0; i--)
 					if (i != 0 && URLUtils.guessContentType(
 									(((LocalData) arrayList.get(i - 1)).getName()))
-											               .split("/")[0].equals("audio")) {
+											               .startsWith("audio/")) {
 						player.playSong((LocalData) arrayList.get(i - 1));
 						MusicPlayerView.setCurrentSongIndex(i - 1);
 						break;

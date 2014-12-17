@@ -23,4 +23,5 @@ public interface TabView {
 	public Fragment getFragment();
 	public int getMenuResource();
 	public boolean onOptionsMenuItemSelected(MenuItem item);
+	public void updateContent();
 }

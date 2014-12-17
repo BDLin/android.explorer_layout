@@ -60,7 +60,6 @@ public class MusicPlayerView extends RelativeLayout implements
 	private Handler mHandler = new Handler();;
 	private Utilities utils;
 	
-	private SongsManager songManager;
 	private static int currentSongIndex = 0;
 	private static List<IFile> songsList = new ArrayList<IFile>();
 	private static List<IFile> array = new ArrayList<IFile>();
@@ -79,7 +78,6 @@ public class MusicPlayerView extends RelativeLayout implements
 		super(context);
 		this.context = context;
 		local = localData;
-		array = ContentFragment.getMusicList();
 		LayoutInflater.from(context).inflate(R.layout.player, this);
 		init();
 	}
@@ -101,15 +99,11 @@ public class MusicPlayerView extends RelativeLayout implements
 
 		// Mediaplayer
 		mp = new MediaPlayer();
-		songManager = new SongsManager(local, context);
 		utils = new Utilities();
 
 		// Listeners
 		songProgressBar.setOnSeekBarChangeListener(this); // Important
 		mp.setOnCompletionListener(this); // Important
-
-		// Getting all songs list
-		songsList = songManager.getPlayList();
 
 		// By default play first song
 		playSong(local);
@@ -151,7 +145,10 @@ public class MusicPlayerView extends RelativeLayout implements
 
 		local = localData;
 		updateCurrentSongIndex();
-
+		
+		// Getting all songs list
+		songsList = new SongsManager(local, context).getPlayList();
+		
 		// Play song
 		try {
 			mp.reset();
@@ -213,13 +210,6 @@ public class MusicPlayerView extends RelativeLayout implements
 		}
 	}
 
-	private static void updateCurrentSongIndex(){
-		for (int i = 0; i < array.size(); i++) {
-			Log.i("MusicPlayer", "music file name: " + ((LocalData)array.get(i)).getName());
-			if (((LocalData)array.get(i)).getName().equals(local.getName()))
-				setCurrentSongIndex(i);
-		}
-	}
 	
 	/*** Update timer on seekbar ***/
 	public void updateProgressBar() {
@@ -274,9 +264,22 @@ public class MusicPlayerView extends RelativeLayout implements
 		updateProgressBar();
 	}
 
-	public static void setMusicList(List<IFile> list) {
-		array = list;
+	public static void updateMusicList(List<IFile> list) {
+		setMusicList(list);
 		updateCurrentSongIndex();
+	}
+
+	private static void updateCurrentSongIndex(){
+		for (int i = 0; i < array.size(); i++) {
+			Log.i("MusicPlayer", "music file name: " + ((LocalData)array.get(i)).getName());
+			if (((LocalData)array.get(i)).getName().equals(local.getName()))
+				setCurrentSongIndex(i);
+		}
+	}
+
+	public static void setMusicList(List<IFile> list) {
+		array.clear();
+		array = list;
 	}
 	
 	public List<IFile> getMusicList(){
