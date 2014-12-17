@@ -16,6 +16,8 @@ package nkfust.selab.android.explorer.layout.model;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ import poisondog.net.URLUtils;
 import poisondog.string.ExtractPath;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
+import poisondog.vfs.LocalFileFactory;
 import android.content.Context;
 import android.util.Log;
 
@@ -57,7 +60,13 @@ public class SongsManager {
 
 		if (home.listFiles(new FileExtensionFilter()).length > 0) {
 			for (File file : home.listFiles(new FileExtensionFilter())) {
-				songsList.add(new LocalData(file));
+				try {
+					songsList.add(new LocalFileFactory().getFile(file.getAbsolutePath()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		// return songs list array
