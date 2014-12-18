@@ -44,6 +44,62 @@ public class TabFragment extends Fragment {
 	private static Fragment tabFragment;
 	private static FrameLayout frame;
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Log.i("TabFragment", "onCreate...");
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// Inflate the layout for this fragment
+		Log.i("TabFragment", "onCreateView...");
+		return inflater.inflate(R.layout.headline_view, container, false);
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		Log.i("TabFragment", "onActivityCreated...");
+		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
+		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
+		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
+		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
+		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
+		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu){
+		Log.i("TabFragment", "onPrepareOptionMenu...");
+		mMenu = menu;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		Log.i("TabFragment", "onStart...");
+		setHasOptionsMenu(true);
+		activity = (ActionBarActivity) getActivity();
+		tabFragment = this;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.i("TabFragment", "onResume...");
+		if (isFragmentStatePagerAdapterNull())
+			setViewPager();
+
+		for (int i = 0; i < linear.getChildCount(); i++) {
+			if (vp.getCurrentItem() != i)
+				linear.getChildAt(i).setAlpha((float) 0.5);
+			else
+				linear.getChildAt(i).setAlpha((float) 1.0);
+		}
+	}
+	
 	public void addTabView(TabView view) {
 		imgBtn = view.getIndexButton();
 		params.weight = 1;
@@ -64,54 +120,6 @@ public class TabFragment extends Fragment {
 	
 	public Menu getMenu(){
 		return mMenu;
-	}
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Log.i("TabFragment", "onCreate...");
-		setHasOptionsMenu(true);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		Log.i("TabFragment", "onCreateView...");
-		return inflater.inflate(R.layout.headline_view, container, false);
-	}
-	
-	@Override
-	public void onPrepareOptionsMenu(Menu menu){
-		mMenu = menu;
-		Log.i("TabFragment", "onPrepareOptionMenu...");
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		Log.i("TabFragment", "onActivityCreated...");
-		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
-		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
-		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
-		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
-		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		Log.i("TabFragment", "onResume...");
-		if (isFragmentStatePagerAdapterNull())
-			setViewPager();
-
-		for (int i = 0; i < linear.getChildCount(); i++) {
-			if (vp.getCurrentItem() != i)
-				linear.getChildAt(i).setAlpha((float) 0.5);
-			else
-				linear.getChildAt(i).setAlpha((float) 1.0);
-		}
 	}
 	
 	private void setViewPager() {
@@ -148,14 +156,6 @@ public class TabFragment extends Fragment {
 
 	public static Fragment getTabFragment() {
 		return tabFragment;
-	}
-	
-	public static void setTabFragment(Fragment frag) {
-		tabFragment = frag;
-	}
-
-	public static void setActionBarActivity(ActionBarActivity actionBarActivity) {
-		activity = actionBarActivity;
 	}
 	
 	public static ActionBarActivity getActionBarActivity() {
