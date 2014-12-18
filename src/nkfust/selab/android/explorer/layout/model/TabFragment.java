@@ -59,30 +59,34 @@ public class TabFragment extends Fragment {
 	}
 	
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		Log.i("TabFragment", "onActivityCreated...");
-		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
-		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
+	public void onViewCreated (View view, Bundle savedInstanceState){
+		super.onViewCreated(view, savedInstanceState);
+		Log.i("TabFragment", "onViewCreated...");
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
 		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
-		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
 	}
 	
 	@Override
-	public void onPrepareOptionsMenu(Menu menu){
-		Log.i("TabFragment", "onPrepareOptionMenu...");
-		mMenu = menu;
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		Log.i("TabFragment", "onActivityCreated...");
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
 		Log.i("TabFragment", "onStart...");
+		linear = (LinearLayout) getActivity().findViewById(R.id.btn_layout);
 		setHasOptionsMenu(true);
 		activity = (ActionBarActivity) getActivity();
 		tabFragment = this;
+	}
+	
+	@Override
+	public void onPrepareOptionsMenu(Menu menu){
+		Log.i("TabFragment", "onPrepareOptionMenu...");
+		mMenu = menu;
 	}
 	
 	@Override
@@ -101,6 +105,7 @@ public class TabFragment extends Fragment {
 	}
 	
 	public void addTabView(TabView view) {
+		Log.i("TabFragment", "addTabView!!");
 		imgBtn = view.getIndexButton();
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
@@ -115,6 +120,7 @@ public class TabFragment extends Fragment {
 	}
 
 	public Boolean isFragmentStatePagerAdapterNull() {
+		vp = (ViewPager) getActivity().findViewById(R.id.frame_pager);
 		return (vp.getAdapter() == null) ? true : false;
 	}
 	
@@ -123,6 +129,8 @@ public class TabFragment extends Fragment {
 	}
 	
 	private void setViewPager() {
+		Log.i("TabFragment", "setVidePager!!");
+		((LinearLayout) getActivity().findViewById(R.id.viewpager_layout)).addView(indicator);
 		vp.setAdapter(pagerAdapter);
 		indicator.setViewPager(vp);
 		indicator.setFades(false);
