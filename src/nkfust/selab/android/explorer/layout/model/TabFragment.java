@@ -63,7 +63,7 @@ public class TabFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		Log.i("TabFragment", "onViewCreated...");
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
+		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this, pagerAdapter);
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
 		linear = (LinearLayout) view.findViewById(R.id.btn_layout);
 		vp = (ViewPager) view.findViewById(R.id.frame_pager);

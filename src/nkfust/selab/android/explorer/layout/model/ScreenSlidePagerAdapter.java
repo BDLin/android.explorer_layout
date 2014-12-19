@@ -63,4 +63,9 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 	public int getIconResId(int index) {
 		return 0;
 	}
+	
+	@Override
+	public int getItemPosition(Object object){
+		return POSITION_NONE;
+	}
 }
