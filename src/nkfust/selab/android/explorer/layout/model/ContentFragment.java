@@ -64,15 +64,14 @@ public class ContentFragment extends Fragment {
 	public void updateArticleView(IFile file) throws IOException {
 		relative.removeAllViews();
 		local = (LocalData) file;
-		DecideFileView decideFileView = new DecideFileView(getActivity(),
-				local, relative);
+		DecideFileView decideFileView = new DecideFileView(getActivity(), local, relative);
 		decideFileView.showView();
 	}// End of updateArticleView function
 
 	public void setIFile(IFile file) {
 		local = (LocalData) file;
 	}
-
+	
 	public void setMusicList(List<IFile> list) {
 		MusicPlayerView.setMusicList(list);
 	}

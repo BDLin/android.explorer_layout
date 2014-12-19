@@ -26,6 +26,7 @@ import poisondog.net.URLUtils;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ public class DecideFileView {
 	private LocalData local;
 	private Context context;
 	private RelativeLayout relative;
+	private static View.OnClickListener aListener = null;
 	private static VideoPlayerView video;
 	private static MusicPlayerView audioPlayer;
 
@@ -90,7 +92,9 @@ public class DecideFileView {
 				text.setText(content);
 				relative.addView(text);
 			} else {
-				relative.addView(getAnyFileView());
+				View view = getAnyFileView();
+				view.setOnClickListener(aListener);
+				relative.addView(view);
 			}
 		}
 	}
@@ -122,17 +126,6 @@ public class DecideFileView {
 		return innerRelative;
 	}
 
-	public static void ReleaseMediaPlayer() {
-		if (audioPlayer != null) {
-			audioPlayer.endPlayer();
-			audioPlayer = null;
-		}
-		if (video != null) {
-			video.releasePlayer();
-			video = null;
-		}
-	}
-
 	public String getFileSubtype(String fileName) {
 		String[] token = URLUtils.guessContentType(local.getName()).split("/");
 		return token[1];
@@ -149,6 +142,10 @@ public class DecideFileView {
 		public void onLoadFinish(DocumentState.OPEN state) {
 		}
 	};
+	
+	public static void setOpenOtherFileListener(View.OnClickListener listener){
+		aListener = listener;
+	}
 
 	public static VideoPlayerView getVideoView() {
 		return video;
@@ -156,5 +153,16 @@ public class DecideFileView {
 
 	public static MusicPlayerView getMusicView() {
 		return audioPlayer;
+	}
+	
+	public static void ReleaseMediaPlayer() {
+		if (audioPlayer != null) {
+			audioPlayer.endPlayer();
+			audioPlayer = null;
+		}
+		if (video != null) {
+			video.releasePlayer();
+			video = null;
+		}
 	}
 }
