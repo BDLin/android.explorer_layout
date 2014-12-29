@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.view;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -25,6 +25,8 @@ import nkfust.selab.android.explorer.layout.listener.ForwardOrBackwardListener;
 import nkfust.selab.android.explorer.layout.listener.PlayMusicListener;
 import nkfust.selab.android.explorer.layout.listener.PreviousOrNextListener;
 import nkfust.selab.android.explorer.layout.listener.ShuffleOrRepeatListener;
+import nkfust.selab.android.explorer.layout.processer.SongsManager;
+import nkfust.selab.android.explorer.layout.processer.Utilities;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractPath;
 import poisondog.vfs.IFile;

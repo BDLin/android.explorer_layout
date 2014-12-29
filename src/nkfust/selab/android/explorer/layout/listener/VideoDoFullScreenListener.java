@@ -1,7 +1,7 @@
 package nkfust.selab.android.explorer.layout.listener;
 
 import nkfust.selab.android.explorer.layout.model.TouchListener;
-import nkfust.selab.android.explorer.layout.model.VideoControllerView;
+import nkfust.selab.android.explorer.layout.view.VideoControllerView;
 import android.view.MotionEvent;
 
 public class VideoDoFullScreenListener implements TouchListener {

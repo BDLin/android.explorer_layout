@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.view;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
+import nkfust.selab.android.explorer.layout.model.TabFragment;
 
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;

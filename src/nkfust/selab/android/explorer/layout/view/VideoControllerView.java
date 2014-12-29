@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.view;
 
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
 
 import nkfust.selab.android.explorer.layout.R;
+import nkfust.selab.android.explorer.layout.model.TabFragment;
+import nkfust.selab.android.explorer.layout.processer.SetScreenSize;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;

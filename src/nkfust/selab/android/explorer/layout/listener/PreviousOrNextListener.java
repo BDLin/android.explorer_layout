@@ -17,7 +17,7 @@ package nkfust.selab.android.explorer.layout.listener;
 import java.util.List;
 import java.util.Random;
 
-import nkfust.selab.android.explorer.layout.model.MusicPlayerView;
+import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
 import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;

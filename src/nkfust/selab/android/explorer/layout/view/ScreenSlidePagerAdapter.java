@@ -12,10 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import nkfust.selab.android.explorer.layout.model.TabView;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

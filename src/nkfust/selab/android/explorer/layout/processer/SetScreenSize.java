@@ -13,8 +13,9 @@
  * limitations under the License.
  */
 
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.processer;
 
+import nkfust.selab.android.explorer.layout.model.TabFragment;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.View;

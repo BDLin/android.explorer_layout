@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
+import nkfust.selab.android.explorer.layout.view.DecideFileView;
+import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;

@@ -17,7 +17,7 @@
 /*******************************
  * PhotoFragment
  *******************************/
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.view;
 
 import nkfust.selab.android.explorer.layout.R;
 

@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nkfust.selab.android.explorer.layout.model;
+package nkfust.selab.android.explorer.layout.view;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -22,6 +22,8 @@ import java.util.List;
 import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.listener.VideoControllerListener;
 import nkfust.selab.android.explorer.layout.listener.VideoDoFullScreenListener;
+import nkfust.selab.android.explorer.layout.model.TabFragment;
+import nkfust.selab.android.explorer.layout.model.TouchListener;
 import poisondog.string.ExtractPath;
 import poisondog.vfs.LocalData;
 import android.content.Context;
