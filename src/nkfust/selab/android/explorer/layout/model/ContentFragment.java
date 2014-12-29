@@ -40,12 +40,16 @@ public class ContentFragment extends Fragment {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.article_view, container, false);
 	}
-
+	
+	@Override
+	public void onViewCreated (View view, Bundle savedInstanceState){
+		super.onViewCreated(view, savedInstanceState);
+		relative = (RelativeLayout) view.findViewById(R.id.relative_layout);
+	}
+		
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		relative = (RelativeLayout) getActivity().findViewById(
-				R.id.relative_layout);
 	}
 
 	@Override
@@ -73,6 +77,7 @@ public class ContentFragment extends Fragment {
 	}
 	
 	public void setMusicList(List<IFile> list) {
+		DecideFileView.setIFileList(list);
 		MusicPlayerView.setMusicList(list);
 	}
 }

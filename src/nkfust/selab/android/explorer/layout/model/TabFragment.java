@@ -106,6 +106,36 @@ public class TabFragment extends Fragment {
 		}
 	}
 	
+	@Override
+	public void onPause(){
+		super.onPause();
+		Log.i("TabFragment", "onPause!!!");
+	}
+	
+	@Override
+	public void onStop(){
+		super.onStop();
+		Log.i("TabFragment", "onStop!!!");
+	}
+	
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		Log.i("TabFragment", "onDestoryView!!!");
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		Log.i("TabFragment", "onDestory!!!");
+	}
+	
+	@Override
+	public void onDetach(){
+		super.onDetach();
+		Log.i("TabFragment", "onDetach!!!");
+	}
+	
 	public void addTabView(TabView view) {
 		Log.i("TabFragment", "addTabView!!");
 		imgBtn = view.getIndexButton();

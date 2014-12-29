@@ -26,7 +26,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -35,7 +34,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -98,8 +96,6 @@ public class VideoControllerView extends FrameLayout {
 
 	private SurfaceView videoSurface;
 	private boolean mFullScreen = false;
-	private int videoHeight, videoWidth;
-	private static int contentHeight, contentWidth;
 
 	public VideoControllerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -487,60 +483,11 @@ public class VideoControllerView extends FrameLayout {
 	}
 
 	public void setVideoSize(int Height, int Width) {
-		videoHeight = Height;
-		videoWidth = Width;
-	}
-
-	public static void setContentSize(int Height, int Width) {
-		contentHeight = Height;
-		contentWidth = Width;
+		SetScreenSize.setDataViewSize(Height, Width);
 	}
 
 	public void setScreenSize() {
-		DisplayMetrics metrics = new DisplayMetrics();
-		WindowManager windowManager = (WindowManager) mContext
-				.getSystemService(Context.WINDOW_SERVICE);
-		windowManager.getDefaultDisplay().getMetrics(metrics);
-		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) videoSurface
-				.getLayoutParams();
-		// Get the width of the screen
-		int screenWidth = windowManager.getDefaultDisplay().getWidth();
-		int screenHeight = windowManager.getDefaultDisplay().getHeight();
-		float screenProportion = (float) screenWidth / (float) screenHeight;
-		float videoProportion = (float) videoWidth / (float) videoHeight;
-		float contentScreenProportion = (float) contentWidth / (float) contentHeight;
-		if (isFullScreen()) {
-			if (videoProportion > screenProportion) {
-				params.width = screenWidth;
-				params.height = (int) ((float) screenWidth / videoProportion);
-			} else {
-				params.width = (int) (videoProportion * (float) screenHeight);
-				params.height = screenHeight;
-			}
-		} else {
-			if (videoProportion > contentScreenProportion) {
-				params.width = contentWidth;
-				params.height = (int) ((float) contentWidth / videoProportion);
-			} else {
-				params.width = (int) (videoProportion * (float) contentHeight);
-				params.height = contentHeight;
-			}
-		}
-		params.setMargins(0, 0, 0, 0);
-		videoSurface.setLayoutParams(params);
-	}
-
-	private void toggleFullScreen(boolean fullScreen) {
-		if (fullScreen) {
-			TabFragment.getActionBarActivity().getSupportActionBar().hide();
-			TabFragment.getActionBarActivity().getSupportFragmentManager()
-			        .beginTransaction().hide(TabFragment.getTabFragment()).commit();
-		} else {
-			TabFragment.getActionBarActivity().getSupportActionBar().show();
-			TabFragment.getActionBarActivity().getSupportFragmentManager()
-			        .beginTransaction().show(TabFragment.getTabFragment()).commit();
-		}
-		setScreenSize();
+		SetScreenSize.set(mContext, videoSurface, isFullScreen());
 	}
 
 	public void doToggleFullscreen() {
@@ -548,7 +495,7 @@ public class VideoControllerView extends FrameLayout {
 			return;
 		}
 		mFullScreen = !mFullScreen;
-		toggleFullScreen(isFullScreen());
+		setScreenSize();
 	}
 
 	// There are two scenarios that can trigger the seekbar listener to trigger:

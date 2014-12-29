@@ -200,7 +200,7 @@ public class MusicPlayerView extends RelativeLayout implements
 			for (int i = currentSongIndex; i < array.size(); i++)
 				if (i != (array.size() - 1)
 						&& URLUtils.guessContentType(
-								((LocalData) array.get(i + 1)).getName()).split("/")[0].equals("audio")) {
+								((LocalData) array.get(i + 1)).getName()).startsWith("audio/")) {
 					playSong((LocalData) array.get(i + 1));
 					currentSongIndex = i + 1;
 					break;

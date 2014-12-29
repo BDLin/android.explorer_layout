@@ -16,6 +16,8 @@ package nkfust.selab.android.explorer.layout.model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
 
@@ -23,6 +25,7 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.Range;
 
 import poisondog.net.URLUtils;
+import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.util.Log;
@@ -41,9 +44,11 @@ public class DecideFileView {
 	private LocalData local;
 	private Context context;
 	private RelativeLayout relative;
+	private static List<IFile> aList = new ArrayList<IFile>();
 	private static View.OnClickListener aListener = null;
 	private static VideoPlayerView video;
 	private static MusicPlayerView audioPlayer;
+	private static PhotoViewer photoView;
 
 	public DecideFileView(Context context, LocalData local,
 			RelativeLayout relative) {
@@ -55,6 +60,7 @@ public class DecideFileView {
 	public void showView() throws IOException {
 		Log.i("DecideFile", "title:" + getFileSubtype(local.getName()));
 		if (getFileType(local.getName()).equals("audio")) {
+			ReleasePhotoViewer();
 			if (audioPlayer == null)
 				audioPlayer = new MusicPlayerView(context, local);
 			else
@@ -63,38 +69,50 @@ public class DecideFileView {
 			relative.addView(audioPlayer);
 		} else {
 			ReleaseMediaPlayer();
-			if (getFileType(local.getName()).equals("video")) {
-				if (TabFragment.getFrameLayout() != null)
-					TabFragment.getActionBarActivity().getSupportActionBar().hide();
-				video = new VideoPlayerView(context, local);
-				relative.addView(video);
-			} else if (getFileSubtype(local.getName()).equals("pdf")) {
-				InputStream is = local.getInputStream();
-				int size = is.available();
-				if (size > 0) {
-					byte[] data = new byte[size];
-					is.read(data);
-					// pdfviewer create.
-					SimpleDocumentReader viewer = SimpleReaderFactory
-							.createSimpleViewer(TabFragment.getTabFragment()
-									.getActivity(), m_listener);
-					// pdf data load.
-					relative.addView(viewer.getReaderView());
-					viewer.openData(data, data.length, "");
-				}
-				is.close();
-			} else if (getFileSubtype(local.getName()).equals("msword")) {
-				HWPFDocument doc = new HWPFDocument(local.getInputStream());
-				Range r = doc.getRange();
-				String content = r.text();
-				r.delete();
-				TextView text = new TextView(context);
-				text.setText(content);
-				relative.addView(text);
+			if(getFileType(local.getName()).equals("image")){
+				List<String> images = new ArrayList<String>();
+				for(IFile ifile : aList)
+					images.add(((LocalData)ifile).getUrl());
+				if(photoView == null)
+					photoView = new PhotoViewer(context, images, local.getName());
+				else
+					photoView.setCurrentItem(images, local.getName());
+				relative.addView(photoView);
 			} else {
-				View view = getAnyFileView();
-				view.setOnClickListener(aListener);
-				relative.addView(view);
+				ReleasePhotoViewer();
+				if (getFileType(local.getName()).equals("video")) {
+					if (TabFragment.getFrameLayout() != null)
+						TabFragment.getActionBarActivity().getSupportActionBar().hide();
+					video = new VideoPlayerView(context, local);
+					relative.addView(video);
+				} else if (getFileSubtype(local.getName()).equals("pdf")) {
+					InputStream is = local.getInputStream();
+					int size = is.available();
+					if (size > 0) {
+						byte[] data = new byte[size];
+						is.read(data);
+						// pdfviewer create.
+						SimpleDocumentReader viewer = SimpleReaderFactory
+								.createSimpleViewer(TabFragment.getTabFragment()
+										.getActivity(), m_listener);
+						// pdf data load.
+						relative.addView(viewer.getReaderView());
+						viewer.openData(data, data.length, "");
+					}
+					is.close();
+				} else if (getFileSubtype(local.getName()).equals("msword")) {
+					HWPFDocument doc = new HWPFDocument(local.getInputStream());
+					Range r = doc.getRange();
+					String content = r.text();
+					r.delete();
+					TextView text = new TextView(context);
+					text.setText(content);
+					relative.addView(text);
+				} else {
+					View view = getAnyFileView();
+					view.setOnClickListener(aListener);
+					relative.addView(view);
+				}
 			}
 		}
 	}
@@ -143,6 +161,10 @@ public class DecideFileView {
 		}
 	};
 	
+	public static void setIFileList(List<IFile> list){
+		aList = list;
+	}
+	
 	public static void setOpenOtherFileListener(View.OnClickListener listener){
 		aListener = listener;
 	}
@@ -153,6 +175,13 @@ public class DecideFileView {
 
 	public static MusicPlayerView getMusicView() {
 		return audioPlayer;
+	}
+
+	public static void ReleasePhotoViewer(){
+		if(photoView != null){
+			photoView.releasePhotoFragmentList();
+			photoView = null;
+		}
 	}
 	
 	public static void ReleaseMediaPlayer() {
