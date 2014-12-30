@@ -36,12 +36,11 @@ public class PhotoViewer extends RelativeLayout {
 	private TextView textView;
 	private String text;
 	private int index;
+	private ImageButton alterBtn, shareBtn;
 	
-	private static ViewPager aPager;
-	private static PagerAdapter aPagerAdapter;
-	private static List<String> aPaths;
-	private static View.OnClickListener alterListener;
-	private static View.OnClickListener shareListener;
+	private ViewPager aPager;
+	private PagerAdapter aPagerAdapter;
+	private List<String> aPaths;
 	
 	public PhotoViewer(Context context, List<String> paths, String fileName) {
 		super(context);
@@ -51,12 +50,10 @@ public class PhotoViewer extends RelativeLayout {
 	}
 
 	private void init(){
-		ImageButton alterBtn = (ImageButton)findViewById(R.id.alter_button);
-		ImageButton shareBtn = (ImageButton)findViewById(R.id.share_button);
+		alterBtn = (ImageButton)findViewById(R.id.alter_button);
+		shareBtn = (ImageButton)findViewById(R.id.share_button);
 		alterBtn.setImageResource(R.drawable.photo_list);
 		shareBtn.setImageResource(R.drawable.photo_right);
-		alterBtn.setOnClickListener(alterListener);
-		shareBtn.setOnClickListener(shareListener);
 		textView = (TextView)findViewById(R.id.page_textview);
 		aPager = (ViewPager)findViewById(R.id.photo_pager);
 	}
@@ -91,11 +88,27 @@ public class PhotoViewer extends RelativeLayout {
 		System.gc();
 	}
 	
-	public static void setPhotoAlterButtonListener(View.OnClickListener listener){
-		alterListener = listener;
+	public ViewPager getViewPager(){
+		return aPager;
 	}
 	
-	public static void setPhotoShareButtonListener(View.OnClickListener listener){
-		shareListener = listener;
+	public PagerAdapter getPagerAdapter(){
+		return aPagerAdapter;
+	}
+	
+	public List<String> getPaths(){
+		return aPaths;
+	}
+	
+	public void setPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
+		aPager.setOnPageChangeListener(listener);
+	}
+	
+	public void setPhotoAlterButtonListener(View.OnClickListener listener){
+		alterBtn.setOnClickListener(listener);
+	}
+	
+	public void setPhotoShareButtonListener(View.OnClickListener listener){
+		shareBtn.setOnClickListener(listener);
 	}
 }

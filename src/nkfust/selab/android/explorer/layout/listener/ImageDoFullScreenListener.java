@@ -18,11 +18,11 @@ import nkfust.selab.android.explorer.layout.model.TabFragment;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 
-public class ImageGestureListener extends SimpleOnGestureListener {
+public class ImageDoFullScreenListener extends SimpleOnGestureListener {
 	
 	private boolean isFullScreen;
 	
-	public ImageGestureListener(){
+	public ImageDoFullScreenListener(){
 		isFullScreen = false;
 	}
 	

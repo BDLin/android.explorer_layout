@@ -1,6 +1,6 @@
 package nkfust.selab.android.explorer.layout.view;
 
-import nkfust.selab.android.explorer.layout.listener.ImageGestureListener;
+import nkfust.selab.android.explorer.layout.listener.ImageDoFullScreenListener;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -54,7 +54,7 @@ public class CoustomizedImageView extends ImageView {
         super.setClickable(true);
         this.context = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-        mGesture = new GestureDetector(new ImageGestureListener());
+        mGesture = new GestureDetector(new ImageDoFullScreenListener());
         matrix = new Matrix();
         m = new float[9];
         setImageMatrix(matrix);
