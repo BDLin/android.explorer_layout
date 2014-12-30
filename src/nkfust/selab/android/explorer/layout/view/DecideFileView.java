@@ -89,6 +89,11 @@ public class DecideFileView {
 				} else if (getFileSubtype(local.getName()).equals("pdf")) {
 					InputStream is = local.getInputStream();
 					int size = is.available();
+					// create a listener for receiving provide pdf loading results
+					SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
+						@Override
+						public void onLoadFinish(DocumentState.OPEN state) {}
+					};
 					if (size > 0) {
 						byte[] data = new byte[size];
 						is.read(data);
@@ -155,13 +160,6 @@ public class DecideFileView {
 		return token[0];
 	}
 
-	// create a listener for receiving provide pdf loading results
-	SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
-		@Override
-		public void onLoadFinish(DocumentState.OPEN state) {
-		}
-	};
-	
 	public static void setIFileList(List<IFile> list){
 		aList = list;
 	}

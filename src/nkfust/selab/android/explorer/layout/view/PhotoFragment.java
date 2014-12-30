@@ -28,7 +28,6 @@ import org.apache.commons.vfs2.VFS;
 import poisondog.android.image.ImageCache;
 import poisondog.android.image.ImageFetcher;
 import poisondog.android.image.RecyclingBitmapDrawable;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -104,7 +103,6 @@ public class PhotoFragment extends Fragment {
 	public void onDestroy(){
 		super.onDestroy();
 		Log.i("PhotoFragment", "onDestory!!!");
-		Log.i("PhotoFragment", "Bitmap: " + ((BitmapDrawable)image.getDrawable()).getBitmap().getByteCount());
 	}
 	
 	@Override

@@ -122,13 +122,10 @@ public class VideoPlayerView extends RelativeLayout implements
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-	}
+			int height) {}
 
 	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-	}
-
+	public void surfaceDestroyed(SurfaceHolder holder) {}
 	// End SurfaceHolder.Callback
 
 	// Implement MediaPlayer.OnPreparedListener
@@ -212,7 +209,6 @@ public class VideoPlayerView extends RelativeLayout implements
 	}
 
 	@Override
-	public void toggleFullScreen() {
-	}
+	public void toggleFullScreen() {}
 	// End VideoMediaController.MediaPlayerControl
 }
