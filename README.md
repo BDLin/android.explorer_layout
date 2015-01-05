@@ -1,2 +1,0 @@
-android.explorer_layout
-=======================
