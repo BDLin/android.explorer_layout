@@ -50,12 +50,21 @@ public class PhotoViewer extends RelativeLayout {
 	}
 
 	private void init(){
+		textView = (TextView)findViewById(R.id.page_textview);
+		aPager = (ViewPager)findViewById(R.id.photo_pager);
 		alterBtn = (ImageButton)findViewById(R.id.alter_button);
 		shareBtn = (ImageButton)findViewById(R.id.share_button);
 		alterBtn.setImageResource(R.drawable.photo_list);
 		shareBtn.setImageResource(R.drawable.photo_right);
-		textView = (TextView)findViewById(R.id.page_textview);
-		aPager = (ViewPager)findViewById(R.id.photo_pager);
+		alterBtn.setOnClickListener(new View.OnClickListener() {
+			String[] items = {"Delete","Rename"};
+			@Override
+			public void onClick(View v) {
+				String title = new ExtractFileName().process(aPaths.get(index));
+				PhotoAlterDialogFragment dialog = new PhotoAlterDialogFragment( title, items);
+				dialog.show(TabFragment.getActionBarActivity().getSupportFragmentManager(), "dialog");
+			}
+		});
 	}
 	
 	public void setCurrentItem(List<String> paths, String fileName){

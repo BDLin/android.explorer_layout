@@ -50,15 +50,12 @@ public class ContentFragment extends Fragment {
 	}
 		
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
 	public void onStart() {
 		super.onStart();
 		Bundle args = getArguments();
 		if (args != null) {
+			TabFragment.getActionBarActivity().getSupportFragmentManager().
+			beginTransaction().hide(TabFragment.getTabFragment()).commit();
 			try {
 				updateArticleView(local);
 			} catch (IOException e) {
