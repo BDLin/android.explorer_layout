@@ -32,7 +32,7 @@ import android.util.Log;
 
 public class SongsManager {
 	// SDCard Path
-	public static String current_path;
+	public String current_path;
 	private List<IFile> songsList = new ArrayList<IFile>();
 
 	// Constructor
@@ -46,7 +46,7 @@ public class SongsManager {
 		current_path = new ExtractPath().process(path).replace(local.getName(), "");
 	}
 	
-	public static String getmusicDataPath(){
+	public String getmusicDataPath(){
 		return current_path;
 	}
 
@@ -57,7 +57,7 @@ public class SongsManager {
 	public List<IFile> getPlayList() {
 		File home = new File(current_path);
 		Log.i("SongManager", "path: " + current_path);
-
+		songsList.clear();
 		if (home.listFiles(new FileExtensionFilter()).length > 0) {
 			for (File file : home.listFiles(new FileExtensionFilter())) {
 				try {

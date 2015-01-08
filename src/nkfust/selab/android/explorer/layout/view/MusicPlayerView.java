@@ -62,11 +62,12 @@ public class MusicPlayerView extends RelativeLayout implements
 	private Handler mHandler = new Handler();;
 	private Utilities utils;
 	
-	private static int currentSongIndex = 0;
-	private static List<IFile> songsList = new ArrayList<IFile>();
-	private static List<IFile> array = new ArrayList<IFile>();
+	private int currentSongIndex = 0;
+	private List<IFile> songsList = new ArrayList<IFile>();
+	private List<IFile> array = new ArrayList<IFile>();
 
-	private static LocalData local;
+	private LocalData local;
+	private SongsManager songManager;
 
 	private long totalDuration, currentDuration;
 
@@ -76,10 +77,11 @@ public class MusicPlayerView extends RelativeLayout implements
 	private ForwardOrBackwardListener fbListener;
 	private PlayMusicListener playListener;
 
-	public MusicPlayerView(Context context, LocalData localData) {
+	public MusicPlayerView(Context context, LocalData localData, List<IFile> aList ) {
 		super(context);
 		this.context = context;
 		local = localData;
+		array = aList;
 		LayoutInflater.from(context).inflate(R.layout.player, this);
 		init();
 	}
@@ -108,6 +110,7 @@ public class MusicPlayerView extends RelativeLayout implements
 		mp.setOnCompletionListener(this); // Important
 
 		// By default play first song
+		songManager = new SongsManager(local, context);
 		playSong(local);
 
 		// All Listener
@@ -129,14 +132,6 @@ public class MusicPlayerView extends RelativeLayout implements
 		btnShuffle.setOnClickListener(srListener);
 	}
 
-	public static int getCurrentSongIndex() {
-		return currentSongIndex;
-	}
-
-	public static void setCurrentSongIndex(int songIndex) {
-		currentSongIndex = songIndex;
-	}
-
 	/**
 	 * Function to play a song
 	 * 
@@ -149,7 +144,7 @@ public class MusicPlayerView extends RelativeLayout implements
 		updateCurrentSongIndex();
 		
 		// Getting all songs list
-		songsList = new SongsManager(local, context).getPlayList();
+		songsList = songManager.getPlayList();
 		
 		// Play song
 		try {
@@ -266,22 +261,30 @@ public class MusicPlayerView extends RelativeLayout implements
 		updateProgressBar();
 	}
 
-	public static void updateMusicList(List<IFile> list) {
-		setMusicList(list);
-		updateCurrentSongIndex();
-	}
-
-	private static void updateCurrentSongIndex(){
+	private void updateCurrentSongIndex(){
 		for (int i = 0; i < array.size(); i++) {
 			Log.i("MusicPlayer", "music file name: " + ((LocalData)array.get(i)).getName());
 			if (((LocalData)array.get(i)).getName().equals(local.getName()))
 				setCurrentSongIndex(i);
 		}
 	}
+	
+	public void updateMusicList(List<IFile> list) {
+		setMusicList(list);
+		updateCurrentSongIndex();
+	}
 
-	public static void setMusicList(List<IFile> list) {
+	public void setMusicList(List<IFile> list) {
 		array.clear();
-		array = list;
+		array.addAll(list);
+	}
+	
+	public void setCurrentSongIndex(int index){
+		currentSongIndex = index;
+	}
+	
+	public int getCurrentSongIndex() {
+		return currentSongIndex;
 	}
 	
 	public List<IFile> getMusicList(){
@@ -290,6 +293,10 @@ public class MusicPlayerView extends RelativeLayout implements
 	
 	public List<IFile> getSongList(){
 		return songsList;
+	}
+	
+	public String getSongsPath(){
+		return songManager.getmusicDataPath();
 	}
 
 	public void endPlayer() {

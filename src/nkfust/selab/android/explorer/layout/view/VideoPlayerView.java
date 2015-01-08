@@ -94,10 +94,12 @@ public class VideoPlayerView extends RelativeLayout implements
 	}
 
 	public void releasePlayer() {
-		player.stop();
-		player.reset();
-		player.release();
-		controller.removeHandler();
+		if(player != null){
+			player.stop();
+			player.reset();
+			player.release();
+			controller.removeHandler();
+		}
 	}
 
 	@Override

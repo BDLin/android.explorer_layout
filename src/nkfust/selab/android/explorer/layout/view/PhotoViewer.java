@@ -18,6 +18,8 @@ package nkfust.selab.android.explorer.layout.view;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
+import nkfust.selab.android.explorer.layout.listener.PhotoAlterListener;
+import nkfust.selab.android.explorer.layout.listener.PhotoShareListener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
 import poisondog.string.ExtractFileName;
@@ -42,8 +44,11 @@ public class PhotoViewer extends RelativeLayout {
 	private PagerAdapter aPagerAdapter;
 	private List<String> aPaths;
 	
+	private Context mContext;
+	
 	public PhotoViewer(Context context, List<String> paths, String fileName) {
 		super(context);
+		mContext = context;
 		LayoutInflater.from(context).inflate(R.layout.photo_view_layout, this);
 		init();
 		setCurrentItem(paths, fileName);
@@ -56,15 +61,8 @@ public class PhotoViewer extends RelativeLayout {
 		shareBtn = (ImageButton)findViewById(R.id.share_button);
 		alterBtn.setImageResource(R.drawable.photo_list);
 		shareBtn.setImageResource(R.drawable.photo_right);
-		alterBtn.setOnClickListener(new View.OnClickListener() {
-			String[] items = {"Delete","Rename"};
-			@Override
-			public void onClick(View v) {
-				String title = new ExtractFileName().process(aPaths.get(index));
-				PhotoAlterDialogFragment dialog = new PhotoAlterDialogFragment( title, items);
-				dialog.show(TabFragment.getActionBarActivity().getSupportFragmentManager(), "dialog");
-			}
-		});
+		alterBtn.setOnClickListener(new PhotoAlterListener(this));
+		shareBtn.setOnClickListener(new PhotoShareListener(mContext, this));
 	}
 	
 	public void setCurrentItem(List<String> paths, String fileName){
@@ -75,6 +73,7 @@ public class PhotoViewer extends RelativeLayout {
 			public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels){
 				text = position + 1 + " of " + aPaths.size();
 				textView.setText(text);
+				index = position;
 			}
 		});
 		
@@ -90,7 +89,6 @@ public class PhotoViewer extends RelativeLayout {
 			aPager.removeAllViews();
 			aPagerAdapter.notifyDataSetChanged();
 		}
-		Log.i("PhotoViewer","aPager count: " + aPager.getChildCount());
 		aPager = null;
 		aPagerAdapter = null;
 		aPaths.clear();
@@ -107,6 +105,10 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public List<String> getPaths(){
 		return aPaths;
+	}
+	
+	public int getPhotoIndex(){
+		return index;
 	}
 	
 	public void setPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){

@@ -45,17 +45,17 @@ public class DecideFileView {
 	private LocalData local;
 	private Context context;
 	private RelativeLayout relative;
-	private static List<IFile> aList = new ArrayList<IFile>();
-	private static View.OnClickListener aListener = null;
-	private static VideoPlayerView video;
-	private static MusicPlayerView audioPlayer;
-	private static PhotoViewer photoView;
+	private View.OnClickListener aListener;
+	private List<IFile> aList;
+	private VideoPlayerView video;
+	private MusicPlayerView audioPlayer;
+	private PhotoViewer photoView;
 
-	public DecideFileView(Context context, LocalData local,
-			RelativeLayout relative) {
-		this.local = local;
+	public DecideFileView(Context context, RelativeLayout relative) {
 		this.context = context;
 		this.relative = relative;
+		aListener = null;
+		aList = new ArrayList<IFile>();
 	}
 
 	public void showView() throws IOException {
@@ -63,10 +63,11 @@ public class DecideFileView {
 		if (getFileType(local.getName()).equals("audio")) {
 			ReleasePhotoViewer();
 			if (audioPlayer == null)
-				audioPlayer = new MusicPlayerView(context, local);
-			else
+				audioPlayer = new MusicPlayerView(context, local, aList);
+			else{
+				updateMusicList(aList);
 				audioPlayer.playSong(local);
-
+			}
 			relative.addView(audioPlayer);
 		} else {
 			ReleaseMediaPlayer();
@@ -159,31 +160,39 @@ public class DecideFileView {
 		String[] token = URLUtils.guessContentType(local.getName()).split("/");
 		return token[0];
 	}
-
-	public static void setIFileList(List<IFile> list){
-		aList = list;
-	}
 	
-	public static void setOpenOtherFileListener(View.OnClickListener listener){
+	public void setFile(LocalData local){
+		this.local = local;
+	}
+
+	public void setOpenOtherFileListener(View.OnClickListener listener){
 		aListener = listener;
 	}
 
-	public static VideoPlayerView getVideoView() {
+	public void setIFileList(List<IFile> list){
+		aList = list;
+	}
+	
+	public void updateMusicList(List<IFile> list){
+		audioPlayer.updateMusicList(list);
+	}
+
+	public VideoPlayerView getVideoView() {
 		return video;
 	}
 
-	public static MusicPlayerView getMusicView() {
+	public MusicPlayerView getMusicView() {
 		return audioPlayer;
 	}
 
-	public static void ReleasePhotoViewer(){
+	public void ReleasePhotoViewer(){
 		if(photoView != null){
 			photoView.releasePhotoFragmentList();
 			photoView = null;
 		}
 	}
 	
-	public static void ReleaseMediaPlayer() {
+	public void ReleaseMediaPlayer() {
 		if (audioPlayer != null) {
 			audioPlayer.endPlayer();
 			audioPlayer = null;

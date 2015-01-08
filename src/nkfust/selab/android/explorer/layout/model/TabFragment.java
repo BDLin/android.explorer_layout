@@ -187,7 +187,7 @@ public class TabFragment extends Fragment {
 		return linear;
 	}
 	
-	public static void setFrameLayout(FrameLayout framelayout){
+	public void setFrameLayout(FrameLayout framelayout){
 		frame = framelayout;
 	}
 	

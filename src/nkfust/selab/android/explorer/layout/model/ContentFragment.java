@@ -17,11 +17,13 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.view.DecideFileView;
 import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
+import nkfust.selab.android.explorer.layout.view.VideoPlayerView;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;
@@ -35,6 +37,8 @@ public class ContentFragment extends Fragment {
 
 	private RelativeLayout relative;
 	private LocalData local;
+	private DecideFileView decideFileView;
+	private List<IFile> aList;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +50,9 @@ public class ContentFragment extends Fragment {
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
+		aList = new ArrayList<IFile>();
 		relative = (RelativeLayout) view.findViewById(R.id.relative_layout);
+		decideFileView = new DecideFileView(getActivity(), relative);
 	}
 		
 	@Override
@@ -64,19 +70,54 @@ public class ContentFragment extends Fragment {
 		}
 	}
 	
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (decideFileView != null && decideFileView.getVideoView() != null)
+			decideFileView.getVideoView().stop();
+	}
+	
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(decideFileView != null){
+			decideFileView.ReleaseMediaPlayer();
+			decideFileView.ReleasePhotoViewer();
+		}
+	}
+	
 	public void updateArticleView(IFile file) throws IOException {
 		relative.removeAllViews();
 		local = (LocalData) file;
-		DecideFileView decideFileView = new DecideFileView(getActivity(), local, relative);
+		decideFileView.setFile(local);
+		decideFileView.setIFileList(aList);
 		decideFileView.showView();
 	}// End of updateArticleView function
+	
+	public void setOpenOtherFileListener(View.OnClickListener listener){
+		decideFileView.setOpenOtherFileListener(listener);
+	}
 
 	public void setIFile(IFile file) {
 		local = (LocalData) file;
 	}
 	
-	public void setMusicList(List<IFile> list) {
-		DecideFileView.setIFileList(list);
-		MusicPlayerView.setMusicList(list);
+	public void setIFileList(List<IFile> list) {
+		aList = list;
+	}
+	
+	public void updateIFileList(List<IFile> list){
+		decideFileView.updateMusicList(list);
+	}
+	
+	public VideoPlayerView getVideoView(){
+		return decideFileView.getVideoView();
+	}
+	
+	public MusicPlayerView getMusicView(){
+		if(decideFileView != null)
+			return decideFileView.getMusicView();
+		
+		return null;
 	}
 }
