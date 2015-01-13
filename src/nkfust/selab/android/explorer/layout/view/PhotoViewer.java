@@ -38,7 +38,7 @@ public class PhotoViewer extends RelativeLayout {
 	private TextView textView;
 	private String text;
 	private int index;
-	private ImageButton alterBtn, shareBtn;
+	private ImageButton leftBtn, rightBtn;
 	
 	private ViewPager aPager;
 	private PagerAdapter aPagerAdapter;
@@ -57,12 +57,12 @@ public class PhotoViewer extends RelativeLayout {
 	private void init(){
 		textView = (TextView)findViewById(R.id.page_textview);
 		aPager = (ViewPager)findViewById(R.id.photo_pager);
-		alterBtn = (ImageButton)findViewById(R.id.alter_button);
-		shareBtn = (ImageButton)findViewById(R.id.share_button);
-		alterBtn.setImageResource(R.drawable.photo_list);
-		shareBtn.setImageResource(R.drawable.photo_right);
-		alterBtn.setOnClickListener(new PhotoAlterListener(this));
-		shareBtn.setOnClickListener(new PhotoShareListener(mContext, this));
+		leftBtn = (ImageButton)findViewById(R.id.alter_button);
+		rightBtn = (ImageButton)findViewById(R.id.share_button);
+		leftBtn.setImageResource(R.drawable.photo_list);
+		rightBtn.setImageResource(R.drawable.photo_right);
+		leftBtn.setOnClickListener(new PhotoAlterListener(this));
+		rightBtn.setOnClickListener(new PhotoShareListener(mContext, this));
 	}
 	
 	public void setCurrentItem(List<String> paths, String fileName){
@@ -115,11 +115,11 @@ public class PhotoViewer extends RelativeLayout {
 		aPager.setOnPageChangeListener(listener);
 	}
 	
-	public void setPhotoAlterButtonListener(View.OnClickListener listener){
-		alterBtn.setOnClickListener(listener);
+	public void setPhotoLeftButtonListener(View.OnClickListener listener){
+		leftBtn.setOnClickListener(listener);
 	}
 	
-	public void setPhotoShareButtonListener(View.OnClickListener listener){
-		shareBtn.setOnClickListener(listener);
+	public void setPhotoRightButtonListener(View.OnClickListener listener){
+		rightBtn.setOnClickListener(listener);
 	}
 }

@@ -171,6 +171,10 @@ public class TabFragment extends Fragment {
 				LinearLayout.LayoutParams.MATCH_PARENT, 2));
 	}
 	
+	public ScreenSlidePagerAdapter getTabAdapter(){
+		return pagerAdapter;
+	}
+	
 	public Fragment getCurrentFragment() {
 		return (Fragment) pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
 	}

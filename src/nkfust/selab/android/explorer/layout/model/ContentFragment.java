@@ -17,17 +17,18 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.view.DecideFileView;
 import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
+import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import nkfust.selab.android.explorer.layout.view.VideoPlayerView;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,6 @@ public class ContentFragment extends Fragment {
 	private RelativeLayout relative;
 	private LocalData local;
 	private DecideFileView decideFileView;
-	private List<IFile> aList;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +50,6 @@ public class ContentFragment extends Fragment {
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-		aList = new ArrayList<IFile>();
 		relative = (RelativeLayout) view.findViewById(R.id.relative_layout);
 		decideFileView = new DecideFileView(getActivity(), relative);
 	}
@@ -90,23 +89,22 @@ public class ContentFragment extends Fragment {
 		relative.removeAllViews();
 		local = (LocalData) file;
 		decideFileView.setFile(local);
-		decideFileView.setIFileList(aList);
 		decideFileView.showView();
 	}// End of updateArticleView function
-	
-	public void setOpenOtherFileListener(View.OnClickListener listener){
-		decideFileView.setOpenOtherFileListener(listener);
-	}
 
 	public void setIFile(IFile file) {
 		local = (LocalData) file;
 	}
 	
-	public void setIFileList(List<IFile> list) {
-		aList = list;
+	public List<IFile> getIFileList(){
+		return decideFileView.getIFileList();
 	}
 	
-	public void updateIFileList(List<IFile> list){
+	public void setIFileList(List<IFile> list) {
+		decideFileView.setIFileList(list);
+	}
+	
+	public void updateMusicList(List<IFile> list){
 		decideFileView.updateMusicList(list);
 	}
 	
@@ -119,5 +117,25 @@ public class ContentFragment extends Fragment {
 			return decideFileView.getMusicView();
 		
 		return null;
+	}
+	
+	public PhotoViewer getPhotoView(){
+		return decideFileView.getPhotoView();
+	}
+	
+	public void setOpenOtherFileListener(View.OnClickListener listener){
+		decideFileView.setOpenOtherFileListener(listener);
+	}
+	
+	public void setPhotoPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
+		decideFileView.setPhotoPagerChangeStateListener(listener);
+	}
+	
+	public void setPhotoLeftButtonListener(View.OnClickListener listener){
+		decideFileView.setPhotoLeftButtonListener(listener);
+	}
+	
+	public void setPhotoRightButtonListener(View.OnClickListener listener){
+		decideFileView.setPhotoRightButtonListener(listener);
 	}
 }

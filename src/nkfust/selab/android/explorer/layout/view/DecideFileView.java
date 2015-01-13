@@ -29,6 +29,7 @@ import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,8 +44,8 @@ import com.epapyrus.plugpdf.core.viewer.DocumentState;
 public class DecideFileView {
 
 	private LocalData local;
-	private Context context;
-	private RelativeLayout relative;
+	private Context mContext;
+	private RelativeLayout mRelative;
 	private View.OnClickListener aListener;
 	private List<IFile> aList;
 	private VideoPlayerView video;
@@ -52,8 +53,8 @@ public class DecideFileView {
 	private PhotoViewer photoView;
 
 	public DecideFileView(Context context, RelativeLayout relative) {
-		this.context = context;
-		this.relative = relative;
+		mContext = context;
+		mRelative = relative;
 		aListener = null;
 		aList = new ArrayList<IFile>();
 	}
@@ -63,12 +64,12 @@ public class DecideFileView {
 		if (getFileType(local.getName()).equals("audio")) {
 			ReleasePhotoViewer();
 			if (audioPlayer == null)
-				audioPlayer = new MusicPlayerView(context, local, aList);
+				audioPlayer = new MusicPlayerView(mContext, local, aList);
 			else{
 				updateMusicList(aList);
 				audioPlayer.playSong(local);
 			}
-			relative.addView(audioPlayer);
+			mRelative.addView(audioPlayer);
 		} else {
 			ReleaseMediaPlayer();
 			if(getFileType(local.getName()).equals("image")){
@@ -76,17 +77,17 @@ public class DecideFileView {
 				for(IFile ifile : aList)
 					images.add(((LocalData)ifile).getUrl());
 				if(photoView == null)
-					photoView = new PhotoViewer(context, images, local.getName());
+					photoView = new PhotoViewer(mContext, images, local.getName());
 				else
 					photoView.setCurrentItem(images, local.getName());
-				relative.addView(photoView);
+				mRelative.addView(photoView);
 			} else {
 				ReleasePhotoViewer();
 				if (getFileType(local.getName()).equals("video")) {
 					if (TabFragment.getFrameLayout() != null)
 						TabFragment.getActionBarActivity().getSupportActionBar().hide();
-					video = new VideoPlayerView(context, local);
-					relative.addView(video);
+					video = new VideoPlayerView(mContext, local);
+					mRelative.addView(video);
 				} else if (getFileSubtype(local.getName()).equals("pdf")) {
 					InputStream is = local.getInputStream();
 					int size = is.available();
@@ -103,7 +104,7 @@ public class DecideFileView {
 								.createSimpleViewer(TabFragment.getTabFragment()
 										.getActivity(), m_listener);
 						// pdf data load.
-						relative.addView(viewer.getReaderView());
+						mRelative.addView(viewer.getReaderView());
 						viewer.openData(data, data.length, "");
 					}
 					is.close();
@@ -112,20 +113,20 @@ public class DecideFileView {
 					Range r = doc.getRange();
 					String content = r.text();
 					r.delete();
-					TextView text = new TextView(context);
+					TextView text = new TextView(mContext);
 					text.setText(content);
-					relative.addView(text);
+					mRelative.addView(text);
 				} else {
 					View view = getAnyFileView();
 					view.setOnClickListener(aListener);
-					relative.addView(view);
+					mRelative.addView(view);
 				}
 			}
 		}
 	}
 
 	private RelativeLayout getAnyFileView() {
-		RelativeLayout innerRelative = new RelativeLayout(context);
+		RelativeLayout innerRelative = new RelativeLayout(mContext);
 		innerRelative.setLayoutParams(new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT,
 				RelativeLayout.LayoutParams.MATCH_PARENT));
@@ -134,7 +135,7 @@ public class DecideFileView {
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		relativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		ImageView imageView = new ImageView(context);
+		ImageView imageView = new ImageView(mContext);
 		imageView.setImageResource(R.drawable.file_128);
 		imageView.setId(55688);
 		
@@ -143,7 +144,7 @@ public class DecideFileView {
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		trelativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		trelativeParams.addRule(RelativeLayout.BELOW, imageView.getId());
-		TextView text = new TextView(context);
+		TextView text = new TextView(mContext);
 		text.setText(local.getName());
 		
 		innerRelative.addView(imageView, relativeParams);
@@ -165,12 +166,13 @@ public class DecideFileView {
 		this.local = local;
 	}
 
-	public void setOpenOtherFileListener(View.OnClickListener listener){
-		aListener = listener;
-	}
-
 	public void setIFileList(List<IFile> list){
-		aList = list;
+		aList.clear();
+		aList.addAll(list);
+	}
+	
+	public List<IFile> getIFileList(){
+		return aList;
 	}
 	
 	public void updateMusicList(List<IFile> list){
@@ -183,6 +185,26 @@ public class DecideFileView {
 
 	public MusicPlayerView getMusicView() {
 		return audioPlayer;
+	}
+	
+	public PhotoViewer getPhotoView(){
+		return photoView;
+	}
+	
+	public void setOpenOtherFileListener(View.OnClickListener listener){
+		aListener = listener;
+	}
+	
+	public void setPhotoPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
+		photoView.setPagerChangeStateListener(listener);
+	}
+	
+	public void setPhotoLeftButtonListener(View.OnClickListener listener){
+		photoView.setPhotoLeftButtonListener(listener);
+	}
+	
+	public void setPhotoRightButtonListener(View.OnClickListener listener){
+		photoView.setPhotoRightButtonListener(listener);
 	}
 
 	public void ReleasePhotoViewer(){

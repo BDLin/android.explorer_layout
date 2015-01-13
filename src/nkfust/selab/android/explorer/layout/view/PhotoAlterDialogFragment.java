@@ -14,6 +14,7 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
+import nkfust.selab.android.explorer.layout.listener.PhotoAlterDialogListener;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface.OnClickListener;
@@ -30,6 +31,7 @@ public class PhotoAlterDialogFragment extends DialogFragment {
 	public PhotoAlterDialogFragment(String title, String[] items){
 		aTitle = title;
 		aItems = items;
+		mListener = new PhotoAlterDialogListener();
 	}
 
 	public PhotoAlterDialogFragment(String title, String[] items, OnClickListener itemsListener){
