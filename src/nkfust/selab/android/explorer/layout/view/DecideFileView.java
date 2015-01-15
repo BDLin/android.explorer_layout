@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 
 import org.apache.poi.hwpf.HWPFDocument;
@@ -32,7 +31,6 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,9 +46,9 @@ public class DecideFileView {
 	private RelativeLayout mRelative;
 	private List<IFile> aList;
 	private VideoPlayerView video;
-	private MusicPlayerView audioPlayer;
+	private MusicPlayerView audio;
 	private PhotoViewer photoView;
-	private View otherView;
+	private OtherFileView otherView;
 
 	public DecideFileView(Context context, RelativeLayout relative) {
 		mContext = context;
@@ -63,13 +61,13 @@ public class DecideFileView {
 		Log.i("DecideFile", "File name:" + local.getName());
 		if (getFileType(local.getName()).equals("audio")) {
 			ReleasePhotoViewer();
-			if (audioPlayer == null)
-				audioPlayer = new MusicPlayerView(mContext, local, aList);
+			if (audio == null)
+				audio = new MusicPlayerView(mContext, local, aList);
 			else{
 				updateMusicList(aList);
-				audioPlayer.playSong(local);
+				audio.playSong(local);
 			}
-			mRelative.addView(audioPlayer);
+			mRelative.addView(audio);
 		} else {
 			ReleaseMediaPlayer();
 			if(getFileType(local.getName()).equals("image")){
@@ -117,38 +115,11 @@ public class DecideFileView {
 					text.setText(content);
 					mRelative.addView(text);
 				} else {
-					otherView = getAnyFileView();
+					otherView = new OtherFileView(mContext, local);
 					mRelative.addView(otherView);
 				}
 			}
 		}
-	}
-
-	private RelativeLayout getAnyFileView() {
-		RelativeLayout innerRelative = new RelativeLayout(mContext);
-		innerRelative.setLayoutParams(new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.MATCH_PARENT,
-				RelativeLayout.LayoutParams.MATCH_PARENT));
-		
-		RelativeLayout.LayoutParams relativeParams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		relativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		ImageView imageView = new ImageView(mContext);
-		imageView.setImageResource(R.drawable.file_128);
-		imageView.setId(55688);
-		
-		RelativeLayout.LayoutParams trelativeParams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		trelativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		trelativeParams.addRule(RelativeLayout.BELOW, imageView.getId());
-		TextView text = new TextView(mContext);
-		text.setText(local.getName());
-		
-		innerRelative.addView(imageView, relativeParams);
-		innerRelative.addView(text, trelativeParams);
-		return innerRelative;
 	}
 
 	public String getFileSubtype(String fileName) {
@@ -175,7 +146,7 @@ public class DecideFileView {
 	}
 	
 	public void updateMusicList(List<IFile> list){
-		audioPlayer.updateMusicList(list);
+		audio.updateMusicList(list);
 	}
 
 	public VideoPlayerView getVideoView() {
@@ -183,7 +154,7 @@ public class DecideFileView {
 	}
 
 	public MusicPlayerView getMusicView() {
-		return audioPlayer;
+		return audio;
 	}
 	
 	public PhotoViewer getPhotoView(){
@@ -215,9 +186,9 @@ public class DecideFileView {
 	}
 	
 	public void ReleaseMediaPlayer() {
-		if (audioPlayer != null) {
-			audioPlayer.endPlayer();
-			audioPlayer = null;
+		if (audio != null) {
+			audio.endPlayer();
+			audio = null;
 		}
 		if (video != null) {
 			video.releasePlayer();
