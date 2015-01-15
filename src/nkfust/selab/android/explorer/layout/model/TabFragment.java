@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -35,12 +34,12 @@ import android.widget.LinearLayout;
 
 public class TabFragment extends Fragment {
 
-	private ViewPager vp;
-	private ScreenSlidePagerAdapter pagerAdapter;
-	private LinearLayout linear;
 	private BtnWithUnderlinePageIndicator indicator;
-	private ImageButton imgBtn;
+	private ScreenSlidePagerAdapter pagerAdapter;
 	private LinearLayout.LayoutParams params;
+	private LinearLayout linear;
+	private ImageButton imgBtn;
+	private ViewPager vp;
 	private Menu mMenu;
 
 	private static ActionBarActivity activity;
@@ -48,41 +47,26 @@ public class TabFragment extends Fragment {
 	private static FrameLayout frame;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Log.i("TabFragment", "onCreate...");
-	}
-	
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		Log.i("TabFragment", "onCreateView...");
 		return inflater.inflate(R.layout.headline_view, container, false);
 	}
 	
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-		Log.i("TabFragment", "onViewCreated...");
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
-		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this, pagerAdapter);
+		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
 		linear = (LinearLayout) view.findViewById(R.id.btn_layout);
 		vp = (ViewPager) view.findViewById(R.id.frame_pager);
 		((LinearLayout) view.findViewById(R.id.viewpager_layout)).addView(indicator);
 	}
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		Log.i("TabFragment", "onActivityCreated...");
-	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.i("TabFragment", "onStart...");
 		setHasOptionsMenu(true);
 		activity = (ActionBarActivity) getActivity();
 		tabFragment = this;
@@ -90,14 +74,12 @@ public class TabFragment extends Fragment {
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu){
-		Log.i("TabFragment", "onPrepareOptionMenu...");
 		mMenu = menu;
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		Log.i("TabFragment", "onResume...");
 		if (isFragmentStatePagerAdapterNull())
 			setViewPager();
 
@@ -108,39 +90,7 @@ public class TabFragment extends Fragment {
 				linear.getChildAt(i).setAlpha((float) 1.0);
 		}
 	}
-	
-	@Override
-	public void onPause(){
-		super.onPause();
-		Log.i("TabFragment", "onPause!!!");
-	}
-	
-	@Override
-	public void onStop(){
-		super.onStop();
-		Log.i("TabFragment", "onStop!!!");
-	}
-	
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-		Log.i("TabFragment", "onDestoryView!!!");
-	}
-	
-	@Override
-	public void onDestroy(){
-		super.onDestroy();
-		Log.i("TabFragment", "onDestory!!!");
-	}
-	
-	@Override
-	public void onDetach(){
-		super.onDetach();
-		Log.i("TabFragment", "onDetach!!!");
-	}
-	
 	public void addTabView(TabView view) {
-		Log.i("TabFragment", "addTabView!!");
 		imgBtn = view.getIndexButton();
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
@@ -163,7 +113,6 @@ public class TabFragment extends Fragment {
 	}
 	
 	private void setViewPager() {
-		Log.i("TabFragment", "setVidePager!!");
 		vp.setAdapter(pagerAdapter);
 		indicator.setViewPager(vp);
 		indicator.setFades(false);

@@ -86,7 +86,7 @@ public class ContentFragment extends Fragment {
 	}
 	
 	public void updateArticleView(IFile file) throws IOException {
-		relative.removeAllViews();
+		clean();
 		local = (LocalData) file;
 		decideFileView.setFile(local);
 		decideFileView.showView();
@@ -102,6 +102,10 @@ public class ContentFragment extends Fragment {
 	
 	public void setIFileList(List<IFile> list) {
 		decideFileView.setIFileList(list);
+	}
+	
+	public void clean(){
+		relative.removeAllViews();
 	}
 	
 	public void updateMusicList(List<IFile> list){

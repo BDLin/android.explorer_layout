@@ -27,10 +27,10 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 	private ScreenSlidePagerAdapter aPagerAdapter;
 
 	public BtnWithUnderlinePageIndicator(Context context,
-			TabFragment tabFragment, ScreenSlidePagerAdapter pagerAdapter) {
+			TabFragment tabFragment) {
 		super(context);
 		this.tabFragment = tabFragment;
-		aPagerAdapter = pagerAdapter;
+		aPagerAdapter = tabFragment.getTabAdapter();
 	}
 
 	public void onPageSelected(int position) {
@@ -41,17 +41,15 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 		menu.clear();
 		if(tabView.getMenuResource() != 0)
 			tabFragment.getActivity().getMenuInflater().inflate(tabView.getMenuResource(), menu);
-		
-		if(aPagerAdapter != null)
-			aPagerAdapter.notifyDataSetChanged();
 			
 		for (int i = 0; i < tabFragment.getButtonLinearLayout().getChildCount(); i++) {
 			if (tabFragment.getViewpager().getCurrentItem() != i)
-				tabFragment.getButtonLinearLayout().getChildAt(i)
-						.setAlpha((float) 0.5);
+				tabFragment.getButtonLinearLayout().getChildAt(i).setAlpha((float) 0.5);
 			else
-				tabFragment.getButtonLinearLayout().getChildAt(i)
-						.setAlpha((float) 1.0);
+				tabFragment.getButtonLinearLayout().getChildAt(i).setAlpha((float) 1.0);
 		}
+		
+		if(aPagerAdapter != null)
+			aPagerAdapter.notifyDataSetChanged();
 	}
 }

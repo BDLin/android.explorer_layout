@@ -46,21 +46,21 @@ public class DecideFileView {
 	private LocalData local;
 	private Context mContext;
 	private RelativeLayout mRelative;
-	private View.OnClickListener aListener;
 	private List<IFile> aList;
 	private VideoPlayerView video;
 	private MusicPlayerView audioPlayer;
 	private PhotoViewer photoView;
+	private View otherView;
 
 	public DecideFileView(Context context, RelativeLayout relative) {
 		mContext = context;
 		mRelative = relative;
-		aListener = null;
 		aList = new ArrayList<IFile>();
 	}
 
 	public void showView() throws IOException {
 		Log.i("DecideFile", "title:" + getFileSubtype(local.getName()));
+		Log.i("DecideFile", "File name:" + local.getName());
 		if (getFileType(local.getName()).equals("audio")) {
 			ReleasePhotoViewer();
 			if (audioPlayer == null)
@@ -117,9 +117,8 @@ public class DecideFileView {
 					text.setText(content);
 					mRelative.addView(text);
 				} else {
-					View view = getAnyFileView();
-					view.setOnClickListener(aListener);
-					mRelative.addView(view);
+					otherView = getAnyFileView();
+					mRelative.addView(otherView);
 				}
 			}
 		}
@@ -192,7 +191,8 @@ public class DecideFileView {
 	}
 	
 	public void setOpenOtherFileListener(View.OnClickListener listener){
-		aListener = listener;
+		if(otherView != null)
+			otherView.setOnClickListener(listener);
 	}
 	
 	public void setPhotoPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
