@@ -20,10 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.model.TabFragment;
-
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.usermodel.Range;
-
 import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
@@ -32,7 +28,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.epapyrus.plugpdf.SimpleDocumentReader;
 import com.epapyrus.plugpdf.SimpleDocumentReaderListener;
@@ -106,14 +101,6 @@ public class DecideFileView {
 						viewer.openData(data, data.length, "");
 					}
 					is.close();
-				} else if (getFileSubtype(local.getName()).equals("msword")) {
-					HWPFDocument doc = new HWPFDocument(local.getInputStream());
-					Range r = doc.getRange();
-					String content = r.text();
-					r.delete();
-					TextView text = new TextView(mContext);
-					text.setText(content);
-					mRelative.addView(text);
 				} else {
 					otherView = new OtherFileView(mContext, local);
 					mRelative.addView(otherView);
