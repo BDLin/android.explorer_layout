@@ -16,7 +16,6 @@
  */
 package nkfust.selab.android.explorer.layout.model;
 
-import java.io.IOException;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
@@ -29,16 +28,23 @@ import poisondog.vfs.LocalData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
+/**
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ContentFragment extends Fragment {
 
-	private RelativeLayout relative;
-	private LocalData local;
+	private RelativeLayout browseFileSpace;
 	private DecideFileView decideFileView;
+	private LocalData localFile;
+	
+	public ContentFragment(){
+		decideFileView = new DecideFileView();
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,8 +56,8 @@ public class ContentFragment extends Fragment {
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState){
 		super.onViewCreated(view, savedInstanceState);
-		relative = (RelativeLayout) view.findViewById(R.id.relative_layout);
-		decideFileView = new DecideFileView(getActivity(), relative);
+		browseFileSpace = (RelativeLayout) view.findViewById(R.id.relative_layout);
+		decideFileView.setBrowseViewLayout(getActivity(), browseFileSpace);
 	}
 		
 	@Override
@@ -59,13 +65,10 @@ public class ContentFragment extends Fragment {
 		super.onStart();
 		Bundle args = getArguments();
 		if (args != null) {
-			TabFragment.getActionBarActivity().getSupportFragmentManager().
-			beginTransaction().hide(TabFragment.getTabFragment()).commit();
-			try {
-				updateArticleView(local);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			((ActionBarActivity)getActivity()).getSupportActionBar().hide();
+			((ActionBarActivity)getActivity()).getSupportFragmentManager()
+				.beginTransaction().hide(TabFragment.getTabFragment()).commit();
+			updateArticleView(localFile);
 		}
 	}
 	
@@ -85,15 +88,15 @@ public class ContentFragment extends Fragment {
 		}
 	}
 	
-	public void updateArticleView(IFile file) throws IOException {
+	public void updateArticleView(IFile file){
 		clean();
-		local = (LocalData) file;
-		decideFileView.setFile(local);
+		localFile = (LocalData) file;
+		decideFileView.setFile(localFile);
 		decideFileView.showView();
 	}// End of updateArticleView function
 
 	public void setIFile(IFile file) {
-		local = (LocalData) file;
+		localFile = (LocalData) file;
 	}
 	
 	public List<IFile> getIFileList(){
@@ -105,11 +108,11 @@ public class ContentFragment extends Fragment {
 	}
 	
 	public void clean(){
-		relative.removeAllViews();
+		browseFileSpace.removeAllViews();
 	}
 	
-	public void updateMusicList(List<IFile> list){
-		decideFileView.updateMusicList(list);
+	public void updateMusicList(){
+		decideFileView.updateMusicList();
 	}
 	
 	public VideoPlayerView getVideoView(){

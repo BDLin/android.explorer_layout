@@ -12,7 +12,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package nkfust.selab.android.explorer.layout.processer;
 
 import nkfust.selab.android.explorer.layout.model.TabFragment;
@@ -40,7 +39,6 @@ public class SetScreenSize {
 		float videoProportion = (float) dataWidth / (float) dataHeight;
 		float contentScreenProportion = (float) contentWidth / (float) contentHeight;
 		if (isFullScreen) {
-			
 			TabFragment.getActionBarActivity().getSupportActionBar().hide();
 			TabFragment.getActionBarActivity().getSupportFragmentManager()
 			        .beginTransaction().hide(TabFragment.getTabFragment()).commit();
@@ -53,10 +51,9 @@ public class SetScreenSize {
 				params.height = screenHeight;
 			}
 		} else {
-			
 			TabFragment.getActionBarActivity().getSupportActionBar().show();
 			TabFragment.getActionBarActivity().getSupportFragmentManager()
-			        .beginTransaction().show(TabFragment.getTabFragment()).commit();
+				.beginTransaction().show(TabFragment.getTabFragment()).commit();
 			
 			if (videoProportion > contentScreenProportion) {
 				params.width = contentWidth;

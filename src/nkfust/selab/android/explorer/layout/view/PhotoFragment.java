@@ -76,7 +76,9 @@ public class PhotoFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		FrameLayout fl = new FrameLayout(getActivity());
 		ProgressBar pb = new ProgressBar(getActivity());
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.WRAP_CONTENT,
+				FrameLayout.LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.CENTER;
 		pb.setLayoutParams(params);
 		image = new CoustomizedImageView(getActivity());

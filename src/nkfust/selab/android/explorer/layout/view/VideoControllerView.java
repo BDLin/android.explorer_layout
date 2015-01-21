@@ -489,7 +489,11 @@ public class VideoControllerView extends FrameLayout {
 	}
 
 	public void setScreenSize() {
-		SetScreenSize.set(mContext, videoSurface, isFullScreen());
+		if(TabFragment.getFrameLayout() == null)
+			SetScreenSize.set(mContext, videoSurface, isFullScreen());
+		else
+			SetScreenSize.set(mContext, videoSurface, true);
+			
 	}
 
 	public void doToggleFullscreen() {

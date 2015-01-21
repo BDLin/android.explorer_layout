@@ -107,7 +107,7 @@ public class VideoPlayerView extends RelativeLayout implements
 
 		if(TabFragment.getFrameLayout() != null){
 			new VideoControllerListener(controller).onTouch(event);
-			return false;
+			return true;
 		}
 		
 		for (TouchListener listener : listenerList)

@@ -14,7 +14,6 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,107 +32,72 @@ import com.epapyrus.plugpdf.SimpleDocumentReader;
 import com.epapyrus.plugpdf.SimpleDocumentReaderListener;
 import com.epapyrus.plugpdf.SimpleReaderFactory;
 import com.epapyrus.plugpdf.core.viewer.DocumentState;
-
+/**
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class DecideFileView {
 
-	private LocalData local;
-	private Context mContext;
 	private RelativeLayout mRelative;
-	private List<IFile> aList;
+	private OtherFileView otherView;
 	private VideoPlayerView video;
 	private MusicPlayerView audio;
 	private PhotoViewer photoView;
-	private OtherFileView otherView;
-
-	public DecideFileView(Context context, RelativeLayout relative) {
-		mContext = context;
-		mRelative = relative;
+	private LocalData localFile;
+	private List<IFile> aList;
+	private Context mContext;
+	private View contentView;
+	
+	private View.OnClickListener openOtherListener;
+	private View.OnClickListener photoLeftButtonListener;
+	
+	public DecideFileView() {
 		aList = new ArrayList<IFile>();
 	}
 
-	public void showView() throws IOException {
-		Log.i("DecideFile", "title:" + getFileSubtype(local.getName()));
-		Log.i("DecideFile", "File name:" + local.getName());
-		if (getFileType(local.getName()).equals("audio")) {
-			ReleasePhotoViewer();
-			if (audio == null)
-				audio = new MusicPlayerView(mContext, local, aList);
-			else{
-				updateMusicList(aList);
-				audio.playSong(local);
-			}
-			mRelative.addView(audio);
-		} else {
-			ReleaseMediaPlayer();
-			if(getFileType(local.getName()).equals("image")){
-				List<String> images = new ArrayList<String>();
-				for(IFile ifile : aList)
-					images.add(((LocalData)ifile).getUrl());
-				if(photoView == null)
-					photoView = new PhotoViewer(mContext, images, local.getName());
-				else
-					photoView.setCurrentItem(images, local.getName());
-				mRelative.addView(photoView);
-			} else {
-				ReleasePhotoViewer();
-				if (getFileType(local.getName()).equals("video")) {
-					if (TabFragment.getFrameLayout() != null)
-						TabFragment.getActionBarActivity().getSupportActionBar().hide();
-					video = new VideoPlayerView(mContext, local);
-					mRelative.addView(video);
-				} else if (getFileSubtype(local.getName()).equals("pdf")) {
-					InputStream is = local.getInputStream();
-					int size = is.available();
-					// create a listener for receiving provide pdf loading results
-					SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
-						@Override
-						public void onLoadFinish(DocumentState.OPEN state) {}
-					};
-					if (size > 0) {
-						byte[] data = new byte[size];
-						is.read(data);
-						// pdfviewer create.
-						SimpleDocumentReader viewer = SimpleReaderFactory
-								.createSimpleViewer(TabFragment.getTabFragment()
-										.getActivity(), m_listener);
-						// pdf data load.
-						mRelative.addView(viewer.getReaderView());
-						viewer.openData(data, data.length, "");
-					}
-					is.close();
-				} else {
-					otherView = new OtherFileView(mContext, local);
-					mRelative.addView(otherView);
-				}
-			}
-		}
+	public DecideFileView(Context context, RelativeLayout relative) {
+		this();
+		mContext = context;
+		mRelative = relative;
+	}
+
+	public void showView(){
+		Log.i("DecideFile", "title:" + getFileSubtype(localFile.getName()));
+		Log.i("DecideFile", "File name:" + localFile.getName());
+		if(contentView != null)
+			mRelative.addView(contentView);
 	}
 
 	public String getFileSubtype(String fileName) {
-		String[] token = URLUtils.guessContentType(local.getName()).split("/");
+		String[] token = URLUtils.guessContentType(localFile.getName()).split("/");
 		return token[1];
 	}
 
 	public String getFileType(String fileName) {
-		String[] token = URLUtils.guessContentType(local.getName()).split("/");
+		String[] token = URLUtils.guessContentType(localFile.getName()).split("/");
 		return token[0];
 	}
 	
+	public void setBrowseViewLayout(Context context, RelativeLayout relative){
+		mContext = context;
+		mRelative = relative;
+	}
+	
 	public void setFile(LocalData local){
-		this.local = local;
+		localFile = local;
+		contentView = selectView(getFileType(localFile.getName()),
+				getFileSubtype(localFile.getName()));
 	}
 
 	public void setIFileList(List<IFile> list){
-		aList.clear();
-		aList.addAll(list);
+		aList = list;
 	}
 	
 	public List<IFile> getIFileList(){
 		return aList;
 	}
 	
-	public void updateMusicList(List<IFile> list){
-		audio.updateMusicList(list);
+	public void updateMusicList(){
+		audio.updateMusicList(aList);
 	}
 
 	public VideoPlayerView getVideoView() {
@@ -149,8 +113,7 @@ public class DecideFileView {
 	}
 	
 	public void setOpenOtherFileListener(View.OnClickListener listener){
-		if(otherView != null)
-			otherView.setOnClickListener(listener);
+		openOtherListener = listener;
 	}
 	
 	public void setPhotoPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
@@ -158,7 +121,7 @@ public class DecideFileView {
 	}
 	
 	public void setPhotoLeftButtonListener(View.OnClickListener listener){
-		photoView.setPhotoLeftButtonListener(listener);
+		photoLeftButtonListener = listener;
 	}
 	
 	public void setPhotoRightButtonListener(View.OnClickListener listener){
@@ -181,5 +144,80 @@ public class DecideFileView {
 			video.releasePlayer();
 			video = null;
 		}
+	}
+
+	private View selectView(String fileType, String fileSubType){
+		if(!fileType.equals("image"))
+			ReleasePhotoViewer();
+		if(!fileType.equals("audio"))
+			ReleaseMediaPlayer();
+		
+		if (fileType.equals("audio")) {
+			settingMusicPlayerView();
+			return audio;
+		} else if(fileType.equals("image")){
+			settingPhotoViewr();
+			return photoView;
+		} else if (fileType.equals("video")) {
+			video = new VideoPlayerView(mContext, localFile);
+			return video;
+		} else if (fileSubType.equals("pdf")) {
+			settingPDFViewer();
+			return null;
+		} else {
+			otherView = new OtherFileView(mContext, localFile);
+			otherView.setOnClickListener(openOtherListener);
+			return otherView;
+		}
+	}
+
+	private void settingMusicPlayerView(){
+		if (audio == null)
+			audio = new MusicPlayerView(mContext, localFile, aList);
+		else{
+			updateMusicList();
+			audio.playSong(localFile);
+		}
+	}
+	
+	private void settingPDFViewer(){
+		// create a listener for receiving provide pdf loading results
+		SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
+			@Override
+			public void onLoadFinish(DocumentState.OPEN state) {}
+		};
+		try {
+			InputStream is = localFile.getInputStream();
+			int size = is.available();
+			if (size > 0) {
+				byte[] data = new byte[size];
+				is.read(data);
+				// pdfviewer create.
+				SimpleDocumentReader viewer = SimpleReaderFactory
+						.createSimpleViewer(TabFragment.getTabFragment()
+								.getActivity(), m_listener);
+				// pdf data load.
+				mRelative.addView(viewer.getReaderView());
+				viewer.openData(data, data.length, "");
+			}
+			is.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void settingPhotoViewr(){
+		List<String> images = new ArrayList<String>();
+		for(IFile ifile : aList)
+			try {
+				images.add(ifile.getUrl());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		if(photoView == null)
+			photoView = new PhotoViewer(mContext, images, localFile.getName());
+		else
+			photoView.setCurrentItem(images, localFile.getName());
+		photoView.setPhotoLeftButtonListener(photoLeftButtonListener);
 	}
 }

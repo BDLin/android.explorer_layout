@@ -1,6 +1,7 @@
 package nkfust.selab.android.explorer.layout.view;
 
 import nkfust.selab.android.explorer.layout.listener.ImageDoFullScreenListener;
+import nkfust.selab.android.explorer.layout.model.TabFragment;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.PointF;
@@ -37,7 +38,6 @@ public class CoustomizedImageView extends ImageView {
     private int oldMeasuredWidth, oldMeasuredHeight;
 
     private ScaleGestureDetector mScaleDetector;
-    private Context context;
     private GestureDetector mGesture;
 
     public CoustomizedImageView(Context context) {
@@ -52,7 +52,6 @@ public class CoustomizedImageView extends ImageView {
 
     private void sharedConstructing(Context context) {
         super.setClickable(true);
-        this.context = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
         mGesture = new GestureDetector(new ImageDoFullScreenListener());
         matrix = new Matrix();
@@ -101,7 +100,8 @@ public class CoustomizedImageView extends ImageView {
 
                 setImageMatrix(matrix);
                 invalidate();
-                mGesture.onTouchEvent(event);
+                if(TabFragment.getFrameLayout() == null)
+                	mGesture.onTouchEvent(event);
                 return true; // indicate event was handled
             }
         });

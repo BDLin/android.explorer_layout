@@ -26,23 +26,24 @@ import poisondog.string.ExtractFileName;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+/**
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class PhotoViewer extends RelativeLayout {
 
-	private TextView textView;
-	private String text;
+	private ImageButton leftButton, rightButton;
+	private TextView displayPageView;
+	private String pageText;
 	private int index;
-	private ImageButton leftBtn, rightBtn;
 	
-	private ViewPager aPager;
 	private PagerAdapter aPagerAdapter;
 	private List<String> aPaths;
+	private ViewPager aPager;
 	
 	private Context mContext;
 	
@@ -55,14 +56,14 @@ public class PhotoViewer extends RelativeLayout {
 	}
 
 	private void init(){
-		textView = (TextView)findViewById(R.id.page_textview);
+		displayPageView = (TextView)findViewById(R.id.page_textview);
 		aPager = (ViewPager)findViewById(R.id.photo_pager);
-		leftBtn = (ImageButton)findViewById(R.id.alter_button);
-		rightBtn = (ImageButton)findViewById(R.id.share_button);
-		leftBtn.setImageResource(R.drawable.photo_list);
-		rightBtn.setImageResource(R.drawable.photo_right);
-		leftBtn.setOnClickListener(new PhotoAlterListener(this));
-		rightBtn.setOnClickListener(new PhotoShareListener(mContext, this));
+		leftButton = (ImageButton)findViewById(R.id.alter_button);
+		rightButton = (ImageButton)findViewById(R.id.share_button);
+		leftButton.setImageResource(R.drawable.photo_list);
+		rightButton.setImageResource(R.drawable.photo_right);
+		leftButton.setOnClickListener(new PhotoAlterListener(this));
+		rightButton.setOnClickListener(new PhotoShareListener(mContext, this));
 	}
 	
 	public void setCurrentItem(List<String> paths, String fileName){
@@ -71,8 +72,8 @@ public class PhotoViewer extends RelativeLayout {
 		aPager.setAdapter(aPagerAdapter);
 		aPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
 			public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels){
-				text = position + 1 + " of " + aPaths.size();
-				textView.setText(text);
+				pageText = position + 1 + " of " + aPaths.size();
+				displayPageView.setText(pageText);
 				index = position;
 			}
 		});
@@ -84,7 +85,6 @@ public class PhotoViewer extends RelativeLayout {
 	}
 	
 	public void releasePhotoFragmentList(){
-		Log.i("PhotoViewer","aPager count: " + aPager.getChildCount());
 		if (aPager.getChildCount() > 0){
 			aPager.removeAllViews();
 			aPagerAdapter.notifyDataSetChanged();
@@ -116,10 +116,10 @@ public class PhotoViewer extends RelativeLayout {
 	}
 	
 	public void setPhotoLeftButtonListener(View.OnClickListener listener){
-		leftBtn.setOnClickListener(listener);
+		leftButton.setOnClickListener(listener);
 	}
 	
 	public void setPhotoRightButtonListener(View.OnClickListener listener){
-		rightBtn.setOnClickListener(listener);
+		rightButton.setOnClickListener(listener);
 	}
 }

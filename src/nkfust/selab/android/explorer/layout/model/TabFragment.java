@@ -1,5 +1,5 @@
 /*
-FF * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2012 The Android Open Source Project
  * Copyright (C) 2014 Zi-Xiang Lin <bdl9437@gmail.com>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,20 +31,22 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
+/**
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class TabFragment extends Fragment {
 
 	private BtnWithUnderlinePageIndicator indicator;
 	private ScreenSlidePagerAdapter pagerAdapter;
 	private LinearLayout.LayoutParams params;
-	private LinearLayout linear;
+	private LinearLayout buttonLinearLyaout;
+	private ViewPager fileListViewPager;
 	private ImageButton imgBtn;
-	private ViewPager vp;
 	private Menu mMenu;
 
 	private static ActionBarActivity activity;
 	private static Fragment tabFragment;
-	private static FrameLayout frame;
+	private static FrameLayout frameLayout;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,8 +61,8 @@ public class TabFragment extends Fragment {
 		pagerAdapter = new ScreenSlidePagerAdapter(getActivity().getSupportFragmentManager());
 		indicator = new BtnWithUnderlinePageIndicator(getActivity(), this);
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
-		linear = (LinearLayout) view.findViewById(R.id.btn_layout);
-		vp = (ViewPager) view.findViewById(R.id.frame_pager);
+		buttonLinearLyaout = (LinearLayout) view.findViewById(R.id.btn_layout);
+		fileListViewPager = (ViewPager) view.findViewById(R.id.frame_pager);
 		((LinearLayout) view.findViewById(R.id.viewpager_layout)).addView(indicator);
 	}
 
@@ -83,29 +85,30 @@ public class TabFragment extends Fragment {
 		if (isFragmentStatePagerAdapterNull())
 			setViewPager();
 
-		for (int i = 0; i < linear.getChildCount(); i++) {
-			if (vp.getCurrentItem() != i)
-				linear.getChildAt(i).setAlpha((float) 0.5);
+		for (int i = 0; i < buttonLinearLyaout.getChildCount(); i++) {
+			if (fileListViewPager.getCurrentItem() != i)
+				buttonLinearLyaout.getChildAt(i).setAlpha((float) 0.5);
 			else
-				linear.getChildAt(i).setAlpha((float) 1.0);
+				buttonLinearLyaout.getChildAt(i).setAlpha((float) 1.0);
 		}
 	}
+	
 	public void addTabView(TabView view) {
 		imgBtn = view.getIndexButton();
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
-		imgBtn.setOnClickListener(new ImgBtnOnClick(linear, vp));
-		linear.addView(imgBtn);
+		imgBtn.setOnClickListener(new ImgBtnOnClick(buttonLinearLyaout, fileListViewPager));
+		buttonLinearLyaout.addView(imgBtn);
 		pagerAdapter.addTabView(view);
 	}
 
 	public void clean() {
-		linear.removeAllViews();
+		buttonLinearLyaout.removeAllViews();
 		pagerAdapter.clean();
 	}
 
 	public Boolean isFragmentStatePagerAdapterNull() {
-		return (vp.getAdapter() == null) ? true : false;
+		return (fileListViewPager.getAdapter() == null) ? true : false;
 	}
 	
 	public Menu getMenu(){
@@ -113,8 +116,8 @@ public class TabFragment extends Fragment {
 	}
 	
 	private void setViewPager() {
-		vp.setAdapter(pagerAdapter);
-		indicator.setViewPager(vp);
+		fileListViewPager.setAdapter(pagerAdapter);
+		indicator.setViewPager(fileListViewPager);
 		indicator.setFades(false);
 		indicator.setLayoutParams(new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, 2));
@@ -125,27 +128,27 @@ public class TabFragment extends Fragment {
 	}
 	
 	public Fragment getCurrentFragment() {
-		return (Fragment) pagerAdapter.instantiateItem(vp, vp.getCurrentItem());
+		return (Fragment) pagerAdapter.instantiateItem(fileListViewPager, fileListViewPager.getCurrentItem());
 	}
 	
 	public TabView getCurrentTabView() {
-		return (TabView) pagerAdapter.getItemTabView(vp.getCurrentItem());
+		return (TabView) pagerAdapter.getItemTabView(fileListViewPager.getCurrentItem());
 	}
 	
 	public ViewPager getViewpager(){
-		return vp;
+		return fileListViewPager;
 	}
 	
 	public LinearLayout getButtonLinearLayout(){
-		return linear;
+		return buttonLinearLyaout;
 	}
 	
 	public void setFrameLayout(FrameLayout framelayout){
-		frame = framelayout;
+		frameLayout = framelayout;
 	}
 	
 	public static FrameLayout getFrameLayout(){
-		return frame;
+		return frameLayout;
 	}
 
 	public static Fragment getTabFragment() {
