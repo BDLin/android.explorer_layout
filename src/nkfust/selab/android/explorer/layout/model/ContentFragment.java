@@ -68,7 +68,7 @@ public class ContentFragment extends Fragment {
 			((ActionBarActivity)getActivity()).getSupportActionBar().hide();
 			((ActionBarActivity)getActivity()).getSupportFragmentManager()
 				.beginTransaction().hide(TabFragment.getTabFragment()).commit();
-			updateArticleView(localFile);
+			updateBrowseView(localFile);
 		}
 	}
 	
@@ -88,12 +88,16 @@ public class ContentFragment extends Fragment {
 		}
 	}
 	
-	public void updateArticleView(IFile file){
-		clean();
+	public void updateBrowseView(IFile file){
 		localFile = (LocalData) file;
+		refreshBrowseView();
+	}
+	
+	public void refreshBrowseView(){
+		clean();
 		decideFileView.setFile(localFile);
 		decideFileView.showView();
-	}// End of updateArticleView function
+	}
 
 	public void setIFile(IFile file) {
 		localFile = (LocalData) file;

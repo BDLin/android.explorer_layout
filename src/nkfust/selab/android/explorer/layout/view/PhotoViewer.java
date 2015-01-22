@@ -22,6 +22,7 @@ import nkfust.selab.android.explorer.layout.listener.PhotoAlterListener;
 import nkfust.selab.android.explorer.layout.listener.PhotoShareListener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
+import poisondog.net.URLUtils;
 import poisondog.string.ExtractFileName;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
@@ -46,6 +47,7 @@ public class PhotoViewer extends RelativeLayout {
 	private ViewPager aPager;
 	
 	private Context mContext;
+	public String currentPath;
 	
 	public PhotoViewer(Context context, List<String> paths, String fileName) {
 		super(context);
@@ -68,6 +70,7 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public void setCurrentItem(List<String> paths, String fileName){
 		aPaths = ImagesFilter.getImagesList(paths);
+		currentPath = URLUtils.parentUrl(aPaths.get(0));
 		aPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), aPaths);
 		aPager.setAdapter(aPagerAdapter);
 		aPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
@@ -105,6 +108,10 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public List<String> getPaths(){
 		return aPaths;
+	}
+	
+	public String getCurrentPath(){
+		return currentPath;
 	}
 	
 	public int getPhotoIndex(){
