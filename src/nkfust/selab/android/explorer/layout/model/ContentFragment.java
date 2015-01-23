@@ -119,6 +119,10 @@ public class ContentFragment extends Fragment {
 		decideFileView.updateMusicList();
 	}
 	
+	public DecideFileView getDecideFileView(){
+		return decideFileView;
+	}
+	
 	public VideoPlayerView getVideoView(){
 		return decideFileView.getVideoView();
 	}

@@ -24,6 +24,8 @@ import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractFileName;
+import poisondog.vfs.IFile;
+import poisondog.vfs.LocalFileFactory;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -47,7 +49,7 @@ public class PhotoViewer extends RelativeLayout {
 	private ViewPager aPager;
 	
 	private Context mContext;
-	public String currentPath;
+	public String currentFolderPath;
 	
 	public PhotoViewer(Context context, List<String> paths, String fileName) {
 		super(context);
@@ -70,7 +72,7 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public void setCurrentItem(List<String> paths, String fileName){
 		aPaths = ImagesFilter.getImagesList(paths);
-		currentPath = URLUtils.parentUrl(aPaths.get(0));
+		currentFolderPath = URLUtils.parentUrl(aPaths.get(0));
 		aPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), aPaths);
 		aPager.setAdapter(aPagerAdapter);
 		aPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
@@ -110,8 +112,17 @@ public class PhotoViewer extends RelativeLayout {
 		return aPaths;
 	}
 	
-	public String getCurrentPath(){
-		return currentPath;
+	public String getCurrentFolderPath(){
+		return currentFolderPath;
+	}
+	
+	public IFile getCurrentPhotoIFile(){
+		try {
+			return new LocalFileFactory().getFile(aPaths.get(index));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public int getPhotoIndex(){
