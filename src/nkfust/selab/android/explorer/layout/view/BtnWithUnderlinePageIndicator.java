@@ -14,42 +14,30 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import nkfust.selab.android.explorer.layout.model.TabFragment;
-import nkfust.selab.android.explorer.layout.model.TabView;
+import java.util.ArrayList;
+import java.util.List;
+
+import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
 import android.content.Context;
-import android.view.Menu;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
 
 public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
-	private TabFragment tabFragment;
-	private ScreenSlidePagerAdapter aPagerAdapter;
-
-	public BtnWithUnderlinePageIndicator(Context context,
-			TabFragment tabFragment) {
+	private List<PageSelectedListener> mList;
+	
+	public BtnWithUnderlinePageIndicator(Context context) {
 		super(context);
-		this.tabFragment = tabFragment;
-		aPagerAdapter = tabFragment.getTabAdapter();
+		mList = new ArrayList<PageSelectedListener>();
 	}
 
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
-		
-		TabView tabView = tabFragment.getCurrentTabView();
-		Menu menu = tabFragment.getMenu();
-		menu.clear();
-		if(tabView.getMenuResource() != 0)
-			tabFragment.getActivity().getMenuInflater().inflate(tabView.getMenuResource(), menu);
-			
-		for (int i = 0; i < tabFragment.getButtonLinearLayout().getChildCount(); i++) {
-			if (tabFragment.getViewpager().getCurrentItem() != i)
-				tabFragment.getButtonLinearLayout().getChildAt(i).setAlpha((float) 0.5);
-			else
-				tabFragment.getButtonLinearLayout().getChildAt(i).setAlpha((float) 1.0);
-		}
-		
-		if(aPagerAdapter != null)
-			aPagerAdapter.notifyDataSetChanged();
+		for(PageSelectedListener listener : mList)
+			listener.onPageSelect();
+	}
+	
+	public void addPageSelectedListener(PageSelectedListener listener){
+		mList.add(listener);
 	}
 }

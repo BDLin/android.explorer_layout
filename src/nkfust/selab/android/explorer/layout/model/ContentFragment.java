@@ -41,6 +41,7 @@ public class ContentFragment extends Fragment {
 	private RelativeLayout browseFileSpace;
 	private DecideFileView decideFileView;
 	private LocalData localFile;
+	private TabFragment mTabFragment;
 	
 	public ContentFragment(){
 		decideFileView = new DecideFileView();
@@ -109,6 +110,22 @@ public class ContentFragment extends Fragment {
 	
 	public void setIFileList(List<IFile> list) {
 		decideFileView.setIFileList(list);
+	}
+	
+	public List<IFile> getRemoteIFileList(){
+		return decideFileView.getRemoteIFileList();
+	}
+	
+	public void setRemoteIFileList(List<IFile> list) {
+		decideFileView.setRemoteIFileList(list);
+	}
+	
+	public void setTabFragment(TabFragment tabFragment){
+		mTabFragment = tabFragment;
+	}
+	
+	public TabFragment getTabFragment(){
+		return mTabFragment;
 	}
 	
 	public void clean(){

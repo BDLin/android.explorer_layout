@@ -43,7 +43,7 @@ public class DecideFileView {
 	private MusicPlayerView audio;
 	private PhotoViewer photoView;
 	private LocalData localFile;
-	private List<IFile> aList;
+	private List<IFile> aList, mRemoteIFileList;
 	private Context mContext;
 	private View contentView;
 	
@@ -52,6 +52,7 @@ public class DecideFileView {
 	
 	public DecideFileView() {
 		aList = new ArrayList<IFile>();
+		mRemoteIFileList = new ArrayList<IFile>();
 	}
 
 	public DecideFileView(Context context, RelativeLayout relative) {
@@ -94,6 +95,14 @@ public class DecideFileView {
 	
 	public List<IFile> getIFileList(){
 		return aList;
+	}
+	
+	public void setRemoteIFileList(List<IFile> list){
+		mRemoteIFileList = list;
+	}
+	
+	public List<IFile> getRemoteIFileList(){
+		return mRemoteIFileList;
 	}
 	
 	public void updateMusicList(){
