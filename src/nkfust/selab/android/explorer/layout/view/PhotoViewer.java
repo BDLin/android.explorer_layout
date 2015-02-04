@@ -20,6 +20,7 @@ import java.util.List;
 import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.listener.PhotoAlterListener;
 import nkfust.selab.android.explorer.layout.listener.PhotoShareListener;
+import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
 import poisondog.net.URLUtils;
@@ -49,10 +50,12 @@ public class PhotoViewer extends RelativeLayout {
 	private ViewPager aPager;
 	
 	private Context mContext;
-	public String currentFolderPath;
+	private String currentFolderPath;
+	private ContentFragment mContentFragment;
 	
 	public PhotoViewer(Context context, List<String> paths, String fileName) {
 		super(context);
+		mContentFragment = new ContentFragment();
 		mContext = context;
 		LayoutInflater.from(context).inflate(R.layout.photo_view_layout, this);
 		init();
@@ -80,6 +83,11 @@ public class PhotoViewer extends RelativeLayout {
 				pageText = position + 1 + " of " + aPaths.size();
 				displayPageView.setText(pageText);
 				index = position;
+				try {
+					mContentFragment.setIFile(new LocalFileFactory().getFile(aPaths.get(position)));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -139,5 +147,9 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public void setPhotoRightButtonListener(View.OnClickListener listener){
 		rightButton.setOnClickListener(listener);
+	}
+	
+	public void setContentFragment(ContentFragment contentfragment){
+		mContentFragment = contentfragment;
 	}
 }

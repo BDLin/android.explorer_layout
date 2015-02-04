@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
@@ -50,6 +51,8 @@ public class DecideFileView {
 	private View.OnClickListener openOtherListener;
 	private View.OnClickListener photoLeftButtonListener;
 	
+	private ContentFragment mContentFragment;
+	
 	public DecideFileView() {
 		aList = new ArrayList<IFile>();
 		mRemoteIFileList = new ArrayList<IFile>();
@@ -67,6 +70,10 @@ public class DecideFileView {
 		if(contentView != null)
 			mRelative.addView(contentView);
 	}
+	
+	public void showInitialView(){
+		mRelative.addView(new InitialView(mContext));
+	}
 
 	public String getFileSubtype(String fileName) {
 		String[] token = URLUtils.guessContentType(localFile.getName()).split("/");
@@ -81,6 +88,10 @@ public class DecideFileView {
 	public void setBrowseViewLayout(Context context, RelativeLayout relative){
 		mContext = context;
 		mRelative = relative;
+	}
+	
+	public void setContentFragment(ContentFragment contentFragment){
+		mContentFragment = contentFragment;
 	}
 	
 	public void setFile(LocalData local){
@@ -166,6 +177,7 @@ public class DecideFileView {
 			return audio;
 		} else if(fileType.equals("image")){
 			settingPhotoViewr();
+			photoView.setContentFragment(mContentFragment);
 			return photoView;
 		} else if (fileType.equals("video")) {
 			video = new VideoPlayerView(mContext, localFile);

@@ -19,6 +19,7 @@ package nkfust.selab.android.explorer.layout.model;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
+import nkfust.selab.android.explorer.layout.listener.CleanContentListener;
 import nkfust.selab.android.explorer.layout.view.DecideFileView;
 import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
@@ -59,6 +60,9 @@ public class ContentFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		browseFileSpace = (RelativeLayout) view.findViewById(R.id.relative_layout);
 		decideFileView.setBrowseViewLayout(getActivity(), browseFileSpace);
+		decideFileView.setContentFragment(this);
+		init();
+		setPageSelectedListener();
 	}
 		
 	@Override
@@ -84,9 +88,13 @@ public class ContentFragment extends Fragment {
 	public void onDestroy(){
 		super.onDestroy();
 		if(decideFileView != null){
-			decideFileView.ReleaseMediaPlayer();
-			decideFileView.ReleasePhotoViewer();
+			releaseMultiMedia();
 		}
+	}
+	
+	private void setPageSelectedListener(){
+		if(mTabFragment != null)
+			mTabFragment.addPageSelectedListener(new CleanContentListener(this));
 	}
 	
 	public void updateBrowseView(IFile file){
@@ -95,13 +103,22 @@ public class ContentFragment extends Fragment {
 	}
 	
 	public void refreshBrowseView(){
-		clean();
+		browseFileSpace.removeAllViews();
 		decideFileView.setFile(localFile);
 		decideFileView.showView();
+	}
+	
+	public void releaseMultiMedia(){
+		decideFileView.ReleaseMediaPlayer();
+		decideFileView.ReleasePhotoViewer();
 	}
 
 	public void setIFile(IFile file) {
 		localFile = (LocalData) file;
+	}
+	
+	public IFile getCurrentIFile() {
+		return localFile;
 	}
 	
 	public List<IFile> getIFileList(){
@@ -122,14 +139,17 @@ public class ContentFragment extends Fragment {
 	
 	public void setTabFragment(TabFragment tabFragment){
 		mTabFragment = tabFragment;
+		setPageSelectedListener();
 	}
 	
 	public TabFragment getTabFragment(){
 		return mTabFragment;
 	}
 	
-	public void clean(){
+	public void init(){
 		browseFileSpace.removeAllViews();
+		decideFileView.showInitialView();
+		localFile = null;
 	}
 	
 	public void updateMusicList(){
