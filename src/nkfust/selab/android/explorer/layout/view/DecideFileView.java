@@ -14,12 +14,10 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
-import nkfust.selab.android.explorer.layout.model.TabFragment;
 import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
@@ -28,11 +26,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-
-import com.epapyrus.plugpdf.SimpleDocumentReader;
-import com.epapyrus.plugpdf.SimpleDocumentReaderListener;
-import com.epapyrus.plugpdf.SimpleReaderFactory;
-import com.epapyrus.plugpdf.core.viewer.DocumentState;
 /**
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
@@ -182,10 +175,12 @@ public class DecideFileView {
 		} else if (fileType.equals("video")) {
 			video = new VideoPlayerView(mContext, localFile);
 			return video;
-		} else if (fileSubType.equals("pdf")) {
-			settingPDFViewer();
-			return null;
-		} else {
+		} 
+//		else if (fileSubType.equals("pdf")) {
+//			settingPDFViewer();
+//			return null;
+//		} 
+		else {
 			otherView = new OtherFileView(mContext, localFile);
 			otherView.setOnClickListener(openOtherListener);
 			return otherView;
@@ -201,31 +196,31 @@ public class DecideFileView {
 		}
 	}
 	
-	private void settingPDFViewer(){
-		// create a listener for receiving provide pdf loading results
-		SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
-			@Override
-			public void onLoadFinish(DocumentState.OPEN state) {}
-		};
-		try {
-			InputStream is = localFile.getInputStream();
-			int size = is.available();
-			if (size > 0) {
-				byte[] data = new byte[size];
-				is.read(data);
-				// pdfviewer create.
-				SimpleDocumentReader viewer = SimpleReaderFactory
-						.createSimpleViewer(TabFragment.getTabFragment()
-								.getActivity(), m_listener);
-				// pdf data load.
-				mRelative.addView(viewer.getReaderView());
-				viewer.openData(data, data.length, "");
-			}
-			is.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	private void settingPDFViewer(){
+//		// create a listener for receiving provide pdf loading results
+//		SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
+//			@Override
+//			public void onLoadFinish(DocumentState.OPEN state) {}
+//		};
+//		try {
+//			InputStream is = localFile.getInputStream();
+//			int size = is.available();
+//			if (size > 0) {
+//				byte[] data = new byte[size];
+//				is.read(data);
+//				// pdfviewer create.
+//				SimpleDocumentReader viewer = SimpleReaderFactory
+//						.createSimpleViewer(TabFragment.getTabFragment()
+//								.getActivity(), m_listener);
+//				// pdf data load.
+//				mRelative.addView(viewer.getReaderView());
+//				viewer.openData(data, data.length, "");
+//			}
+//			is.close();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	private void settingPhotoViewr(){
 		List<String> images = new ArrayList<String>();

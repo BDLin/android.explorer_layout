@@ -24,6 +24,7 @@ import nkfust.selab.android.explorer.layout.view.DecideFileView;
 import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import nkfust.selab.android.explorer.layout.view.VideoPlayerView;
+import poisondog.android.util.Log;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ public class ContentFragment extends Fragment {
 	
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState){
+		Log.i("ContentFragment","onViewCreated!!");
 		super.onViewCreated(view, savedInstanceState);
 		browseFileSpace = (RelativeLayout) view.findViewById(R.id.relative_layout);
 		decideFileView.setBrowseViewLayout(getActivity(), browseFileSpace);
@@ -67,6 +69,7 @@ public class ContentFragment extends Fragment {
 		
 	@Override
 	public void onStart() {
+		Log.i("ContentFragment","onStart!!");
 		super.onStart();
 		Bundle args = getArguments();
 		if (args != null) {
@@ -114,6 +117,7 @@ public class ContentFragment extends Fragment {
 	}
 
 	public void setIFile(IFile file) {
+		Log.i("ContentFragment","setIFile!!");
 		localFile = (LocalData) file;
 	}
 	
@@ -149,7 +153,8 @@ public class ContentFragment extends Fragment {
 	public void init(){
 		browseFileSpace.removeAllViews();
 		decideFileView.showInitialView();
-		localFile = null;
+		if(mTabFragment.getFrameLayout() == null)
+			localFile = null;
 	}
 	
 	public void updateMusicList(){
