@@ -20,7 +20,7 @@ import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.listener.ChangeActionBarTitleListener;
 import nkfust.selab.android.explorer.layout.listener.ChangeMenuListener;
 import nkfust.selab.android.explorer.layout.listener.FocuseTabButtonListener;
-import nkfust.selab.android.explorer.layout.listener.ImgBtnOnClick;
+import nkfust.selab.android.explorer.layout.listener.ImageButtonOnClick;
 import nkfust.selab.android.explorer.layout.listener.UpdateTabFragmentListener;
 import nkfust.selab.android.explorer.layout.view.BtnWithUnderlinePageIndicator;
 import nkfust.selab.android.explorer.layout.view.ScreenSlidePagerAdapter;
@@ -69,11 +69,16 @@ public class TabFragment extends Fragment {
 		indicator.addPageSelectedListener(new UpdateTabFragmentListener(pagerAdapter));
 		indicator.addPageSelectedListener(new ChangeActionBarTitleListener(this));
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
-		buttonLinearLyaout = (LinearLayout) view.findViewById(R.id.btn_layout);
 		fileListViewPager = (ViewPager) view.findViewById(R.id.frame_pager);
-		((LinearLayout) view.findViewById(R.id.viewpager_layout)).addView(indicator);
+		if(frameLayout == null)	{
+			buttonLinearLyaout = (LinearLayout) view.findViewById(R.id.btn_layout_bottom);
+			((LinearLayout) view.findViewById(R.id.viewpager_layout)).addView(indicator);
+		}else{
+			buttonLinearLyaout = (LinearLayout) view.findViewById(R.id.btn_layout_top);
+			((LinearLayout) view.findViewById(R.id.viewpager_layout)).addView(indicator, 0);
+		}
 	}
-
+	
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -105,7 +110,7 @@ public class TabFragment extends Fragment {
 		imgBtn = view.getIndexButton();
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
-		imgBtn.setOnClickListener(new ImgBtnOnClick(buttonLinearLyaout, fileListViewPager));
+		imgBtn.setOnClickListener(new ImageButtonOnClick(buttonLinearLyaout, fileListViewPager));
 		buttonLinearLyaout.addView(imgBtn);
 		pagerAdapter.addTabView(view);
 	}

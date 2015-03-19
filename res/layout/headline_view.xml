@@ -18,13 +18,22 @@ limitations under the License.
     android:id="@+id/healines_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/btn_layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+    </LinearLayout>
+    
     <LinearLayout
         	android:id="@+id/viewpager_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_above="@+id/btn_layout" 
-            android:layout_alignParentTop="true">
+            android:layout_above="@+id/btn_layout_bottom"
+            android:layout_below="@id/btn_layout_top"> 
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/frame_pager"
@@ -35,11 +44,10 @@ limitations under the License.
     </LinearLayout>
 
     <LinearLayout
-        android:id="@id/btn_layout"
+        android:id="@id/btn_layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal" >
     </LinearLayout>
-
 </RelativeLayout>
