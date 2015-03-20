@@ -25,9 +25,14 @@ public class ImagesFilter {
 	
 	public static List<String> getImagesList(List<String> imagesPaths){
 		List<String> list = new ArrayList<String>();
+		String[] sliptPathChart = imagesPaths.get(0).split("/");
+		String root = imagesPaths.get(0).replace(sliptPathChart[sliptPathChart.length-1], "");
 		for(String str : imagesPaths)
-			if(URLUtils.guessContentType(new ExtractFileName().process(str)).startsWith("image/"))
+			if(URLUtils.guessContentType(new ExtractFileName().process(str)).startsWith("image/")){
+				if(str.startsWith("webdav"))
+					str = root + str.split("/")[str.split("/").length-1];
 				list.add(str);
+			}
 		return list;
 	}
 }
