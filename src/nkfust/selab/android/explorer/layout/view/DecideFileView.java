@@ -64,6 +64,13 @@ public class DecideFileView {
 			mRelative.addView(contentView);
 	}
 	
+	public Boolean isInitalView(){
+		if(mRelative.getChildAt(0) instanceof InitialView)
+			return true;
+		
+		return false;
+	}
+	
 	public void showInitialView(){
 		mRelative.addView(new InitialView(mContext));
 	}

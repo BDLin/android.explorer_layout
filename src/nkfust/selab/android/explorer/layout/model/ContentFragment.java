@@ -117,12 +117,15 @@ public class ContentFragment extends Fragment {
 	}
 
 	public void setIFile(IFile file) {
-		Log.i("ContentFragment","setIFile!!");
 		localFile = (LocalData) file;
 	}
 	
 	public IFile getCurrentIFile() {
 		return localFile;
+	}
+	
+	public Boolean isInitalView(){
+		return decideFileView.isInitalView();
 	}
 	
 	public List<IFile> getIFileList(){
