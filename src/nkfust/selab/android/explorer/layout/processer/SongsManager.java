@@ -16,8 +16,6 @@ package nkfust.selab.android.explorer.layout.processer;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +23,26 @@ import java.util.List;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractPath;
 import poisondog.vfs.IFile;
-import poisondog.vfs.LocalData;
-import poisondog.vfs.LocalFileFactory;
+import poisondog.vfs.IFileFactory;
 import android.content.Context;
 import android.util.Log;
 
 public class SongsManager {
 	// SDCard Path
-	public String current_path;
+	private String current_path;
 	private List<IFile> songsList = new ArrayList<IFile>();
+	private IFileFactory mFactory;
 
 	// Constructor
-	public SongsManager(LocalData local, Context context) {
+	public SongsManager(Context context, IFile iFile, IFileFactory factory) {
+		mFactory = factory;
 		String path = null;
 		try {
-			path = URLDecoder.decode(local.getUrl());
+			path = URLDecoder.decode(iFile.getUrl());
+			current_path = new ExtractPath().process(path).replace(iFile.getName(), "");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		current_path = new ExtractPath().process(path).replace(local.getName(), "");
 	}
 	
 	public String getmusicDataPath(){
@@ -61,10 +60,8 @@ public class SongsManager {
 		if (home.listFiles(new FileExtensionFilter()).length > 0) {
 			for (File file : home.listFiles(new FileExtensionFilter())) {
 				try {
-					songsList.add(new LocalFileFactory().getFile(file.getAbsolutePath()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
+					songsList.add(mFactory.getFile(file.getAbsolutePath()));
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}

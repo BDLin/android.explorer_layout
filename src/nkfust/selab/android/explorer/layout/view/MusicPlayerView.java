@@ -14,7 +14,6 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,7 @@ import nkfust.selab.android.explorer.layout.processer.Utilities;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractPath;
 import poisondog.vfs.IFile;
+import poisondog.vfs.IFileFactory;
 import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -66,7 +66,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	private List<IFile> songsList = new ArrayList<IFile>();
 	private List<IFile> array = new ArrayList<IFile>();
 
-	private LocalData local;
+	private IFile mIFile;
 	private SongsManager songManager;
 
 	private long totalDuration, currentDuration;
@@ -76,12 +76,14 @@ public class MusicPlayerView extends RelativeLayout implements
 	private PreviousOrNextListener poListener;
 	private ForwardOrBackwardListener fbListener;
 	private PlayMusicListener playListener;
+	private IFileFactory mFactory;
 
-	public MusicPlayerView(Context context, LocalData localData, List<IFile> aList ) {
+	public MusicPlayerView(Context context, IFile iFile, List<IFile> aList, IFileFactory factory){
 		super(context);
 		this.context = context;
-		local = localData;
+		mIFile = iFile;
 		array = aList;
+		mFactory = factory;
 		LayoutInflater.from(context).inflate(R.layout.player, this);
 		init();
 	}
@@ -110,8 +112,8 @@ public class MusicPlayerView extends RelativeLayout implements
 		mp.setOnCompletionListener(this); // Important
 
 		// By default play first song
-		songManager = new SongsManager(local, context);
-		playSong(local);
+		songManager = new SongsManager(context, mIFile, mFactory);
+		playSong(mIFile);
 
 		// All Listener
 		srListener = new ShuffleOrRepeatListener(context, btnRepeat, btnShuffle);
@@ -138,9 +140,9 @@ public class MusicPlayerView extends RelativeLayout implements
 	 * @param songIndex
 	 *            - index of song
 	 * */
-	public void playSong(LocalData localData) {
+	public void playSong(IFile iFile) {
 
-		local = localData;
+		mIFile = iFile;
 		updateCurrentSongIndex();
 		
 		// Getting all songs list
@@ -149,11 +151,11 @@ public class MusicPlayerView extends RelativeLayout implements
 		// Play song
 		try {
 			mp.reset();
-			mp.setDataSource(new ExtractPath().process(URLDecoder.decode(local.getUrl())));
+			mp.setDataSource(new ExtractPath().process(URLDecoder.decode(mIFile.getUrl())));
 			mp.prepare();
 			mp.start();
 			// Displaying Song title
-			String songTitle = URLDecoder.decode(local.getName());
+			String songTitle = URLDecoder.decode(mIFile.getName());
 			songTitleLabel.setText(songTitle);
 
 			// Changing Button Image to pause image
@@ -167,11 +169,7 @@ public class MusicPlayerView extends RelativeLayout implements
 
 			// Updating progress bar
 			updateProgressBar();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -186,7 +184,7 @@ public class MusicPlayerView extends RelativeLayout implements
 		// check for repeat is ON or OFF
 		if (ShuffleOrRepeatListener.isRepeat()) {
 			// repeat is on play same song again
-			playSong(local);
+			playSong(mIFile);
 		} else if (ShuffleOrRepeatListener.isShuffle()) {
 			// shuffle is on - play a random song
 			Random rand = new Random();
@@ -263,9 +261,13 @@ public class MusicPlayerView extends RelativeLayout implements
 
 	private void updateCurrentSongIndex(){
 		for (int i = 0; i < array.size(); i++) {
-			Log.i("MusicPlayer", "name: " + ((LocalData)array.get(i)).getName() + " Date: " + ((LocalData)array.get(i)).getLastModifiedTime());
-			if (((LocalData)array.get(i)).getName().equals(local.getName()))
-				setCurrentSongIndex(i);
+			try {
+				Log.i("MusicPlayer", "name: " + array.get(i).getName() + " Date: " + array.get(i).getLastModifiedTime());
+				if (array.get(i).getName().equals(mIFile.getName()))
+					setCurrentSongIndex(i);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

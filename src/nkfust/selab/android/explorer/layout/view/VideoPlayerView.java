@@ -14,7 +14,6 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ import nkfust.selab.android.explorer.layout.listener.VideoDoFullScreenListener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.model.TouchListener;
 import poisondog.string.ExtractPath;
-import poisondog.vfs.LocalData;
+import poisondog.vfs.IFile;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -45,14 +44,14 @@ public class VideoPlayerView extends RelativeLayout implements
 	private VideoControllerView controller;
 
 	private Context context;
-	private LocalData local;
+	private IFile mIFile;
 
 	private List<TouchListener> listenerList;
 
-	public VideoPlayerView(Context context, LocalData local) {
+	public VideoPlayerView(Context context, IFile ifile) {
 		super(context);
 		this.context = context;
-		this.local = local;
+		mIFile = ifile;
 		LayoutInflater.from(context).inflate(R.layout.video_player, this);
 		init();
 	}
@@ -72,15 +71,9 @@ public class VideoPlayerView extends RelativeLayout implements
 
 		try {
 			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			player.setDataSource(new ExtractPath().process(URLDecoder.decode(local.getUrl())));
+			player.setDataSource(new ExtractPath().process(URLDecoder.decode(mIFile.getUrl())));
 			player.setOnPreparedListener(this);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -197,9 +190,7 @@ public class VideoPlayerView extends RelativeLayout implements
 		try {
 			player.prepare();
 			return;
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		player.start();

@@ -25,7 +25,7 @@ import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import nkfust.selab.android.explorer.layout.view.VideoPlayerView;
 import poisondog.vfs.IFile;
-import poisondog.vfs.LocalData;
+import poisondog.vfs.IFileFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -41,8 +41,9 @@ public class ContentFragment extends Fragment {
 
 	private RelativeLayout browseFileSpace;
 	private DecideFileView decideFileView;
-	private LocalData localFile;
 	private TabFragment mTabFragment;
+	private IFileFactory mFactory;
+	private IFile mIFile;
 	
 	public ContentFragment(){
 		decideFileView = new DecideFileView();
@@ -73,7 +74,8 @@ public class ContentFragment extends Fragment {
 			((ActionBarActivity)getActivity()).getSupportActionBar().hide();
 			((ActionBarActivity)getActivity()).getSupportFragmentManager()
 				.beginTransaction().hide(TabFragment.getTabFragment()).commit();
-			updateBrowseView(localFile);
+			updateBrowseView(mIFile);
+			
 		}
 	}
 	
@@ -98,13 +100,13 @@ public class ContentFragment extends Fragment {
 	}
 	
 	public void updateBrowseView(IFile file){
-		localFile = (LocalData) file;
+		mIFile = file;
 		refreshBrowseView();
 	}
 	
 	public void refreshBrowseView(){
 		browseFileSpace.removeAllViews();
-		decideFileView.setFile(localFile);
+		decideFileView.setFile(mIFile);
 		decideFileView.showView();
 	}
 	
@@ -114,11 +116,19 @@ public class ContentFragment extends Fragment {
 	}
 
 	public void setIFile(IFile file) {
-		localFile = (LocalData) file;
+		mIFile = file;
+	}
+	
+	public void setFactory(IFileFactory factory){
+		mFactory = factory;
+	}
+	
+	public IFileFactory getFactory(){
+		return mFactory;
 	}
 	
 	public IFile getCurrentIFile() {
-		return localFile;
+		return mIFile;
 	}
 	
 	public void setPhotoGridImagePaths(List<String> paths) {
@@ -158,7 +168,7 @@ public class ContentFragment extends Fragment {
 		browseFileSpace.removeAllViews();
 		decideFileView.showInitialView();
 		if(mTabFragment.getFrameLayout() == null)
-			localFile = null;
+			mIFile = null;
 	}
 	
 	public void updateMusicList(){

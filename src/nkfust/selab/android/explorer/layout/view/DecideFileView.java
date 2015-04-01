@@ -20,7 +20,6 @@ import java.util.List;
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
-import poisondog.vfs.LocalData;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -36,7 +35,7 @@ public class DecideFileView {
 	private VideoPlayerView video;
 	private MusicPlayerView audio;
 	private PhotoViewer photoView;
-	private LocalData localFile;
+	private IFile mIFile;
 	private List<IFile> aList, mRemoteIFileList;
 	private List<String> mImagePaths;
 	private Context mContext;
@@ -60,8 +59,12 @@ public class DecideFileView {
 	}
 
 	public void showView(){
-		Log.i("DecideFile", "title:" + getFileSubtype(localFile.getName()));
-		Log.i("DecideFile", "File name:" + localFile.getName());
+		try {
+			Log.i("DecideFile", "title:" + getFileSubtype(mIFile.getName()));
+			Log.i("DecideFile", "File name:" + mIFile.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if(contentView != null)
 			mRelative.addView(contentView);
 	}
@@ -77,13 +80,13 @@ public class DecideFileView {
 		mRelative.addView(new InitialView(mContext));
 	}
 
-	public String getFileSubtype(String fileName) {
-		String[] token = URLUtils.guessContentType(localFile.getName()).split("/");
+	public String getFileSubtype(String fileName) throws Exception {
+		String[] token = URLUtils.guessContentType(mIFile.getName()).split("/");
 		return token[1];
 	}
 
-	public String getFileType(String fileName) {
-		String[] token = URLUtils.guessContentType(localFile.getName()).split("/");
+	public String getFileType(String fileName) throws Exception {
+		String[] token = URLUtils.guessContentType(mIFile.getName()).split("/");
 		return token[0];
 	}
 	
@@ -96,12 +99,16 @@ public class DecideFileView {
 		mContentFragment = contentFragment;
 	}
 	
-	public void setFile(LocalData local){
-		localFile = local;
-		contentView = selectView(getFileType(localFile.getName()),
-				getFileSubtype(localFile.getName()));
+	public void setFile(IFile file){
+		mIFile = file;
+		try {
+			contentView = selectView(getFileType(mIFile.getName()),
+					getFileSubtype(mIFile.getName()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
+	
 	public void setIFileList(List<IFile> list){
 		aList = list;
 	}
@@ -186,7 +193,7 @@ public class DecideFileView {
 			photoView.setContentFragment(mContentFragment);
 			return photoView;
 		} else if (fileType.equals("video")) {
-			video = new VideoPlayerView(mContext, localFile);
+			video = new VideoPlayerView(mContext, mIFile);
 			return video;
 		} 
 //		else if (fileSubType.equals("pdf")) {
@@ -194,7 +201,7 @@ public class DecideFileView {
 //			return null;
 //		} 
 		else {
-			otherView = new OtherFileView(mContext, localFile);
+			otherView = new OtherFileView(mContext, mIFile);
 			otherView.setOnClickListener(openOtherListener);
 			return otherView;
 		}
@@ -202,10 +209,10 @@ public class DecideFileView {
 
 	private void settingMusicPlayerView(){
 		if (audio == null)
-			audio = new MusicPlayerView(mContext, localFile, aList);
+			audio = new MusicPlayerView(mContext, mIFile, aList, mContentFragment.getFactory());
 		else{
 			updateMusicList();
-			audio.playSong(localFile);
+			audio.playSong(mIFile);
 		}
 	}
 	
@@ -245,10 +252,18 @@ public class DecideFileView {
 					e.printStackTrace();
 				}
 		}
+		
+		String fileName = null;
+		try {
+			fileName = mIFile.getName();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		if(photoView == null)
-			photoView = new PhotoViewer(mContext, mImagePaths, localFile.getName());
+			photoView = new PhotoViewer(mContext, mImagePaths, fileName);
 		else
-			photoView.setCurrentItem(mImagePaths, localFile.getName());
+			photoView.setCurrentItem(mImagePaths, fileName);
 		photoView.setPhotoLeftButtonListener(photoLeftButtonListener);
 	}
 }

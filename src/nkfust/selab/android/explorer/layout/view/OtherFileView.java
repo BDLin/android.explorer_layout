@@ -14,8 +14,8 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import poisondog.vfs.LocalData;
 import nkfust.selab.android.explorer.layout.R;
+import poisondog.vfs.IFile;
 import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,7 +23,8 @@ import android.widget.TextView;
 
 public class OtherFileView extends RelativeLayout {
 
-	public OtherFileView(Context context, LocalData local) {
+//	public OtherFileView(Context context, LocalData local) {
+	public OtherFileView(Context context, IFile iFile) {
 		super(context);
 		this.setLayoutParams(new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -43,7 +44,11 @@ public class OtherFileView extends RelativeLayout {
 		trelativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		trelativeParams.addRule(RelativeLayout.BELOW, imageView.getId());
 		TextView text = new TextView(context);
-		text.setText(local.getName());
+		try {
+			text.setText(iFile.getName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		this.addView(imageView, relativeParams);
 		this.addView(text, trelativeParams);
