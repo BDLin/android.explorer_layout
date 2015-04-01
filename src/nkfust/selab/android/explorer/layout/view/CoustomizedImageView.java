@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -206,8 +205,6 @@ public class CoustomizedImageView extends ImageView {
 
             int bmWidth = drawable.getIntrinsicWidth();
             int bmHeight = drawable.getIntrinsicHeight();
-
-            Log.d("bmSize", "bmWidth: " + bmWidth + " bmHeight : " + bmHeight);
 
             float scaleX = (float) viewWidth / (float) bmWidth;
             float scaleY = (float) viewHeight / (float) bmHeight;
