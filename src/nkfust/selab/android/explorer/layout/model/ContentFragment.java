@@ -24,7 +24,6 @@ import nkfust.selab.android.explorer.layout.view.DecideFileView;
 import nkfust.selab.android.explorer.layout.view.MusicPlayerView;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import nkfust.selab.android.explorer.layout.view.VideoPlayerView;
-import poisondog.android.util.Log;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalData;
 import android.os.Bundle;
@@ -58,7 +57,6 @@ public class ContentFragment extends Fragment {
 	
 	@Override
 	public void onViewCreated (View view, Bundle savedInstanceState){
-		Log.i("ContentFragment","onViewCreated!!");
 		super.onViewCreated(view, savedInstanceState);
 		browseFileSpace = (RelativeLayout) view.findViewById(R.id.relative_layout);
 		decideFileView.setBrowseViewLayout(getActivity(), browseFileSpace);
@@ -69,7 +67,6 @@ public class ContentFragment extends Fragment {
 		
 	@Override
 	public void onStart() {
-		Log.i("ContentFragment","onStart!!");
 		super.onStart();
 		Bundle args = getArguments();
 		if (args != null) {
@@ -122,6 +119,10 @@ public class ContentFragment extends Fragment {
 	
 	public IFile getCurrentIFile() {
 		return localFile;
+	}
+	
+	public void setPhotoGridImagePaths(List<String> paths) {
+		decideFileView.setPhotoGridImagePaths(paths);
 	}
 	
 	public Boolean isInitalView(){

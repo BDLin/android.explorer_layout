@@ -38,6 +38,7 @@ public class DecideFileView {
 	private PhotoViewer photoView;
 	private LocalData localFile;
 	private List<IFile> aList, mRemoteIFileList;
+	private List<String> mImagePaths;
 	private Context mContext;
 	private View contentView;
 	
@@ -49,6 +50,7 @@ public class DecideFileView {
 	public DecideFileView() {
 		aList = new ArrayList<IFile>();
 		mRemoteIFileList = new ArrayList<IFile>();
+		mImagePaths = new ArrayList<String>();
 	}
 
 	public DecideFileView(Context context, RelativeLayout relative) {
@@ -114,6 +116,10 @@ public class DecideFileView {
 	
 	public List<IFile> getRemoteIFileList(){
 		return mRemoteIFileList;
+	}
+	
+	public void setPhotoGridImagePaths(List<String> paths){
+		mImagePaths = paths;
 	}
 	
 	public void updateMusicList(){
@@ -230,17 +236,19 @@ public class DecideFileView {
 //	}
 	
 	private void settingPhotoViewr(){
-		List<String> images = new ArrayList<String>();
-		for(IFile ifile : aList)
-			try {
-				images.add(ifile.getUrl());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		if(mContentFragment.getTabFragment().getCurrentPageIndex() != 1){
+			mImagePaths = new ArrayList<String>();
+			for(IFile ifile : aList)
+				try {
+					mImagePaths.add(ifile.getUrl());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
 		if(photoView == null)
-			photoView = new PhotoViewer(mContext, images, localFile.getName());
+			photoView = new PhotoViewer(mContext, mImagePaths, localFile.getName());
 		else
-			photoView.setCurrentItem(images, localFile.getName());
+			photoView.setCurrentItem(mImagePaths, localFile.getName());
 		photoView.setPhotoLeftButtonListener(photoLeftButtonListener);
 	}
 }
