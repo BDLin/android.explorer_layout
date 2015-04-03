@@ -16,6 +16,7 @@
  */
 package nkfust.selab.android.explorer.layout.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
@@ -33,6 +34,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 /**
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
@@ -45,8 +47,13 @@ public class ContentFragment extends Fragment {
 	private IFileFactory mFactory;
 	private IFile mIFile;
 	
+	private List<FrameLayout> mPhotoGridLayouts;
+	private Boolean mReadArgument;
+	
 	public ContentFragment(){
 		decideFileView = new DecideFileView();
+		mPhotoGridLayouts = new ArrayList<FrameLayout>();
+		mReadArgument = false;
 	}
 
 	@Override
@@ -70,12 +77,12 @@ public class ContentFragment extends Fragment {
 	public void onStart() {
 		super.onStart();
 		Bundle args = getArguments();
-		if (args != null) {
+		if (args != null && !mReadArgument) {
 			((ActionBarActivity)getActivity()).getSupportActionBar().hide();
 			((ActionBarActivity)getActivity()).getSupportFragmentManager()
 				.beginTransaction().hide(TabFragment.getTabFragment()).commit();
 			updateBrowseView(mIFile);
-			
+			mReadArgument = true;
 		}
 	}
 	
@@ -92,6 +99,10 @@ public class ContentFragment extends Fragment {
 		if(decideFileView != null){
 			releaseMultiMedia();
 		}
+	}
+	
+	public void setReadArgument(Boolean bool){
+		mReadArgument = bool;
 	}
 	
 	private void setPageSelectedListener(){
@@ -133,6 +144,14 @@ public class ContentFragment extends Fragment {
 	
 	public void setPhotoGridImagePaths(List<String> paths) {
 		decideFileView.setPhotoGridImagePaths(paths);
+	}
+	
+	public void setPhotoGridLayout(List<FrameLayout> layouts) {
+		mPhotoGridLayouts = layouts;
+	}
+	
+	public List<FrameLayout> getPhotoGridLayout() {
+		return mPhotoGridLayouts;
 	}
 	
 	public Boolean isInitalView(){

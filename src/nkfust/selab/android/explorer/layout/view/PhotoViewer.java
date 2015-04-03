@@ -32,7 +32,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 /**
@@ -57,6 +59,7 @@ public class PhotoViewer extends RelativeLayout {
 		super(context);
 		mContentFragment = new ContentFragment();
 		mContext = context;
+		index = -1;
 		LayoutInflater.from(context).inflate(R.layout.photo_view_layout, this);
 		init();
 		setCurrentItem(paths, fileName);
@@ -82,12 +85,26 @@ public class PhotoViewer extends RelativeLayout {
 			public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels){
 				pageText = position + 1 + " of " + aPaths.size();
 				displayPageView.setText(pageText);
+//				if(mContentFragment.getTabFragment().getCurrentPageIndex() == 1){
+//					List<FrameLayout> layouts = mContentFragment.getPhotoGridLayout();
+//					FrameLayout currentLayout = layouts.get(position);
+//					if(index >= 0)
+//						layouts.get(index).removeViewAt(layouts.get(index).getChildCount()-1);
+//					
+//					ImageView focuseView = new ImageView(mContext);
+//					focuseView.setLayoutParams(currentLayout.getChildAt(1).getLayoutParams());
+//					focuseView.setBackgroundResource(R.drawable.focuse_image);
+//					focuseView.setAlpha((float)0.5);
+//					currentLayout.addView(focuseView);
+//				}
+				
 				index = position;
 				try {
 					mContentFragment.setIFile(mContentFragment.getFactory().getFile(aPaths.get(position)));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		});
 		
