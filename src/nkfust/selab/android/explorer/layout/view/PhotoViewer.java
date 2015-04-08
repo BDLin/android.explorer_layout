@@ -28,6 +28,7 @@ import poisondog.string.ExtractFileName;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalFileFactory;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -93,7 +94,7 @@ public class PhotoViewer extends RelativeLayout {
 //					
 //					ImageView focuseView = new ImageView(mContext);
 //					focuseView.setLayoutParams(currentLayout.getChildAt(1).getLayoutParams());
-//					focuseView.setBackgroundResource(R.drawable.focuse_image);
+//					focuseView.setBackgroundColor(Color.BLUE);
 //					focuseView.setAlpha((float)0.5);
 //					currentLayout.addView(focuseView);
 //				}
