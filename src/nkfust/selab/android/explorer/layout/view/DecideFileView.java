@@ -22,6 +22,7 @@ import poisondog.net.URLUtils;
 import poisondog.vfs.IFile;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -43,6 +44,7 @@ public class DecideFileView {
 	
 	private View.OnClickListener openOtherListener;
 	private View.OnClickListener photoLeftButtonListener;
+	private List<OnPageChangeListener> mPhotoGridImageChangeListeners;
 	
 	private ContentFragment mContentFragment;
 	
@@ -50,6 +52,7 @@ public class DecideFileView {
 		aList = new ArrayList<IFile>();
 		mRemoteIFileList = new ArrayList<IFile>();
 		mImagePaths = new ArrayList<String>();
+		mPhotoGridImageChangeListeners = new ArrayList<OnPageChangeListener>();
 	}
 
 	public DecideFileView(Context context, RelativeLayout relative) {
@@ -151,6 +154,10 @@ public class DecideFileView {
 	
 	public void setPhotoPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
 		photoView.setPagerChangeStateListener(listener);
+	}
+	
+	public void addPhotoPagerChangeStateListener(OnPageChangeListener listener){
+		mPhotoGridImageChangeListeners.add(listener);
 	}
 	
 	public void setPhotoLeftButtonListener(View.OnClickListener listener){
@@ -265,5 +272,6 @@ public class DecideFileView {
 		else
 			photoView.setCurrentItem(mImagePaths, fileName);
 		photoView.setPhotoLeftButtonListener(photoLeftButtonListener);
+		photoView.setOnPageChangeListener(mPhotoGridImageChangeListeners);
 	}
 }

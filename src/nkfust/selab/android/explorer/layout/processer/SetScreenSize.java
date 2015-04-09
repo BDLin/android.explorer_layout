@@ -40,7 +40,8 @@ public class SetScreenSize {
 		float contentScreenProportion = (float) contentWidth / (float) contentHeight;
 		if (isFullScreen) {
 			TabFragment.getActionBarActivity().getSupportActionBar().hide();
-			TabFragment.getActionBarActivity().getSupportFragmentManager()
+			if(TabFragment.getFrameLayout() == null)
+				TabFragment.getActionBarActivity().getSupportFragmentManager()
 			        .beginTransaction().hide(TabFragment.getTabFragment()).commit();
 			
 			if (videoProportion > screenProportion) {

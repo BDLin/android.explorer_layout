@@ -15,6 +15,7 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
@@ -28,14 +29,12 @@ import poisondog.string.ExtractFileName;
 import poisondog.vfs.IFile;
 import poisondog.vfs.LocalFileFactory;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 /**
@@ -50,6 +49,7 @@ public class PhotoViewer extends RelativeLayout {
 	
 	private PagerAdapter aPagerAdapter;
 	private List<String> aPaths;
+	private List<OnPageChangeListener> mOnPageChangeListeners;
 	private ViewPager aPager;
 	
 	private Context mContext;
@@ -59,6 +59,7 @@ public class PhotoViewer extends RelativeLayout {
 	public PhotoViewer(Context context, List<String> paths, String fileName) {
 		super(context);
 		mContentFragment = new ContentFragment();
+		mOnPageChangeListeners = new ArrayList<OnPageChangeListener>();
 		mContext = context;
 		index = -1;
 		LayoutInflater.from(context).inflate(R.layout.photo_view_layout, this);
@@ -83,21 +84,12 @@ public class PhotoViewer extends RelativeLayout {
 		aPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), aPaths);
 		aPager.setAdapter(aPagerAdapter);
 		aPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-			public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels){
+			public void onPageSelected (int position){
 				pageText = position + 1 + " of " + aPaths.size();
 				displayPageView.setText(pageText);
-//				if(mContentFragment.getTabFragment().getCurrentPageIndex() == 1){
-//					List<FrameLayout> layouts = mContentFragment.getPhotoGridLayout();
-//					FrameLayout currentLayout = layouts.get(position);
-//					if(index >= 0)
-//						layouts.get(index).removeViewAt(layouts.get(index).getChildCount()-1);
-//					
-//					ImageView focuseView = new ImageView(mContext);
-//					focuseView.setLayoutParams(currentLayout.getChildAt(1).getLayoutParams());
-//					focuseView.setBackgroundColor(Color.BLUE);
-//					focuseView.setAlpha((float)0.5);
-//					currentLayout.addView(focuseView);
-//				}
+				
+				for(OnPageChangeListener listener : mOnPageChangeListeners)
+					listener.onPageSelected(position);
 				
 				index = position;
 				try {
@@ -169,5 +161,9 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public void setContentFragment(ContentFragment contentfragment){
 		mContentFragment = contentfragment;
+	}
+	
+	public void setOnPageChangeListener(List<OnPageChangeListener> listeners){
+		mOnPageChangeListeners = listeners;
 	}
 }

@@ -16,7 +16,6 @@
  */
 package nkfust.selab.android.explorer.layout.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import nkfust.selab.android.explorer.layout.R;
@@ -30,11 +29,11 @@ import poisondog.vfs.IFileFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 /**
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
@@ -47,12 +46,10 @@ public class ContentFragment extends Fragment {
 	private IFileFactory mFactory;
 	private IFile mIFile;
 	
-	private List<FrameLayout> mPhotoGridLayouts;
 	private Boolean mReadArgument;
 	
 	public ContentFragment(){
 		decideFileView = new DecideFileView();
-		mPhotoGridLayouts = new ArrayList<FrameLayout>();
 		mReadArgument = false;
 	}
 
@@ -101,13 +98,15 @@ public class ContentFragment extends Fragment {
 		}
 	}
 	
-	public void setReadArgument(Boolean bool){
-		mReadArgument = bool;
+	public void init(){
+		browseFileSpace.removeAllViews();
+		decideFileView.showInitialView();
+		if(mTabFragment.getFrameLayout() == null)
+			mIFile = null;
 	}
 	
-	private void setPageSelectedListener(){
-		if(mTabFragment != null)
-			mTabFragment.addPageSelectedListener(new CleanContentListener(this));
+	public void updateMusicList(){
+		decideFileView.updateMusicList();
 	}
 	
 	public void updateBrowseView(IFile file){
@@ -125,6 +124,15 @@ public class ContentFragment extends Fragment {
 		decideFileView.ReleaseMediaPlayer();
 		decideFileView.ReleasePhotoViewer();
 	}
+	
+	public void setReadArgument(Boolean bool){
+		mReadArgument = bool;
+	}
+	
+	private void setPageSelectedListener(){
+		if(mTabFragment != null)
+			mTabFragment.addPageSelectedListener(new CleanContentListener(this));
+	}
 
 	public void setIFile(IFile file) {
 		mIFile = file;
@@ -132,6 +140,24 @@ public class ContentFragment extends Fragment {
 	
 	public void setFactory(IFileFactory factory){
 		mFactory = factory;
+	}
+
+	public void setPhotoGridImagePaths(List<String> paths) {
+		decideFileView.setPhotoGridImagePaths(paths);
+	}
+
+	public void setIFileList(List<IFile> list) {
+		decideFileView.setIFileList(list);
+	}
+	
+
+	public void setRemoteIFileList(List<IFile> list) {
+		decideFileView.setRemoteIFileList(list);
+	}
+	
+	public void setTabFragment(TabFragment tabFragment){
+		mTabFragment = tabFragment;
+		setPageSelectedListener();
 	}
 	
 	public IFileFactory getFactory(){
@@ -142,18 +168,6 @@ public class ContentFragment extends Fragment {
 		return mIFile;
 	}
 	
-	public void setPhotoGridImagePaths(List<String> paths) {
-		decideFileView.setPhotoGridImagePaths(paths);
-	}
-	
-	public void setPhotoGridLayout(List<FrameLayout> layouts) {
-		mPhotoGridLayouts = layouts;
-	}
-	
-	public List<FrameLayout> getPhotoGridLayout() {
-		return mPhotoGridLayouts;
-	}
-	
 	public Boolean isInitalView(){
 		return decideFileView.isInitalView();
 	}
@@ -162,36 +176,12 @@ public class ContentFragment extends Fragment {
 		return decideFileView.getIFileList();
 	}
 	
-	public void setIFileList(List<IFile> list) {
-		decideFileView.setIFileList(list);
-	}
-	
 	public List<IFile> getRemoteIFileList(){
 		return decideFileView.getRemoteIFileList();
 	}
 	
-	public void setRemoteIFileList(List<IFile> list) {
-		decideFileView.setRemoteIFileList(list);
-	}
-	
-	public void setTabFragment(TabFragment tabFragment){
-		mTabFragment = tabFragment;
-		setPageSelectedListener();
-	}
-	
 	public TabFragment getTabFragment(){
 		return mTabFragment;
-	}
-	
-	public void init(){
-		browseFileSpace.removeAllViews();
-		decideFileView.showInitialView();
-		if(mTabFragment.getFrameLayout() == null)
-			mIFile = null;
-	}
-	
-	public void updateMusicList(){
-		decideFileView.updateMusicList();
 	}
 	
 	public DecideFileView getDecideFileView(){
@@ -211,6 +201,10 @@ public class ContentFragment extends Fragment {
 	
 	public PhotoViewer getPhotoView(){
 		return decideFileView.getPhotoView();
+	}
+	
+	public void addPhotoPagerChangeStateListener(OnPageChangeListener listener){
+		decideFileView.addPhotoPagerChangeStateListener(listener);
 	}
 	
 	public void setOpenOtherFileListener(View.OnClickListener listener){
