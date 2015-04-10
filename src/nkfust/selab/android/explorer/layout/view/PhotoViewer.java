@@ -27,7 +27,6 @@ import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractFileName;
 import poisondog.vfs.IFile;
-import poisondog.vfs.LocalFileFactory;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -134,9 +133,13 @@ public class PhotoViewer extends RelativeLayout {
 		return currentFolderPath;
 	}
 	
+	public String getCurrentPhotoPath(){
+		return aPaths.get(index);
+	}
+	
 	public IFile getCurrentPhotoIFile(){
 		try {
-			return new LocalFileFactory().getFile(aPaths.get(index));
+			return mContentFragment.getFactory().getFile(aPaths.get(index));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
