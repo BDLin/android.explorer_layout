@@ -26,7 +26,6 @@ import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractFileName;
-import poisondog.vfs.IFile;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -83,7 +82,7 @@ public class PhotoViewer extends RelativeLayout {
 		aPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), aPaths);
 		aPager.setAdapter(aPagerAdapter);
 		aPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-			public void onPageSelected (int position){
+			public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels){
 				pageText = position + 1 + " of " + aPaths.size();
 				displayPageView.setText(pageText);
 				
@@ -135,15 +134,6 @@ public class PhotoViewer extends RelativeLayout {
 	
 	public String getCurrentPhotoPath(){
 		return aPaths.get(index);
-	}
-	
-	public IFile getCurrentPhotoIFile(){
-		try {
-			return mContentFragment.getFactory().getFile(aPaths.get(index));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	public int getPhotoIndex(){
