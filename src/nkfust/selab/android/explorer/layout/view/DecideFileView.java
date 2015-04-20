@@ -160,6 +160,10 @@ public class DecideFileView {
 		mPhotoGridImageChangeListeners.add(listener);
 	}
 	
+	public void clearPhotoPagerChangeStateListener(){
+		mPhotoGridImageChangeListeners.clear();
+	}
+	
 	public void setPhotoLeftButtonListener(View.OnClickListener listener){
 		photoLeftButtonListener = listener;
 	}

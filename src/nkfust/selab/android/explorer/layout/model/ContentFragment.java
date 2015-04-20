@@ -207,6 +207,10 @@ public class ContentFragment extends Fragment {
 		decideFileView.addPhotoPagerChangeStateListener(listener);
 	}
 	
+	public void clearPhotoPagerChangeStateListener(){
+		decideFileView.clearPhotoPagerChangeStateListener();
+	}
+	
 	public void setOpenOtherFileListener(View.OnClickListener listener){
 		decideFileView.setOpenOtherFileListener(listener);
 	}
