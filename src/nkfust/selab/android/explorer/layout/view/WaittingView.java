@@ -14,16 +14,14 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import nkfust.selab.android.explorer.layout.R;
-import poisondog.vfs.IFile;
 import android.content.Context;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class OtherFileView extends RelativeLayout {
+public class WaittingView extends RelativeLayout {
 
-	public OtherFileView(Context context, IFile iFile) {
+	public WaittingView(Context context) {
 		super(context);
 		this.setLayoutParams(new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -33,23 +31,9 @@ public class OtherFileView extends RelativeLayout {
 				RelativeLayout.LayoutParams.WRAP_CONTENT,
 				RelativeLayout.LayoutParams.WRAP_CONTENT);
 		relativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		ImageView imageView = new ImageView(context);
-		imageView.setImageResource(R.drawable.file_128);
-		imageView.setId(55688);
-		
-		RelativeLayout.LayoutParams trelativeParams = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT,
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		trelativeParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-		trelativeParams.addRule(RelativeLayout.BELOW, imageView.getId());
-		TextView text = new TextView(context);
-		try {
-			text.setText(iFile.getName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		this.addView(imageView, relativeParams);
-		this.addView(text, trelativeParams);
+		ProgressBar spinner = new ProgressBar(context);
+		spinner.setVisibility(View.GONE);
+		spinner.setVisibility(View.VISIBLE);
+		this.addView(spinner, relativeParams);
 	}
 }

@@ -82,6 +82,10 @@ public class DecideFileView {
 	public void showInitialView(){
 		mRelative.addView(new InitialView(mContext));
 	}
+	
+	public void showWaittingView(){
+		mRelative.addView(new WaittingView(mContext));
+	}
 
 	public String getFileSubtype(String fileName) throws Exception {
 		String[] token = URLUtils.guessContentType(mIFile.getName()).split("/");

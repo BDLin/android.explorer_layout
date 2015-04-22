@@ -114,6 +114,11 @@ public class ContentFragment extends Fragment {
 		refreshBrowseView();
 	}
 	
+	public void showWaittingView(){
+		browseFileSpace.removeAllViews();
+		decideFileView.showWaittingView();
+	}
+	
 	public void refreshBrowseView(){
 		browseFileSpace.removeAllViews();
 		decideFileView.setFile(mIFile);
