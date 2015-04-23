@@ -25,7 +25,7 @@ import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.processer.ImagesFilter;
 import poisondog.net.URLUtils;
-import poisondog.string.ExtractFileName;
+import poisondog.vfs.IFile;
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -54,7 +54,7 @@ public class PhotoViewer extends RelativeLayout {
 	private String currentFolderPath;
 	private ContentFragment mContentFragment;
 	
-	public PhotoViewer(Context context, List<String> paths, String fileName) {
+	public PhotoViewer(Context context, List<String> paths, IFile file) {
 		super(context);
 		mContentFragment = new ContentFragment();
 		mOnPageChangeListeners = new ArrayList<OnPageChangeListener>();
@@ -62,7 +62,7 @@ public class PhotoViewer extends RelativeLayout {
 		index = -1;
 		LayoutInflater.from(context).inflate(R.layout.photo_view_layout, this);
 		init();
-		setCurrentItem(paths, fileName);
+		setCurrentItem(paths, file);
 	}
 
 	private void init(){
@@ -76,7 +76,7 @@ public class PhotoViewer extends RelativeLayout {
 		rightButton.setOnClickListener(new PhotoShareListener(mContext, this));
 	}
 	
-	public void setCurrentItem(List<String> paths, String fileName){
+	public void setCurrentItem(List<String> paths, IFile currentFile){
 		aPaths = ImagesFilter.getImagesList(paths);
 		currentFolderPath = URLUtils.parentUrl(aPaths.get(0));
 		aPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), aPaths);
@@ -99,8 +99,14 @@ public class PhotoViewer extends RelativeLayout {
 			}
 		});
 		
+		String currentUrl = null;
+		try {
+			currentUrl = currentFile.getUrl().substring(currentFile.getUrl().indexOf("/sata_1"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		for(int i = 0; i < aPaths.size(); i++)
-			if((new ExtractFileName().process(aPaths.get(i)).equals(fileName)))
+			if(aPaths.get(i).endsWith(currentUrl))
 				index = i;
 		aPager.setCurrentItem(index);
 	}

@@ -268,17 +268,10 @@ public class DecideFileView {
 				}
 		}
 		
-		String fileName = null;
-		try {
-			fileName = mIFile.getName();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		if(photoView == null)
-			photoView = new PhotoViewer(mContext, mImagePaths, fileName);
+			photoView = new PhotoViewer(mContext, mImagePaths, mIFile);
 		else
-			photoView.setCurrentItem(mImagePaths, fileName);
+			photoView.setCurrentItem(mImagePaths, mIFile);
 		photoView.setPhotoLeftButtonListener(photoLeftButtonListener);
 		photoView.setOnPageChangeListener(mPhotoGridImageChangeListeners);
 	}
