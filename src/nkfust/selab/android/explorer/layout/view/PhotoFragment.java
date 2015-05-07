@@ -31,7 +31,6 @@ import poisondog.android.image.RecyclingBitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,19 +97,16 @@ public class PhotoFragment extends Fragment {
 			((RecyclingBitmapDrawable) image.getDrawable()).setIsDisplayed(false);
 		}
 		image.setImageResource(R.drawable.file);
-		Log.i("PhotoFragment", "onDestoryView!!!");
 	}
 	
 	@Override
 	public void onDestroy(){
 		super.onDestroy();
-		Log.i("PhotoFragment", "onDestory!!!");
 	}
 	
 	@Override
 	public void onDetach(){
 		super.onDetach();
-		Log.i("PhotoFragment", "onDetach!!!");
 	}
 	
 	public void setPath(String path) {

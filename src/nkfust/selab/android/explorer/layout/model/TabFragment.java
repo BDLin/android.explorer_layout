@@ -66,8 +66,8 @@ public class TabFragment extends Fragment {
 		indicator = new BtnWithUnderlinePageIndicator(getActivity());
 		indicator.addPageSelectedListener(new ChangeMenuListener(this));
 		indicator.addPageSelectedListener(new FocuseTabButtonListener(this));
-		indicator.addPageSelectedListener(new UpdateTabFragmentListener(pagerAdapter));
 		indicator.addPageSelectedListener(new ChangeActionBarTitleListener(this));
+//		indicator.addPageSelectedListener(new UpdateTabFragmentListener(pagerAdapter));
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
 		fileListViewPager = (ViewPager) view.findViewById(R.id.frame_pager);
 		if(frameLayout == null)	{
