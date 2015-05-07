@@ -114,7 +114,7 @@ public class PhotoViewer extends RelativeLayout {
 	public void releasePhotoFragmentList(){
 		if (aPager.getChildCount() > 0){
 			aPager.removeAllViews();
-			aPagerAdapter.notifyDataSetChanged();
+//			aPagerAdapter.notifyDataSetChanged();
 		}
 		aPager = null;
 		aPagerAdapter = null;
