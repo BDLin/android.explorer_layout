@@ -48,6 +48,8 @@ public class ContentFragment extends Fragment {
 	
 	private Boolean mReadArgument;
 	
+	private Object mTempObject;
+	
 	public ContentFragment(){
 		decideFileView = new DecideFileView();
 		mReadArgument = false;
@@ -67,7 +69,7 @@ public class ContentFragment extends Fragment {
 		decideFileView.setBrowseViewLayout(getActivity(), browseFileSpace);
 		decideFileView.setContentFragment(this);
 		init();
-		setPageSelectedListener();
+		setCleanContentdListener();
 	}
 		
 	@Override
@@ -114,15 +116,15 @@ public class ContentFragment extends Fragment {
 		refreshBrowseView();
 	}
 	
-	public void showWaittingView(){
-		browseFileSpace.removeAllViews();
-		decideFileView.showWaittingView();
-	}
-	
 	public void refreshBrowseView(){
 		browseFileSpace.removeAllViews();
 		decideFileView.setFile(mIFile);
 		decideFileView.showView();
+	}
+	
+	public void showWaittingView(){
+		browseFileSpace.removeAllViews();
+		decideFileView.showWaittingView();
 	}
 	
 	public void releaseMultiMedia(){
@@ -132,11 +134,6 @@ public class ContentFragment extends Fragment {
 	
 	public void setReadArgument(Boolean bool){
 		mReadArgument = bool;
-	}
-	
-	private void setPageSelectedListener(){
-		if(mTabFragment != null)
-			mTabFragment.addPageSelectedListener(new CleanContentListener(this));
 	}
 
 	public void setIFile(IFile file) {
@@ -162,7 +159,15 @@ public class ContentFragment extends Fragment {
 	
 	public void setTabFragment(TabFragment tabFragment){
 		mTabFragment = tabFragment;
-		setPageSelectedListener();
+		setCleanContentdListener();
+	}
+	
+	public void setTempObject(Object obj){
+		mTempObject = obj;
+	}
+	
+	public Object getTempObject(){
+		return mTempObject;
 	}
 	
 	public IFileFactory getFactory(){
@@ -230,5 +235,10 @@ public class ContentFragment extends Fragment {
 	
 	public void setPhotoRightButtonListener(View.OnClickListener listener){
 		decideFileView.setPhotoRightButtonListener(listener);
+	}
+	
+	private void setCleanContentdListener(){
+		if(mTabFragment != null)
+			mTabFragment.addPageSelectedListener(new CleanContentListener(this));
 	}
 }

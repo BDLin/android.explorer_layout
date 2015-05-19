@@ -30,5 +30,4 @@ public class ChangeActionBarTitleListener implements PageSelectedListener {
 		mTabFragment.getActionBarActivity().getSupportActionBar()
 				.setTitle(mTabFragment.getCurrentTabView().getActionBarTitle());
 	}
-
 }
