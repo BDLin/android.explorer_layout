@@ -72,7 +72,7 @@ public class PhotoViewer extends RelativeLayout {
 		rightButton = (ImageButton)findViewById(R.id.share_button);
 		leftButton.setImageResource(R.drawable.photo_list);
 		rightButton.setImageResource(R.drawable.photo_right);
-		leftButton.setOnClickListener(new PhotoAlterListener(this));
+		leftButton.setOnClickListener(new PhotoAlterListener(this, new ArrayList<PhotoAlterDialogItem>()));
 		rightButton.setOnClickListener(new PhotoShareListener(mContext, this));
 	}
 	

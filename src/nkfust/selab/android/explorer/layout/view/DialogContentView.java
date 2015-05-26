@@ -12,23 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nkfust.selab.android.explorer.layout.listener;
+package nkfust.selab.android.explorer.layout.view;
 
-import nkfust.selab.android.explorer.layout.model.ContentFragment;
-import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
+import nkfust.selab.android.explorer.layout.R;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 
-public class CleanContentListener implements PageSelectedListener {
+public class DialogContentView extends LinearLayout {
 
-	private ContentFragment mContentFragment;
-	
-	public CleanContentListener(ContentFragment contentFragment){
-		mContentFragment = contentFragment;
-	}
-	
-	@Override
-	public void onPageSelect() {
-		mContentFragment.clearPhotoPagerChangeStateListener();
-		mContentFragment.init();
-		mContentFragment.releaseMultiMedia();
+	public DialogContentView(Context context) {
+		super(context);
+		LayoutInflater.from(context).inflate(R.layout.photo_alter_dialog_layout, this);
+		this.setOrientation(LinearLayout.VERTICAL);
+		this.removeAllViews();
 	}
 }

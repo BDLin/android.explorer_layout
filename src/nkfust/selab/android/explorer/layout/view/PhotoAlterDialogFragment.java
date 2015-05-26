@@ -14,37 +14,43 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
-import nkfust.selab.android.explorer.layout.listener.PhotoAlterDialogListener;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface.OnClickListener;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.widget.LinearLayout;
 
 public class PhotoAlterDialogFragment extends DialogFragment {
-
-	private String aTitle;
-	private String[] aItems;
 	
-	private OnClickListener mListener = null;
+	private String mTitle;
 	
-	public PhotoAlterDialogFragment(String title, String[] items){
-		aTitle = title;
-		aItems = items;
-		mListener = new PhotoAlterDialogListener();
-	}
-
-	public PhotoAlterDialogFragment(String title, String[] items, OnClickListener itemsListener){
-		this(title, items);
-		mListener = itemsListener;
+	private List<PhotoAlterDialogItem> mItems;
+	
+	public PhotoAlterDialogFragment(String title, List<PhotoAlterDialogItem> items){
+		mTitle = title;
+		mItems = items;
 	}
 	
 	@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        return new AlertDialog.Builder(getActivity())
-                .setTitle(aTitle)
-                .setItems(aItems, mListener)
+		DialogContentView mDialogContentView = new DialogContentView(getActivity());
+		 for(PhotoAlterDialogItem item : mItems){
+			if(!item.equals(mItems.get(0))){
+				LinearLayout line = new LinearLayout(getActivity());
+				line.setBackgroundColor(Color.GRAY);
+				line.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1));
+				line.setAlpha((float)0.4);
+				mDialogContentView.addView(line);
+			}
+			mDialogContentView.addView(item);
+		 }
+		 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		 builder.setView(mDialogContentView);
+         return builder
+                .setTitle(mTitle)
                 .setNegativeButton("Cancel", null)
                 .create();
     }

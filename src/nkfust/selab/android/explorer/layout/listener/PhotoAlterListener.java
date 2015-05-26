@@ -14,25 +14,23 @@
  */
 package nkfust.selab.android.explorer.layout.listener;
 
-import poisondog.string.ExtractFileName;
+import java.util.List;
+
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.view.PhotoAlterDialogFragment;
+import nkfust.selab.android.explorer.layout.view.PhotoAlterDialogItem;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
+import poisondog.string.ExtractFileName;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 public class PhotoAlterListener implements OnClickListener {
 
+	private List<PhotoAlterDialogItem> mItems;
 	private PhotoViewer mPhotoView;
-	private String[] mItems = {"Rename", "Delete"};
 	
-	public PhotoAlterListener(PhotoViewer photoView){
+	public PhotoAlterListener(PhotoViewer photoView, List<PhotoAlterDialogItem> items){
 		mPhotoView = photoView;
-	}
-	
-	public PhotoAlterListener(PhotoViewer photoView, String[] items){
-		this(photoView);
-		items.clone();
 		mItems = items;
 	}
 	
