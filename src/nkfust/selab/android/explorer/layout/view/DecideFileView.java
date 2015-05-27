@@ -37,7 +37,7 @@ public class DecideFileView {
 	private MusicPlayerView audio;
 	private PhotoViewer photoView;
 	private IFile mIFile;
-	private List<IFile> aList, mRemoteIFileList;
+	private List<IFile> mList, mRemoteIFileList;
 	private List<String> mImagePaths;
 	private Context mContext;
 	private View contentView;
@@ -49,7 +49,7 @@ public class DecideFileView {
 	private ContentFragment mContentFragment;
 	
 	public DecideFileView() {
-		aList = new ArrayList<IFile>();
+		mList = new ArrayList<IFile>();
 		mRemoteIFileList = new ArrayList<IFile>();
 		mImagePaths = new ArrayList<String>();
 		mPhotoGridImageChangeListeners = new ArrayList<OnPageChangeListener>();
@@ -117,11 +117,11 @@ public class DecideFileView {
 	}
 	
 	public void setIFileList(List<IFile> list){
-		aList = list;
+		mList = list;
 	}
 	
 	public List<IFile> getIFileList(){
-		return aList;
+		return mList;
 	}
 	
 	public void setRemoteIFileList(List<IFile> list){
@@ -137,7 +137,7 @@ public class DecideFileView {
 	}
 	
 	public void updateMusicList(){
-		audio.updateMusicList(aList);
+		audio.updateMusicList(mList);
 	}
 
 	public VideoPlayerView getVideoView() {
@@ -224,7 +224,7 @@ public class DecideFileView {
 
 	private void settingMusicPlayerView(){
 		if (audio == null)
-			audio = new MusicPlayerView(mContext, mIFile, aList, mContentFragment.getFactory());
+			audio = new MusicPlayerView(mContext, mIFile, mList, mContentFragment.getFactory());
 		else{
 			updateMusicList();
 			audio.playSong(mIFile);
@@ -260,14 +260,13 @@ public class DecideFileView {
 	private void settingPhotoViewr(){
 		if(mContentFragment.getTabFragment().getCurrentPageIndex() != 1){
 			mImagePaths = new ArrayList<String>();
-			for(IFile ifile : aList)
+			for(IFile ifile : mList)
 				try {
 					mImagePaths.add(ifile.getUrl());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 		}
-		Log.i("DecideFileVIew", "ImagePAth:" + mImagePaths.get(0));
 		if(photoView == null)
 			photoView = new PhotoViewer(mContext, mImagePaths, mIFile);
 		else
