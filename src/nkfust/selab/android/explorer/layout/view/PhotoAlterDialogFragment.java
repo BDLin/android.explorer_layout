@@ -14,6 +14,7 @@
  */
 package nkfust.selab.android.explorer.layout.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -29,9 +30,9 @@ public class PhotoAlterDialogFragment extends DialogFragment {
 	
 	private List<PhotoAlterDialogItem> mItems;
 	
-	public PhotoAlterDialogFragment(String title, List<PhotoAlterDialogItem> items){
+	public PhotoAlterDialogFragment(String title){
 		mTitle = title;
-		mItems = items;
+		mItems = new ArrayList<PhotoAlterDialogItem>();
 	}
 	
 	@Override
@@ -54,4 +55,8 @@ public class PhotoAlterDialogFragment extends DialogFragment {
                 .setNegativeButton("Cancel", null)
                 .create();
     }
+	
+	public void addPhotoAlterDialogItem(PhotoAlterDialogItem item){
+		mItems.add(item);
+	}
 }

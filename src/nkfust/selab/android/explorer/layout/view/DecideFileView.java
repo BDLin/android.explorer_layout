@@ -267,7 +267,7 @@ public class DecideFileView {
 					e.printStackTrace();
 				}
 		}
-		
+		Log.i("DecideFileVIew", "ImagePAth:" + mImagePaths.get(0));
 		if(photoView == null)
 			photoView = new PhotoViewer(mContext, mImagePaths, mIFile);
 		else

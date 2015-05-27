@@ -14,11 +14,8 @@
  */
 package nkfust.selab.android.explorer.layout.listener;
 
-import java.util.List;
-
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.view.PhotoAlterDialogFragment;
-import nkfust.selab.android.explorer.layout.view.PhotoAlterDialogItem;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import poisondog.string.ExtractFileName;
 import android.view.View;
@@ -26,19 +23,17 @@ import android.view.View.OnClickListener;
 
 public class PhotoAlterListener implements OnClickListener {
 
-	private List<PhotoAlterDialogItem> mItems;
 	private PhotoViewer mPhotoView;
 	
-	public PhotoAlterListener(PhotoViewer photoView, List<PhotoAlterDialogItem> items){
+	public PhotoAlterListener(PhotoViewer photoView){
 		mPhotoView = photoView;
-		mItems = items;
 	}
 	
 	@Override
 	public void onClick(View v) {
 		String path = mPhotoView.getPaths().get(mPhotoView.getPhotoIndex());
 		String title = new ExtractFileName().process(path);
-		PhotoAlterDialogFragment dialog = new PhotoAlterDialogFragment( title, mItems);
+		PhotoAlterDialogFragment dialog = new PhotoAlterDialogFragment(title);
 		dialog.show(TabFragment.getActionBarActivity().getSupportFragmentManager(), "dialog");
 	}
 }
