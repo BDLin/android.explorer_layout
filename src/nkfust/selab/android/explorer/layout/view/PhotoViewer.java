@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 /**
+ * This class is a photo viewer.
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
 public class PhotoViewer extends RelativeLayout {
@@ -45,10 +46,10 @@ public class PhotoViewer extends RelativeLayout {
 	private String pageText;
 	private int index;
 	
-	private PagerAdapter aPagerAdapter;
-	private List<String> aPaths;
+	private PagerAdapter mPagerAdapter;
+	private List<String> mPaths;
 	private List<OnPageChangeListener> mOnPageChangeListeners;
-	private ViewPager aPager;
+	private ViewPager mPager;
 	
 	private Context mContext;
 	private String currentFolderPath;
@@ -67,7 +68,7 @@ public class PhotoViewer extends RelativeLayout {
 
 	private void init(){
 		displayPageView = (TextView)findViewById(R.id.page_textview);
-		aPager = (ViewPager)findViewById(R.id.photo_pager);
+		mPager = (ViewPager)findViewById(R.id.photo_pager);
 		leftButton = (ImageButton)findViewById(R.id.alter_button);
 		rightButton = (ImageButton)findViewById(R.id.share_button);
 		leftButton.setImageResource(R.drawable.photo_list);
@@ -77,13 +78,13 @@ public class PhotoViewer extends RelativeLayout {
 	}
 	
 	public void setCurrentItem(List<String> paths, IFile currentFile){
-		aPaths = ImagesFilter.getImagesList(paths);
-		currentFolderPath = URLUtils.parentUrl(aPaths.get(0));
-		aPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), aPaths);
-		aPager.setAdapter(aPagerAdapter);
-		aPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+		mPaths = ImagesFilter.getImagesList(paths);
+		currentFolderPath = URLUtils.parentUrl(mPaths.get(0));
+		mPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), mPaths);
+		mPager.setAdapter(mPagerAdapter);
+		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
 			public void onPageScrolled (int position, float positionOffset, int positionOffsetPixels){
-				pageText = position + 1 + " of " + aPaths.size();
+				pageText = position + 1 + " of " + mPaths.size();
 				displayPageView.setText(pageText);
 				
 				for(OnPageChangeListener listener : mOnPageChangeListeners)
@@ -91,7 +92,7 @@ public class PhotoViewer extends RelativeLayout {
 				
 				index = position;
 				try {
-					mContentFragment.setIFile(mContentFragment.getFactory().getFile(aPaths.get(position)));
+					mContentFragment.setIFile(mContentFragment.getFactory().getFile(mPaths.get(position)));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -105,33 +106,33 @@ public class PhotoViewer extends RelativeLayout {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for(int i = 0; i < aPaths.size(); i++)
-			if(aPaths.get(i).endsWith(currentUrl))
+		for(int i = 0; i < mPaths.size(); i++)
+			if(mPaths.get(i).endsWith(currentUrl))
 				index = i;
-		aPager.setCurrentItem(index);
+		mPager.setCurrentItem(index);
 	}
 	
 	public void releasePhotoFragmentList(){
-		if (aPager.getChildCount() > 0){
-			aPager.removeAllViews();
-//			aPagerAdapter.notifyDataSetChanged();
+		if (mPager.getChildCount() > 0){
+			mPager.removeAllViews();
+//			mPagerAdapter.notifyDataSetChanged();
 		}
-		aPager = null;
-		aPagerAdapter = null;
-		aPaths.clear();
+		mPager = null;
+		mPagerAdapter = null;
+		mPaths.clear();
 		System.gc();
 	}
 	
 	public ViewPager getViewPager(){
-		return aPager;
+		return mPager;
 	}
 	
 	public PagerAdapter getPagerAdapter(){
-		return aPagerAdapter;
+		return mPagerAdapter;
 	}
 	
 	public List<String> getPaths(){
-		return aPaths;
+		return mPaths;
 	}
 	
 	public String getCurrentFolderPath(){
@@ -139,7 +140,7 @@ public class PhotoViewer extends RelativeLayout {
 	}
 	
 	public String getCurrentPhotoPath(){
-		return aPaths.get(index);
+		return mPaths.get(index);
 	}
 	
 	public int getPhotoIndex(){
@@ -147,7 +148,7 @@ public class PhotoViewer extends RelativeLayout {
 	}
 	
 	public void setPagerChangeStateListener(ViewPager.SimpleOnPageChangeListener listener){
-		aPager.setOnPageChangeListener(listener);
+		mPager.setOnPageChangeListener(listener);
 	}
 	
 	public void setPhotoLeftButtonListener(View.OnClickListener listener){

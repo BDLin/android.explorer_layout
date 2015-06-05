@@ -39,27 +39,31 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 /**
+ * This class is a page of show photo.
+ * <p>
+ * This used to getItem() function in the FragmentStatePagerAdapter,
+ * and must be use setPath function to set path of photo.
  * @author poisondog <poisondog@gmail.com>
  */
 public class PhotoFragment extends Fragment {
 	private static final String PATH = "path";
-	private String path;
-	private CoustomizedImageView image;
-	private ImageFetcher aFetcher;
+	private String mPath;
+	private CoustomizedImageView mImage;
+	private ImageFetcher mFetcher;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
-			path = savedInstanceState.getString(PATH);
+			mPath = savedInstanceState.getString(PATH);
 		}
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 		try{
 			FileObject cache = VFS.getManager().resolveFile(getActivity().getExternalCacheDir().getPath());
-			aFetcher = new ImageFetcher(getActivity(), (int)(dm.widthPixels), (int)(dm.heightPixels), cache);
-			aFetcher.setImageCache(new ImageCache(getActivity(), cache));
+			mFetcher = new ImageFetcher(getActivity(), (int)(dm.widthPixels), (int)(dm.heightPixels), cache);
+			mFetcher.setImageCache(new ImageCache(getActivity(), cache));
 		}catch(FileSystemException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +72,7 @@ public class PhotoFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString(PATH, path);
+		outState.putString(PATH, mPath);
 	}
 
 	@Override
@@ -80,23 +84,23 @@ public class PhotoFragment extends Fragment {
 				FrameLayout.LayoutParams.WRAP_CONTENT);
 		params.gravity = Gravity.CENTER;
 		pb.setLayoutParams(params);
-		image = new CoustomizedImageView(getActivity());
-		image.setMaxZoom(2f);
-		image.setDrawingCacheEnabled(false);
-		aFetcher.loadImage(path, image);
+		mImage = new CoustomizedImageView(getActivity());
+		mImage.setMaxZoom(2f);
+		mImage.setDrawingCacheEnabled(false);
+		mFetcher.loadImage(mPath, mImage);
 
 		fl.addView(pb);
-		fl.addView(image);
+		fl.addView(mImage);
 		return fl;
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		if (RecyclingBitmapDrawable.class.isInstance(image.getDrawable())) {
-			((RecyclingBitmapDrawable) image.getDrawable()).setIsDisplayed(false);
+		if (RecyclingBitmapDrawable.class.isInstance(mImage.getDrawable())) {
+			((RecyclingBitmapDrawable) mImage.getDrawable()).setIsDisplayed(false);
 		}
-		image.setImageResource(R.drawable.file);
+		mImage.setImageResource(R.drawable.file);
 	}
 	
 	@Override
@@ -110,6 +114,6 @@ public class PhotoFragment extends Fragment {
 	}
 	
 	public void setPath(String path) {
-		this.path = path;
+		mPath = path;
 	}
 }

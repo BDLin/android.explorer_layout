@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 /**
+ * This class is a display file content page. 
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
 public class ContentFragment extends Fragment {
@@ -47,7 +48,7 @@ public class ContentFragment extends Fragment {
 	private IFile mIFile;
 	
 	private Boolean mReadArgument;
-	
+
 	private Object mTempObject;
 	
 	public ContentFragment(){
@@ -58,7 +59,6 @@ public class ContentFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.article_view, container, false);
 	}
 	
@@ -69,7 +69,7 @@ public class ContentFragment extends Fragment {
 		decideFileView.setBrowseViewLayout(getActivity(), browseFileSpace);
 		decideFileView.setContentFragment(this);
 		init();
-		setCleanContentdListener();
+		setCleanContentListener();
 	}
 		
 	@Override
@@ -100,6 +100,9 @@ public class ContentFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * This function is initial the content page.
+	 */
 	public void init(){
 		browseFileSpace.removeAllViews();
 		decideFileView.showInitialView();
@@ -107,26 +110,45 @@ public class ContentFragment extends Fragment {
 			mIFile = null;
 	}
 	
+	/**
+	 * If file list have been change when playing music, 
+	 * can use this function update to song list. 
+	 */
 	public void updateMusicList(){
 		decideFileView.updateMusicList();
 	}
 	
+	/**
+	 * This function is update to content page.
+	 * @param file 
+	 * 				The file will be read. 
+	 */
 	public void updateBrowseView(IFile file){
 		mIFile = file;
 		refreshBrowseView();
 	}
 	
+	/**
+	 * When browsing file if file data in the file list have been changed,
+	 * can use this function refresh content page.
+	 */
 	public void refreshBrowseView(){
 		browseFileSpace.removeAllViews();
 		decideFileView.setFile(mIFile);
 		decideFileView.showView();
 	}
 	
+	/**
+	 * This function is show waiting view on the content page.
+	 */
 	public void showWaittingView(){
 		browseFileSpace.removeAllViews();
 		decideFileView.showWaittingView();
 	}
 	
+	/**
+	 * This function is release multi-media used resource.
+	 */
 	public void releaseMultiMedia(){
 		decideFileView.ReleaseMediaPlayer();
 		decideFileView.ReleasePhotoViewer();
@@ -151,7 +173,6 @@ public class ContentFragment extends Fragment {
 	public void setIFileList(List<IFile> list) {
 		decideFileView.setIFileList(list);
 	}
-	
 
 	public void setRemoteIFileList(List<IFile> list) {
 		decideFileView.setRemoteIFileList(list);
@@ -159,13 +180,21 @@ public class ContentFragment extends Fragment {
 	
 	public void setTabFragment(TabFragment tabFragment){
 		mTabFragment = tabFragment;
-		setCleanContentdListener();
+		setCleanContentListener();
 	}
 	
+	/**
+	 * The function is offer temporary storage any object. 
+	 * @param obj
+	 *            Any object.
+	 */
 	public void setTempObject(Object obj){
 		mTempObject = obj;
 	}
 	
+	/**
+	 * @return Object of the temporary storage.
+	 */
 	public Object getTempObject(){
 		return mTempObject;
 	}
@@ -237,7 +266,7 @@ public class ContentFragment extends Fragment {
 		decideFileView.setPhotoRightButtonListener(listener);
 	}
 	
-	private void setCleanContentdListener(){
+	private void setCleanContentListener(){
 		if(mTabFragment != null)
 			mTabFragment.addPageSelectedListener(new CleanContentListener(this));
 	}

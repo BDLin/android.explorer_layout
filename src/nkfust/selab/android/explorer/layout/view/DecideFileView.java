@@ -23,10 +23,10 @@ import poisondog.vfs.IFile;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 /**
+ * This class is display corresponding to file view on content page. 
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
 public class DecideFileView {
@@ -61,13 +61,10 @@ public class DecideFileView {
 		mRelative = relative;
 	}
 
+	/**
+	 * This function is display the corresponding to file view.
+	 */
 	public void showView(){
-		try {
-			Log.i("DecideFile", "title:" + getFileSubtype(mIFile.getName()));
-			Log.i("DecideFile", "File name:" + mIFile.getName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		if(contentView != null)
 			mRelative.addView(contentView);
 	}
@@ -79,38 +76,66 @@ public class DecideFileView {
 		return false;
 	}
 	
+	/**
+	 * This function is show initial view to content page.
+	 */
 	public void showInitialView(){
 		mRelative.addView(new InitialView(mContext));
 	}
 	
+	/**
+	 * This function is show waiting view to content page.
+	 */
 	public void showWaittingView(){
 		mRelative.addView(new WaittingView(mContext));
 	}
 
-	public String getFileSubtype(String fileName) throws Exception {
-		String[] token = URLUtils.guessContentType(mIFile.getName()).split("/");
+	/**
+	 * @param fileName The file name.
+	 * @return The file extension.
+	 */
+	public String getFileExtension(String fileName){
+		String[] token = URLUtils.guessContentType(fileName).split("/");
 		return token[1];
 	}
 
-	public String getFileType(String fileName) throws Exception {
-		String[] token = URLUtils.guessContentType(mIFile.getName()).split("/");
+	/**
+	 * @param fileName The file name.
+	 * @return The file type.
+	 */
+	public String getFileType(String fileName){
+		String[] token = URLUtils.guessContentType(fileName).split("/");
 		return token[0];
 	}
 	
+	/**
+	 * First if use empty construct instantiates this class, can use this function set 
+	 * browse view layout.
+	 * @param context The Activity parent.
+	 * @param relative A layout.
+	 */
 	public void setBrowseViewLayout(Context context, RelativeLayout relative){
 		mContext = context;
 		mRelative = relative;
 	}
 	
+	/**
+	 * Must be use this function set contentFragment 
+	 * before using to instantiates this class object, 
+	 * because some of view can use to contentFragment.
+	 */
 	public void setContentFragment(ContentFragment contentFragment){
 		mContentFragment = contentFragment;
 	}
 	
+	/**
+	 * This function is set file that will be read.
+	 * @param file Will be read the file.
+	 */
 	public void setFile(IFile file){
 		mIFile = file;
 		try {
-			contentView = selectView(getFileType(mIFile.getName()),
-					getFileSubtype(mIFile.getName()));
+			contentView = selectView(getFileType(mIFile.getName()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,6 +161,10 @@ public class DecideFileView {
 		mImagePaths = paths;
 	}
 	
+	/**
+	 * If file list have been change when playing music, 
+	 * can use this function update to song list. 
+	 */
 	public void updateMusicList(){
 		audio.updateMusicList(mList);
 	}
@@ -176,6 +205,9 @@ public class DecideFileView {
 		photoView.setPhotoRightButtonListener(listener);
 	}
 
+	/**
+	 * This function is release photo view used resource.
+	 */
 	public void ReleasePhotoViewer(){
 		if(photoView != null){
 			photoView.releasePhotoFragmentList();
@@ -183,6 +215,9 @@ public class DecideFileView {
 		}
 	}
 	
+	/**
+	 * This function is release media player used resource.
+	 */
 	public void ReleaseMediaPlayer() {
 		if (audio != null) {
 			audio.endPlayer();
@@ -194,7 +229,7 @@ public class DecideFileView {
 		}
 	}
 
-	private View selectView(String fileType, String fileSubType){
+	private View selectView(String fileType){
 		if(!fileType.equals("image"))
 			ReleasePhotoViewer();
 		if(!fileType.equals("audio"))
@@ -210,12 +245,7 @@ public class DecideFileView {
 		} else if (fileType.equals("video")) {
 			video = new VideoPlayerView(mContext, mIFile);
 			return video;
-		} 
-//		else if (fileSubType.equals("pdf")) {
-//			settingPDFViewer();
-//			return null;
-//		} 
-		else {
+		} else {
 			otherView = new OtherFileView(mContext, mIFile);
 			otherView.setOnClickListener(openOtherListener);
 			return otherView;
@@ -230,32 +260,6 @@ public class DecideFileView {
 			audio.playSong(mIFile);
 		}
 	}
-	
-//	private void settingPDFViewer(){
-//		// create a listener for receiving provide pdf loading results
-//		SimpleDocumentReaderListener m_listener = new SimpleDocumentReaderListener() {
-//			@Override
-//			public void onLoadFinish(DocumentState.OPEN state) {}
-//		};
-//		try {
-//			InputStream is = localFile.getInputStream();
-//			int size = is.available();
-//			if (size > 0) {
-//				byte[] data = new byte[size];
-//				is.read(data);
-//				// pdfviewer create.
-//				SimpleDocumentReader viewer = SimpleReaderFactory
-//						.createSimpleViewer(TabFragment.getTabFragment()
-//								.getActivity(), m_listener);
-//				// pdf data load.
-//				mRelative.addView(viewer.getReaderView());
-//				viewer.openData(data, data.length, "");
-//			}
-//			is.close();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	private void settingPhotoViewr(){
 		if(mContentFragment.getTabFragment().getCurrentPageIndex() != 1){

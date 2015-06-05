@@ -18,7 +18,10 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
+/**
+ * This class is a view, you can add it to content page when loading file. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class WaittingView extends RelativeLayout {
 
 	public WaittingView(Context context) {

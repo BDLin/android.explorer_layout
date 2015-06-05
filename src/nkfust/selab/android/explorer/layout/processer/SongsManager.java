@@ -25,15 +25,17 @@ import poisondog.string.ExtractPath;
 import poisondog.vfs.IFile;
 import poisondog.vfs.IFileFactory;
 import android.content.Context;
-import android.util.Log;
-
+/**
+ * This class is a song manager, it can search all mp3 files at the current path. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ *
+ */
 public class SongsManager {
-	// SDCard Path
+
 	private String current_path;
 	private List<IFile> songsList = new ArrayList<IFile>();
 	private IFileFactory mFactory;
 
-	// Constructor
 	public SongsManager(Context context, IFile iFile, IFileFactory factory) {
 		mFactory = factory;
 		String path = null;
@@ -50,12 +52,12 @@ public class SongsManager {
 	}
 
 	/**
-	 * Function to read all mp3 files from sdcard and store the details in
+	 * Function to read all mp3 files from current folder and store the details in
 	 * ArrayList
+	 * @return All the search to mp3 files.
 	 * */
 	public List<IFile> getPlayList() {
 		File home = new File(current_path);
-		Log.i("SongManager", "path: " + current_path);
 		songsList.clear();
 		if (home.listFiles(new FileExtensionFilter()).length > 0) {
 			for (File file : home.listFiles(new FileExtensionFilter())) {
@@ -66,9 +68,7 @@ public class SongsManager {
 				}
 			}
 		}
-		// return songs list array
 		
-		Log.i("SongManager", "Size: " + songsList.size());
 		return songsList;
 	}
 

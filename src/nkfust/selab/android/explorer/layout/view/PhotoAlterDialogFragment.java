@@ -23,7 +23,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.LinearLayout;
-
+/**
+ * This is a inherit DialogFragment class.
+ * <p>
+ * This class usage is must add PhotoAlterDialogItem to dialog so that it have content. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class PhotoAlterDialogFragment extends DialogFragment {
 	
 	private String mTitle;
@@ -56,6 +61,10 @@ public class PhotoAlterDialogFragment extends DialogFragment {
                 .create();
     }
 	
+	/**
+	 * This function is add item to dialog content.
+	 * @param item The item is a object of instantiates PhotoAlterDialogItem.
+	 */
 	public void addPhotoAlterDialogItem(PhotoAlterDialogItem item){
 		mItems.add(item);
 	}

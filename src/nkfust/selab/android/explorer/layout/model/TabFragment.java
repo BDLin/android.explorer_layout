@@ -32,9 +32,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 /**
+ * This class is tab page.
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
 public class TabFragment extends Fragment {
@@ -44,7 +44,6 @@ public class TabFragment extends Fragment {
 	private LinearLayout.LayoutParams params;
 	private LinearLayout buttonLinearLyaout;
 	private ViewPager fileListViewPager;
-	private ImageButton imgBtn;
 	private Menu mMenu;
 
 	private static ActionBarActivity activity;
@@ -66,7 +65,6 @@ public class TabFragment extends Fragment {
 		indicator.addPageSelectedListener(new ChangeMenuListener(this));
 		indicator.addPageSelectedListener(new FocuseTabButtonListener(this));
 		indicator.addPageSelectedListener(new ChangeActionBarTitleListener(this));
-//		indicator.addPageSelectedListener(new UpdateTabFragmentListener(pagerAdapter));
 		params = new LinearLayout.LayoutParams(0,LinearLayout.LayoutParams.MATCH_PARENT);
 		fileListViewPager = (ViewPager) view.findViewById(R.id.frame_pager);
 		if(frameLayout == null)	{
@@ -105,8 +103,13 @@ public class TabFragment extends Fragment {
 		}
 	}
 	
+	/**
+	 * This function be will add class that have been implemented TabView interface.
+	 * @param view 
+	 * 				The view have been implemented TabView interface.
+	 */
 	public void addTabView(TabView view) {
-		imgBtn = view.getIndexButton();
+		View imgBtn = view.getIndexButton();
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
 		imgBtn.setOnClickListener(new ImageButtonOnClick(buttonLinearLyaout, fileListViewPager));
@@ -114,11 +117,17 @@ public class TabFragment extends Fragment {
 		pagerAdapter.addTabView(view);
 	}
 
+	/**
+	 * This function is clean all view in the tab page.
+	 */
 	public void clean() {
 		buttonLinearLyaout.removeAllViews();
 		pagerAdapter.clean();
 	}
-
+	
+	/**
+	 * @return Isn't the adapter null in the tab page.
+	 */
 	public Boolean isFragmentStatePagerAdapterNull() {
 		return (fileListViewPager.getAdapter() == null) ? true : false;
 	}

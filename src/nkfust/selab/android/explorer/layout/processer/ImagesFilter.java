@@ -20,7 +20,11 @@ import java.util.List;
 
 import poisondog.net.URLUtils;
 import poisondog.string.ExtractFileName;
-
+/**
+ * This class is a filter, if get uncertain image path list can use it filter path list.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ *
+ */
 public class ImagesFilter {
 	
 	public static List<String> getImagesList(List<String> imagesPaths){

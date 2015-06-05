@@ -15,7 +15,11 @@
 package nkfust.selab.android.explorer.layout.model;
 
 import android.view.MotionEvent;
-
+/**
+ * If have to process multi-onTouchEvent, so need implements this interface then 
+ * all implemented class add to the List, use For-loop execute all onTouchEvent. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public interface TouchListener {
 	public void onTouch(MotionEvent event);
 }

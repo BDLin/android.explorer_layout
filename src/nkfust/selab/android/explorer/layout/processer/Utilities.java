@@ -14,6 +14,10 @@
  */
 package nkfust.selab.android.explorer.layout.processer;
 
+/**
+ * This class is used to get progress bar new information at the Music Player View. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class Utilities {
 
 	/**
@@ -48,9 +52,6 @@ public class Utilities {
 
 	/**
 	 * Function to get Progress percentage
-	 * 
-	 * @param currentDuration
-	 * @param totalDuration
 	 * */
 	public int getProgressPercentage(long currentDuration, long totalDuration) {
 		Double percentage = (double) 0;
@@ -68,10 +69,7 @@ public class Utilities {
 	/**
 	 * Function to change progress to timer
 	 * 
-	 * @param progress
-	 *            -
-	 * @param totalDuration
-	 *            returns current duration in milliseconds
+	 * @return current duration in milliseconds
 	 * */
 	public int progressToTimer(int progress, int totalDuration) {
 		int currentDuration = 0;

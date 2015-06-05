@@ -21,11 +21,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.WindowManager;
-
+/**
+ * This class is set specific view size in the content page.
+ * <p>
+ * This usage:
+ * <ul>
+ * <li>First must set content page size use "setContentSize(int Height, int Width)" function, 
+ * and specific view size use  "setDataViewSize(int Height, int Width)"  function.
+ * <li>Second used to "set(Context context, View aView, Boolean isFullScreen)" function 
+ * set specific view size.
+ * </ul>
+ * 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class SetScreenSize {
 	
 	private static int dataHeight, dataWidth, contentHeight, contentWidth;
 	
+	/**
+	 * This function is set specific view size in the content page.
+	 * @param context 		The context is a Activity parent.
+	 * @param aView			The aView is specific view.
+	 * @param isFullScreen	The isFullScreen is judge content page whether full screen.
+	 */
 	public static void set(Context context, View aView, Boolean isFullScreen){
 		DisplayMetrics metrics = new DisplayMetrics();
 		WindowManager windowManager = (WindowManager) context
@@ -68,11 +86,21 @@ public class SetScreenSize {
 		aView.setLayoutParams(params);
 	}
 	
+	/**
+	 * This function is set specific view original size.
+	 * @param Height	The specific view original height.
+	 * @param Width		The specific view original width.
+	 */
 	public static void setDataViewSize(int Height, int Width) {
 		dataHeight = Height;
 		dataWidth = Width;
 	}
 	
+	/**
+	 * This function is set content page current size.
+	 * @param Height	The content page current height.
+	 * @param Width		The content page current width.
+	 */
 	public static void setContentSize(int Height, int Width) {
 		contentHeight = Height;
 		contentWidth = Width;

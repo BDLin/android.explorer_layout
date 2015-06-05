@@ -25,6 +25,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 /**
+ * This is a class of inherit FragmentStatePagerAdapter. 
+ * <p>
+ * This usage is set to ViewPager after it instantiates.
  * @author poisondog <poisondog@gmail.com>
  */
 public class PhotoPageAdapter extends FragmentStatePagerAdapter {

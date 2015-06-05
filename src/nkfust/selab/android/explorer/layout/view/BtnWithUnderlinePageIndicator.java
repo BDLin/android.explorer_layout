@@ -21,7 +21,10 @@ import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
 import android.content.Context;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
-
+/**
+ * This is a view that is indicator at the tab view.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 
 	private List<PageSelectedListener> mList;
@@ -31,12 +34,17 @@ public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {
 		mList = new ArrayList<PageSelectedListener>();
 	}
 
+	@Override
 	public void onPageSelected(int position) {
 		super.onPageSelected(position);
 		for(PageSelectedListener listener : mList)
 			listener.onPageSelect();
 	}
 	
+	/**
+	 * This function is add listener to process event 
+	 * that when changed to other page in the tab page.
+	 */
 	public void addPageSelectedListener(PageSelectedListener listener){
 		mList.add(listener);
 	}

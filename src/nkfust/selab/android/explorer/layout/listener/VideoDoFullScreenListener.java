@@ -3,14 +3,17 @@ package nkfust.selab.android.explorer.layout.listener;
 import nkfust.selab.android.explorer.layout.model.TouchListener;
 import nkfust.selab.android.explorer.layout.view.VideoControllerView;
 import android.view.MotionEvent;
-
+/**
+ * This class is a listener ,its function is screen zoom full when playing video. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class VideoDoFullScreenListener implements TouchListener {
 
-	private VideoControllerView controller;
+	private VideoControllerView mController;
 	private long lastClickTime = 0;
 
 	public VideoDoFullScreenListener(VideoControllerView controller) {
-		this.controller = controller;
+		mController = controller;
 	}
 
 	@Override
@@ -20,7 +23,7 @@ public class VideoDoFullScreenListener implements TouchListener {
 		case MotionEvent.ACTION_POINTER_UP:
 			long now = System.currentTimeMillis();
 			if ((now - lastClickTime) < 300) {
-				controller.doToggleFullscreen();
+				mController.doToggleFullscreen();
 				now = 0;
 			}
 			lastClickTime = now;

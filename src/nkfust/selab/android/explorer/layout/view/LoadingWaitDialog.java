@@ -16,7 +16,10 @@ package nkfust.selab.android.explorer.layout.view;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-
+/**
+ * This class is a dialog that wait to loading.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class LoadingWaitDialog {
 
 	private static ProgressDialog mRingProgressDialog;

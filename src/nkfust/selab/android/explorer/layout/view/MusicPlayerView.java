@@ -41,7 +41,10 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
+/**
+ * This class is a music player view.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class MusicPlayerView extends RelativeLayout implements
 		OnCompletionListener, SeekBar.OnSeekBarChangeListener {
 
@@ -64,7 +67,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	
 	private int currentSongIndex = 0;
 	private List<IFile> songsList = new ArrayList<IFile>();
-	private List<IFile> array = new ArrayList<IFile>();
+	private List<IFile> mIFileList = new ArrayList<IFile>();
 
 	private IFile mIFile;
 	private SongsManager songManager;
@@ -78,17 +81,23 @@ public class MusicPlayerView extends RelativeLayout implements
 	private PlayMusicListener playListener;
 	private IFileFactory mFactory;
 
+	/**
+	 * @param context The activity parent.
+	 * @param iFile   The iFile is a song file that want to play music.
+	 * @param aList   The aList is a file list at the current folder path.
+	 * @param factory The factory is a file factory can generate file. 
+	 */
 	public MusicPlayerView(Context context, IFile iFile, List<IFile> aList, IFileFactory factory){
 		super(context);
 		this.context = context;
 		mIFile = iFile;
-		array = aList;
+		mIFileList = aList;
 		mFactory = factory;
 		LayoutInflater.from(context).inflate(R.layout.player, this);
 		init();
 	}
 
-	public void init() {
+	private void init() {
 
 		// All player buttons
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
@@ -137,8 +146,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	/**
 	 * Function to play a song
 	 * 
-	 * @param songIndex
-	 *            - index of song
+	 * @param iFile The iFile is a file of song.
 	 * */
 	public void playSong(IFile iFile) {
 
@@ -189,29 +197,33 @@ public class MusicPlayerView extends RelativeLayout implements
 			// shuffle is on - play a random song
 			Random rand = new Random();
 			currentSongIndex = rand.nextInt(songsList.size());
-			playSong((LocalData) songsList.get(currentSongIndex));
+			playSong(songsList.get(currentSongIndex));
 		} else {
 			// no repeat or shuffle ON - play next song
-			for (int i = currentSongIndex; i < array.size(); i++)
-				if (i != (array.size() - 1)
+			for (int i = currentSongIndex; i < mIFileList.size(); i++)
+				if (i != (mIFileList.size() - 1)
 						&& URLUtils.guessContentType(
-								((LocalData) array.get(i + 1)).getName()).startsWith("audio/")) {
-					playSong((LocalData) array.get(i + 1));
+								((LocalData) mIFileList.get(i + 1)).getName()).startsWith("audio/")) {
+					playSong(mIFileList.get(i + 1));
 					currentSongIndex = i + 1;
 					break;
-				} else if (i == (array.size() - 1)) {
+				} else if (i == (mIFileList.size() - 1)) {
 					i = -2;
 				}
 		}
 	}
 
 	
-	/*** Update timer on seekbar ***/
+	/**
+	 * Update timer on seekbar 
+	 */
 	public void updateProgressBar() {
 		mHandler.postDelayed(mUpdateTimeTask, 100);
 	}
 
-	/*** Background Runnable thread ***/
+	/**
+	 * Background Runnable thread 
+	 */
 	private Runnable mUpdateTimeTask = new Runnable() {
 		public void run() {
 			currentDuration = mp.getCurrentPosition();
@@ -238,14 +250,18 @@ public class MusicPlayerView extends RelativeLayout implements
 			boolean fromTouch) {
 	}
 
-	/*** When user starts moving the progress handler ***/
+	/**
+	 * When user starts moving the progress handler 
+	 */
 	@Override
 	public void onStartTrackingTouch(SeekBar seekBar) {
 		// remove message Handler from updating progress bar
 		mHandler.removeCallbacks(mUpdateTimeTask);
 	}
 
-	/*** When user stops moving the progress hanlder ***/
+	/**
+	 * When user stops moving the progress hanlder 
+	 */
 	@Override
 	public void onStopTrackingTouch(SeekBar seekBar) {
 		mHandler.removeCallbacks(mUpdateTimeTask);
@@ -260,10 +276,10 @@ public class MusicPlayerView extends RelativeLayout implements
 	}
 
 	private void updateCurrentSongIndex(){
-		for (int i = 0; i < array.size(); i++) {
+		for (int i = 0; i < mIFileList.size(); i++) {
 			try {
-				Log.i("MusicPlayer", "name: " + array.get(i).getName() + " Date: " + array.get(i).getLastModifiedTime());
-				if (array.get(i).getName().equals(mIFile.getName()))
+				Log.i("MusicPlayer", "name: " + mIFileList.get(i).getName() + " Date: " + mIFileList.get(i).getLastModifiedTime());
+				if (mIFileList.get(i).getName().equals(mIFile.getName()))
 					setCurrentSongIndex(i);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -271,13 +287,22 @@ public class MusicPlayerView extends RelativeLayout implements
 		}
 	}
 	
+	
+	/**
+	 * If files have change or sort at current folder path, 
+	 * can use this function update to list. 
+	 * @param list The list content is all file at current folder path.
+	 */
 	public void updateMusicList(List<IFile> list) {
 		setMusicList(list);
 		updateCurrentSongIndex();
 	}
 
+	/**
+	 * @param list The list content is all file at current folder path.
+	 */
 	public void setMusicList(List<IFile> list) {
-		array = list;
+		mIFileList = list;
 	}
 	
 	public void setCurrentSongIndex(int index){
@@ -288,18 +313,30 @@ public class MusicPlayerView extends RelativeLayout implements
 		return currentSongIndex;
 	}
 	
+	/**
+	 * @return The list is all file at current folder path.
+	 */
 	public List<IFile> getMusicList(){
-		return array;
+		return mIFileList;
 	}
 	
+	/**
+	 * @return The list of all mp3 file at the current folder path.
+	 */
 	public List<IFile> getSongList(){
 		return songsList;
 	}
 	
+	/**
+	 * @return The current folder path.
+	 */
 	public String getSongsPath(){
 		return songManager.getmusicDataPath();
 	}
 
+	/**
+	 * End to music player.
+	 */
 	public void endPlayer() {
 		if (mp != null) {
 			mHandler.removeCallbacks(mUpdateTimeTask);

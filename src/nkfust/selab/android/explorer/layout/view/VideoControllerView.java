@@ -154,7 +154,6 @@ public class VideoControllerView extends FrameLayout {
 	 * classes can override this to create their own.
 	 * 
 	 * @return The controller view.
-	 * @hide This doesn't work as advertised
 	 */
 	protected View makeControllerView() {
 		LayoutInflater inflate = (LayoutInflater) mContext

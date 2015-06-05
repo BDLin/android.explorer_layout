@@ -13,7 +13,11 @@
  * limitations under the License.
  */
 package nkfust.selab.android.explorer.layout.model;
-
+/**
+ * If you have to process multi-onPageSelect event for Tab page, so need implements this interface then 
+ * all implemented class add to the List, use For-loop execute all onPageSelect. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public interface PageSelectedListener {
 	public void onPageSelect();
 }

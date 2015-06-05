@@ -19,7 +19,10 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+/**
+ * This is a initial view can instantiates it and add it to any place.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class InitialView extends RelativeLayout {
 
 	public InitialView(Context context) {

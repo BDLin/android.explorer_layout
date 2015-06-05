@@ -18,7 +18,13 @@ import nkfust.selab.android.explorer.layout.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-
+/**
+ * This class is a dialog content container can add view to it.
+ * <p>
+ * If you have a class is inherited DialogFragment, 
+ * and then can use this container as it content.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class DialogContentView extends LinearLayout {
 
 	public DialogContentView(Context context) {

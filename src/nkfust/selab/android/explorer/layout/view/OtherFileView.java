@@ -20,7 +20,10 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+/**
+ * This class is a page of can't read file.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class OtherFileView extends RelativeLayout {
 
 	public OtherFileView(Context context, IFile iFile) {

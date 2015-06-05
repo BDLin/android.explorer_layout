@@ -17,11 +17,35 @@ package nkfust.selab.android.explorer.layout.model;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.ImageButton;
-
+/**
+ * If want to display the page , must implementes this interface.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public interface TabView {
+	/**
+	 *Get index tag.
+	 *@return The index button.  
+	 */
 	public ImageButton getIndexButton();
+	
+	/**
+	 *Get display page.
+	 */
 	public Fragment getFragment();
+	
+	/**
+	 *Get menu style on this page.
+	 *@return The id for menu XML file.
+	 */
 	public int getMenuResource();
+	
+	/**
+	 *This process event is triggered on the menu.
+	 */
 	public boolean onOptionsMenuItemSelected(MenuItem item);
+	
+	/**
+	 *Get each page to display the title.
+	 */
 	public String getActionBarTitle();
 }
