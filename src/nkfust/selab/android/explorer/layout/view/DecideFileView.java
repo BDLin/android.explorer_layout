@@ -274,7 +274,7 @@ public class DecideFileView {
 		if(photoView == null)
 			photoView = new PhotoViewer(mContext, mImagePaths, mIFile);
 		else
-			photoView.setCurrentItem(mImagePaths, mIFile);
+			photoView.setDisplayPhoto(mImagePaths, mIFile);
 		photoView.setPhotoLeftButtonListener(photoLeftButtonListener);
 		photoView.setOnPageChangeListener(mPhotoGridImageChangeListeners);
 	}

@@ -24,7 +24,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.viewpagerindicator.IconPagerAdapter;
-
+/**
+ * This is a class of inherit FragmentStatePagerAdapter. 
+ * <p>
+ * This usage is set to ViewPager after it instantiate, 
+ * and then must use addTabView() function, using it add 
+ * view of implementing TabView class to this adapter as item.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 		implements IconPagerAdapter {
 
@@ -35,11 +42,18 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter
 		fragmentList = new ArrayList<TabView>();
 	}
 
+	/**
+	 * This function is add TabView to this adapter as item.
+	 * @param view The view have been implemented TabView.
+	 */
 	public void addTabView(TabView view) {
 		fragmentList.add(view);
 		notifyDataSetChanged();
 	}
 
+	/**
+	 * This function is clean all item.
+	 */
 	public void clean() {
 		fragmentList.clear();
 		notifyDataSetChanged();

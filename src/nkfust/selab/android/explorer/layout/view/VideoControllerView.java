@@ -124,6 +124,10 @@ public class VideoControllerView extends FrameLayout {
 			initControllerView(mRoot);
 	}
 
+	/**
+	 * Must set MediaPlayerControl to this before  player start. 
+	 * @param player The class have been implemented VideoControllerView.MediaPlayerControl.
+	 */
 	public void setMediaPlayer(MediaPlayerControl player) {
 		mPlayer = player;
 		updatePausePlay();
@@ -439,7 +443,10 @@ public class VideoControllerView extends FrameLayout {
 			show(sDefaultTimeout);
 		}
 	};
-
+	
+	/**
+	 * Update play button image.
+	 */
 	public void updatePausePlay() {
 		if (mRoot == null || mPauseButton == null || mPlayer == null) {
 			return;
@@ -452,6 +459,9 @@ public class VideoControllerView extends FrameLayout {
 		}
 	}
 
+	/**
+	 * Update fullScreen button image.
+	 */
 	public void updateFullScreen() {
 		if (mRoot == null || mFullscreenButton == null || mPlayer == null) {
 			return;
@@ -483,10 +493,18 @@ public class VideoControllerView extends FrameLayout {
 		return mFullScreen;
 	}
 
+	/**
+	 * Must set original video size before player start.
+	 * @param Height The video original height.
+	 * @param Width	 The video original width.
+	 */
 	public void setVideoSize(int Height, int Width) {
 		SetScreenSize.setDataViewSize(Height, Width);
 	}
-
+	
+	/**
+	 * This function is set video view display size ratio consistent with screen size.
+	 */
 	public void setScreenSize() {
 		if(TabFragment.getFrameLayout() == null)
 			SetScreenSize.set(mContext, videoSurface, isFullScreen());
@@ -495,6 +513,9 @@ public class VideoControllerView extends FrameLayout {
 			
 	}
 
+	/**
+	 * The function is set video view display size to full screen.
+	 */
 	public void doToggleFullscreen() {
 		if (mPlayer == null) {
 			return;

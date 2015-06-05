@@ -217,7 +217,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	/**
 	 * Update timer on seekbar 
 	 */
-	public void updateProgressBar() {
+	private void updateProgressBar() {
 		mHandler.postDelayed(mUpdateTimeTask, 100);
 	}
 
@@ -274,19 +274,6 @@ public class MusicPlayerView extends RelativeLayout implements
 		// update timer progress again
 		updateProgressBar();
 	}
-
-	private void updateCurrentSongIndex(){
-		for (int i = 0; i < mIFileList.size(); i++) {
-			try {
-				Log.i("MusicPlayer", "name: " + mIFileList.get(i).getName() + " Date: " + mIFileList.get(i).getLastModifiedTime());
-				if (mIFileList.get(i).getName().equals(mIFile.getName()))
-					setCurrentSongIndex(i);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	
 	/**
 	 * If files have change or sort at current folder path, 
@@ -294,17 +281,10 @@ public class MusicPlayerView extends RelativeLayout implements
 	 * @param list The list content is all file at current folder path.
 	 */
 	public void updateMusicList(List<IFile> list) {
-		setMusicList(list);
+		mIFileList = list;
 		updateCurrentSongIndex();
 	}
 
-	/**
-	 * @param list The list content is all file at current folder path.
-	 */
-	public void setMusicList(List<IFile> list) {
-		mIFileList = list;
-	}
-	
 	public void setCurrentSongIndex(int index){
 		currentSongIndex = index;
 	}
@@ -343,4 +323,17 @@ public class MusicPlayerView extends RelativeLayout implements
 			mp.release();
 		}
 	}
+	
+	private void updateCurrentSongIndex(){
+		for (int i = 0; i < mIFileList.size(); i++) {
+			try {
+				Log.i("MusicPlayer", "name: " + mIFileList.get(i).getName() + " Date: " + mIFileList.get(i).getLastModifiedTime());
+				if (mIFileList.get(i).getName().equals(mIFile.getName()))
+					setCurrentSongIndex(i);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

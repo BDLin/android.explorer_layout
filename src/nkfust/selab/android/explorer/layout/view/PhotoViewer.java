@@ -55,6 +55,11 @@ public class PhotoViewer extends RelativeLayout {
 	private String currentFolderPath;
 	private ContentFragment mContentFragment;
 	
+	/**
+	 * @param context The Activity parent.
+	 * @param paths	  The paths is all file path at current folder path.
+	 * @param file	  The file is photo file that want to read.
+	 */
 	public PhotoViewer(Context context, List<String> paths, IFile file) {
 		super(context);
 		mContentFragment = new ContentFragment();
@@ -63,7 +68,7 @@ public class PhotoViewer extends RelativeLayout {
 		index = -1;
 		LayoutInflater.from(context).inflate(R.layout.photo_view_layout, this);
 		init();
-		setCurrentItem(paths, file);
+		setDisplayPhoto(paths, file);
 	}
 
 	private void init(){
@@ -77,7 +82,12 @@ public class PhotoViewer extends RelativeLayout {
 		rightButton.setOnClickListener(new PhotoShareListener(mContext, this));
 	}
 	
-	public void setCurrentItem(List<String> paths, IFile currentFile){
+	/**
+	 * This function is setting show photo to view.
+	 * @param paths	The paths is all file path at current folder path.
+	 * @param file	The file is a want to display photo of file.		
+	 */
+	public void setDisplayPhoto(List<String> paths, IFile file){
 		mPaths = ImagesFilter.getImagesList(paths);
 		currentFolderPath = URLUtils.parentUrl(mPaths.get(0));
 		mPagerAdapter = new PhotoPageAdapter(TabFragment.getActionBarActivity().getSupportFragmentManager(), mPaths);
@@ -96,13 +106,12 @@ public class PhotoViewer extends RelativeLayout {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
 			}
 		});
 		
 		String currentUrl = null;
 		try {
-			currentUrl = currentFile.getUrl().substring(currentFile.getUrl().indexOf("/sata_1"));
+			currentUrl = file.getUrl().substring(file.getUrl().indexOf("/sata_1"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,6 +121,9 @@ public class PhotoViewer extends RelativeLayout {
 		mPager.setCurrentItem(index);
 	}
 	
+	/**
+	 * This function is release photo viewer used resource.
+	 */
 	public void releasePhotoFragmentList(){
 		if (mPager.getChildCount() > 0){
 			mPager.removeAllViews();
@@ -131,6 +143,9 @@ public class PhotoViewer extends RelativeLayout {
 		return mPagerAdapter;
 	}
 	
+	/**
+	 * @return The paths content is all photo path at the current folder path.
+	 */
 	public List<String> getPaths(){
 		return mPaths;
 	}
