@@ -24,53 +24,57 @@ import poisondog.vfs.LocalData;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-
+/**
+ * This class function is play previous or next song 
+ * when playing music and press previous or next button.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class PreviousOrNextListener implements OnClickListener {
 
-	private ImageButton btnNext;
-	private ImageButton btnPrevious;
-	private MusicPlayerView player;
+	private ImageButton mNextButton;
+	private ImageButton mPreviousButton;
+	private MusicPlayerView mPlayer;
 
 	public PreviousOrNextListener(MusicPlayerView player, ImageButton btnNext,
 			ImageButton btnPrevious) {
-		this.player = player;
-		this.btnNext = btnNext;
-		this.btnNext = btnNext;
+		mPlayer = player;
+		mNextButton = btnNext;
+		mPreviousButton = btnPrevious;
 	}
 
 	@Override
 	public void onClick(View v) {
 		
-		List<IFile>arrayList = player.getMusicList();
-		List<IFile>songList = player.getSongList();
+		List<IFile>arrayList = mPlayer.getMusicList();
+		List<IFile>songList = mPlayer.getSongList();
 		
 		if (ShuffleOrRepeatListener.isShuffle()) {
 			// shuffle is on - play a random song
 			Random rand = new Random();
 			int currentSongIndex = rand.nextInt(songList.size());
-			player.playSong((LocalData) songList.get(currentSongIndex));
+			mPlayer.playSong((LocalData) songList.get(currentSongIndex));
 		} else {
-			if (v == btnNext) {
+			if (v == mNextButton) {
 				// check if next song is there or not
-				for (int i = player.getCurrentSongIndex(); i < arrayList
+				for (int i = mPlayer.getCurrentSongIndex(); i < arrayList
 						.size(); i++)
 					if (i != (arrayList.size() - 1) && URLUtils.guessContentType(
 									(((LocalData) arrayList.get(i + 1)).getName()))
 									                       .startsWith("audio/")) {
-						player.playSong((LocalData) arrayList.get(i + 1));
-						player.setCurrentSongIndex(i + 1);
+						mPlayer.playSong((LocalData) arrayList.get(i + 1));
+						mPlayer.setCurrentSongIndex(i + 1);
 						break;
 					} else if (i == (arrayList.size() - 1)) {
 						i = -2;
 					}
 			} else {
 
-				for (int i = player.getCurrentSongIndex(); i >= 0; i--)
+				for (int i = mPlayer.getCurrentSongIndex(); i >= 0; i--)
 					if (i != 0 && URLUtils.guessContentType(
 									(((LocalData) arrayList.get(i - 1)).getName()))
 											               .startsWith("audio/")) {
-						player.playSong((LocalData) arrayList.get(i - 1));
-						player.setCurrentSongIndex(i - 1);
+						mPlayer.playSong((LocalData) arrayList.get(i - 1));
+						mPlayer.setCurrentSongIndex(i - 1);
 						break;
 					} else if (i == 0) {
 						i = arrayList.size() + 1;

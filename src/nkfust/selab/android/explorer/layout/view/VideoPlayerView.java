@@ -34,64 +34,77 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-
+/**
+ * This class is a video player view.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class VideoPlayerView extends RelativeLayout implements
 		SurfaceHolder.Callback, MediaPlayer.OnPreparedListener,
 		VideoControllerView.MediaPlayerControl {
 
-	private SurfaceView videoSurface;
-	private MediaPlayer player;
-	private VideoControllerView controller;
+	private SurfaceView mVideoSurface;
+	private MediaPlayer mPlayer;
+	private VideoControllerView mController;
 
-	private Context context;
+	private Context mContext;
 	private IFile mIFile;
 
 	private List<TouchListener> listenerList;
 
 	public VideoPlayerView(Context context, IFile ifile) {
 		super(context);
-		this.context = context;
+		mContext = context;
 		mIFile = ifile;
 		LayoutInflater.from(context).inflate(R.layout.video_player, this);
 		init();
 	}
 
-	public void init() {
+	private void init() {
 
-		videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
-		SurfaceHolder videoHolder = videoSurface.getHolder();
+		mVideoSurface = (SurfaceView) findViewById(R.id.videoSurface);
+		SurfaceHolder videoHolder = mVideoSurface.getHolder();
 		videoHolder.addCallback(this);
 
-		player = new MediaPlayer();
-		controller = new VideoControllerView(context, videoSurface);
+		mPlayer = new MediaPlayer();
+		mController = new VideoControllerView(mContext, mVideoSurface);
 
 		listenerList = new ArrayList<TouchListener>();
-		addListener(new VideoControllerListener(controller));
-		addListener(new VideoDoFullScreenListener(controller));
+		addListener(new VideoControllerListener(mController));
+		addListener(new VideoDoFullScreenListener(mController));
 
 		try {
-			player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-			player.setDataSource(new ExtractPath().process(URLDecoder.decode(mIFile.getUrl())));
-			player.setOnPreparedListener(this);
+			mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+			mPlayer.setDataSource(new ExtractPath().process(URLDecoder.decode(mIFile.getUrl())));
+			mPlayer.setOnPreparedListener(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * The function is add listener to process the event that happen touch  video view range.
+	 * @param listener The listener is process the event that happen touch  video view range.
+	 */
 	public void addListener(TouchListener listener) {
 		listenerList.add(listener);
 	}
 
+	/**
+	 * This function is set video view display size ratio consistent with screen size.
+	 */
 	public void setScreenSize() {
-		controller.setScreenSize();
+		mController.setScreenSize();
 	}
 
+	/**
+	 * Release video player used resource.
+	 */
 	public void releasePlayer() {
-		if(player != null){
-			player.stop();
-			player.reset();
-			player.release();
-			controller.removeHandler();
+		if(mPlayer != null){
+			mPlayer.stop();
+			mPlayer.reset();
+			mPlayer.release();
+			mController.removeHandler();
 		}
 	}
 
@@ -99,7 +112,7 @@ public class VideoPlayerView extends RelativeLayout implements
 	public boolean onTouchEvent(MotionEvent event) {
 
 		if(TabFragment.getFrameLayout() != null){
-			new VideoControllerListener(controller).onTouch(event);
+			new VideoControllerListener(mController).onTouch(event);
 			return true;
 		}
 		
@@ -111,8 +124,8 @@ public class VideoPlayerView extends RelativeLayout implements
 	// Implement SurfaceHolder.Callback
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		player.setDisplay(holder);
-		player.prepareAsync();
+		mPlayer.setDisplay(holder);
+		mPlayer.prepareAsync();
 	}
 
 	@Override
@@ -126,11 +139,11 @@ public class VideoPlayerView extends RelativeLayout implements
 	// Implement MediaPlayer.OnPreparedListener
 	@Override
 	public void onPrepared(MediaPlayer mp) {
-		controller.setMediaPlayer(this);
-		controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-		controller.setVideoSize(player.getVideoHeight(),player.getVideoWidth());
-		controller.setScreenSize();
-		player.start();
+		mController.setMediaPlayer(this);
+		mController.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
+		mController.setVideoSize(mPlayer.getVideoHeight(),mPlayer.getVideoWidth());
+		mController.setScreenSize();
+		mPlayer.start();
 	}
 
 	// End MediaPlayer.OnPreparedListener
@@ -158,47 +171,47 @@ public class VideoPlayerView extends RelativeLayout implements
 
 	@Override
 	public int getCurrentPosition() {
-		return player.getCurrentPosition();
+		return mPlayer.getCurrentPosition();
 	}
 
 	@Override
 	public int getDuration() {
-		return player.getDuration();
+		return mPlayer.getDuration();
 	}
 
 	@Override
 	public boolean isPlaying() {
-		return player.isPlaying();
+		return mPlayer.isPlaying();
 	}
 
 	@Override
 	public void pause() {
-		player.pause();
+		mPlayer.pause();
 	}
 
 	public void stop() {
-		player.stop();
+		mPlayer.stop();
 	}
 
 	@Override
 	public void seekTo(int i) {
-		player.seekTo(i);
+		mPlayer.seekTo(i);
 	}
 
 	@Override
 	public void start() {
 		try {
-			player.prepare();
+			mPlayer.prepare();
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		player.start();
+		mPlayer.start();
 	}
 
 	@Override
 	public boolean isFullScreen() {
-		return controller.isFullScreen();
+		return mController.isFullScreen();
 	}
 
 	@Override

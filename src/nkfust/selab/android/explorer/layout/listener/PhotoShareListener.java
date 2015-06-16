@@ -24,7 +24,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.view.View.OnClickListener;
-
+/**
+ * This class function is show share images of the way items 
+ * when browsing image and press share button.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class PhotoShareListener implements OnClickListener {
 	
 	private Context mContext;

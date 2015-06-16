@@ -16,12 +16,15 @@ package nkfust.selab.android.explorer.layout.listener;
 
 import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
-
-public class FocuseTabButtonListener implements PageSelectedListener {
+/**
+ * This class function is focus the corresponding tab when tab view changed page.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
+public class FocusTabButtonListener implements PageSelectedListener {
 
 	private TabFragment mTabFragment;
 	
-	public FocuseTabButtonListener(TabFragment tabfragment){
+	public FocusTabButtonListener(TabFragment tabfragment){
 		mTabFragment = tabfragment;
 	}
 	

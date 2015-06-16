@@ -18,24 +18,27 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
-
+/**
+ * This class function is will tab view change to corresponding the page when press tag.
+ * @author <bdl9437@gmail.com>
+ */
 public class ImageButtonOnClick implements OnClickListener {
 
-	private LinearLayout linear;
-	private ViewPager vp;
+	private LinearLayout mLinear;
+	private ViewPager mViewPager;
 
 	public ImageButtonOnClick(LinearLayout linear, ViewPager vp) {
-		this.linear = linear;
-		this.vp = vp;
+		mLinear = linear;
+		mViewPager = vp;
 	}// End of ImgBtnOnClick construct
 
 	public void onClick(View v) {
-		for (int i = 0; i < linear.getChildCount(); i++) {
-			if (linear.getChildAt(i) == v) {
-				vp.setCurrentItem(i);
+		for (int i = 0; i < mLinear.getChildCount(); i++) {
+			if (mLinear.getChildAt(i) == v) {
+				mViewPager.setCurrentItem(i);
 				v.setAlpha((float) 1.0);
 			} else
-				linear.getChildAt(i).setAlpha((float) 0.5);
+				mLinear.getChildAt(i).setAlpha((float) 0.5);
 		}
 	}// End of onClick function
 }// End of ImgBtnOnClick class

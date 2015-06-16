@@ -18,7 +18,10 @@ import android.media.MediaPlayer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-
+/**
+ * This class function is forward or backward video when playing video.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ForwardOrBackwardListener implements OnClickListener {
 
 	private ImageButton btnForward;

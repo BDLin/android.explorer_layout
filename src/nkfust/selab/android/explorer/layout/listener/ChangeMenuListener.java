@@ -18,7 +18,10 @@ import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import nkfust.selab.android.explorer.layout.model.TabView;
 import android.view.Menu;
-
+/**
+ * This class function is will menu change to the corresponding menu when tab view changed page.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ChangeMenuListener implements PageSelectedListener {
 
 	private TabFragment mTabFragment;

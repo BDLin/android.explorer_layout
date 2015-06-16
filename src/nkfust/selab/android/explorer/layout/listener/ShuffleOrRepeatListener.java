@@ -20,42 +20,46 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
+/**
+ * This class function is repeat or shuffle play music 
+ * when playing music.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ShuffleOrRepeatListener implements OnClickListener {
 
 	private static boolean isShuffle = false;
 	private static boolean isRepeat = false;
-	private Context context;
-	private ImageButton btnRepeat;
-	private ImageButton btnShuffle;
+	private Context mContext;
+	private ImageButton mRepeatButton;
+	private ImageButton mShuffleButton;
 
 	public ShuffleOrRepeatListener(Context context, ImageButton btnRepeat, ImageButton btnShuffle) {
-		this.context = context;
-		this.btnRepeat = btnRepeat;
-		this.btnShuffle = btnShuffle;
+		mContext = context;
+		mRepeatButton = btnRepeat;
+		mShuffleButton = btnShuffle;
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v == btnShuffle) {
+		if (v == mShuffleButton) {
 			/**
 			 * Button Click event for Shuffle button Enables shuffle flag to
 			 * true
 			 * */
 			if (isShuffle) {
 				isShuffle = false;
-				Toast.makeText(context, "Shuffle is OFF", Toast.LENGTH_SHORT)
+				Toast.makeText(mContext, "Shuffle is OFF", Toast.LENGTH_SHORT)
 						.show();
-				btnShuffle.setImageResource(R.drawable.btn_shuffle);
+				mShuffleButton.setImageResource(R.drawable.btn_shuffle);
 			} else {
 				// make repeat to true
 				isShuffle = true;
-				Toast.makeText(context, "Shuffle is ON", Toast.LENGTH_SHORT)
+				Toast.makeText(mContext, "Shuffle is ON", Toast.LENGTH_SHORT)
 						.show();
 				// make shuffle to false
 				isRepeat = false;
-				btnShuffle.setImageResource(R.drawable.btn_shuffle_focused);
-				btnRepeat.setImageResource(R.drawable.btn_repeat);
+				mShuffleButton.setImageResource(R.drawable.btn_shuffle_focused);
+				mRepeatButton.setImageResource(R.drawable.btn_repeat);
 			}
 		} else {
 			/**
@@ -63,18 +67,18 @@ public class ShuffleOrRepeatListener implements OnClickListener {
 			 * */
 			if (isRepeat) {
 				isRepeat = false;
-				Toast.makeText(context, "Repeat is OFF", Toast.LENGTH_SHORT)
+				Toast.makeText(mContext, "Repeat is OFF", Toast.LENGTH_SHORT)
 						.show();
-				btnRepeat.setImageResource(R.drawable.btn_repeat);
+				mRepeatButton.setImageResource(R.drawable.btn_repeat);
 			} else {
 				// make repeat to true
 				isRepeat = true;
-				Toast.makeText(context, "Repeat is ON", Toast.LENGTH_SHORT)
+				Toast.makeText(mContext, "Repeat is ON", Toast.LENGTH_SHORT)
 						.show();
 				// make shuffle to false
 				isShuffle = false;
-				btnRepeat.setImageResource(R.drawable.btn_repeat_focused);
-				btnShuffle.setImageResource(R.drawable.btn_shuffle);
+				mRepeatButton.setImageResource(R.drawable.btn_repeat_focused);
+				mShuffleButton.setImageResource(R.drawable.btn_shuffle);
 			}
 		}
 	}

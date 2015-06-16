@@ -16,7 +16,11 @@ package nkfust.selab.android.explorer.layout.listener;
 
 import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
-
+/**
+ * This class function is will title change to the corresponding action bar title 
+ * when tab view changed page.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ChangeActionBarTitleListener implements PageSelectedListener {
 
 	private TabFragment mTabFragment;

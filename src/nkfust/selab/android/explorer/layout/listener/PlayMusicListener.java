@@ -19,15 +19,18 @@ import android.media.MediaPlayer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-
+/**
+ * This class function is change play button image when playing music and press play button.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class PlayMusicListener implements OnClickListener {
 
-	private ImageButton btnPlay;
-	private MediaPlayer mp;
+	private ImageButton mPlayButton;
+	private MediaPlayer mPlayer;
 
 	public PlayMusicListener(ImageButton btnPlay, MediaPlayer mp) {
-		this.btnPlay = btnPlay;
-		this.mp = mp;
+		mPlayButton = btnPlay;
+		mPlayer = mp;
 	}
 
 	@Override
@@ -37,18 +40,18 @@ public class PlayMusicListener implements OnClickListener {
 		 * image pauses a song and changes button to play image
 		 * */
 		// check for already playing
-		if (mp.isPlaying()) {
-			if (mp != null) {
-				mp.pause();
+		if (mPlayer.isPlaying()) {
+			if (mPlayer != null) {
+				mPlayer.pause();
 				// Changing button image to play button
-				btnPlay.setImageResource(R.drawable.btn_play);
+				mPlayButton.setImageResource(R.drawable.btn_play);
 			}
 		} else {
 			// Resume song
-			if (mp != null) {
-				mp.start();
+			if (mPlayer != null) {
+				mPlayer.start();
 				// Changing button image to pause button
-				btnPlay.setImageResource(R.drawable.btn_pause);
+				mPlayButton.setImageResource(R.drawable.btn_pause);
 			}
 		}
 	}

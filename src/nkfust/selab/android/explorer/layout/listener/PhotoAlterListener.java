@@ -20,7 +20,10 @@ import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import poisondog.string.ExtractFileName;
 import android.view.View;
 import android.view.View.OnClickListener;
-
+/**
+ * This class function is show alter items dialog when browsing image and press alter button.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class PhotoAlterListener implements OnClickListener {
 
 	private PhotoViewer mPhotoView;

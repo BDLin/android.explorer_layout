@@ -16,7 +16,10 @@ package nkfust.selab.android.explorer.layout.listener;
 
 import nkfust.selab.android.explorer.layout.model.ContentFragment;
 import nkfust.selab.android.explorer.layout.model.PageSelectedListener;
-
+/**
+ * This class function is clean content view when tab view changed page.
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class CleanContentListener implements PageSelectedListener {
 
 	private ContentFragment mContentFragment;

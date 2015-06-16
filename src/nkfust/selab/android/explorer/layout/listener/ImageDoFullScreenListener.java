@@ -17,7 +17,10 @@ package nkfust.selab.android.explorer.layout.listener;
 import nkfust.selab.android.explorer.layout.model.TabFragment;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
-
+/**
+ * This class function is screen zoom full when browsing image. 
+ * @author Zi-Xiang Lin <bdl9437@gmail.com>
+ */
 public class ImageDoFullScreenListener extends SimpleOnGestureListener {
 	
 	private boolean isFullScreen;
