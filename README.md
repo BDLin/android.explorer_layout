@@ -76,7 +76,7 @@ mTabFragment.addView(tabView);
 ```
 **Note：**再加入TabView時，TabFragment不能是Null。
 
-如要看更詳細的實作可以到此連結 [Example](https://github.com/BDLin/example.explorer.layout) 將專案下載下來參考。
+如要看更詳細的實作可以到此連結 **[Example](https://github.com/BDLin/example.explorer.layout)** 將專案下載下來參考。
 
 **此連結 [This library document](http://htmlpreview.github.com/?https://github.com/BDLin/android.explorer_layout/blob/master/doc/index.html) 為此專案所有class檔的解析及功能用法。**
     
