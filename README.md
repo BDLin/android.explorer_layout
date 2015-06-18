@@ -1,5 +1,7 @@
-android.explorer_layout
+android.explorer_layout(Unfinished...Please wait for me finish it.)
 =======================
+
+
 此專案功能為，以檔案總管介面方式來呈現瀏覽檔案，如下圖：
 
 ![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
