@@ -1,6 +1,6 @@
 android.explorer_layout
 =======================
-本library功能為以檔案總管介面方式，瀏覽檔案如以下圖：
+此專案功能為以檔案總管介面方式，瀏覽檔案如以下圖：
 
 ![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
 
@@ -31,3 +31,15 @@ res/layout-large/newlayout.xml
               android:layout_height="match_parent" />        
 </LinearLayout>
 ```
+
+之後將此layout應用於Activity裡，如下：
+```
+public class MainActivity extends FragmentActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.newlayout);
+    }
+}
+```
+
