@@ -2,8 +2,12 @@ android.explorer_layout
 =======================
 本library功能為以檔案總管介面方式，瀏覽檔案如以下圖：
 
+![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
 
+![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo2.png "Demo2 png")
 
+Usage
+--------
 首先在於您自己開的專案裡 res/ 路徑中新增一個 layour-large資料夾，且在於此資料夾裡新增一個xml檔內容為：
 
 res/layout-large/newlayout.xml
