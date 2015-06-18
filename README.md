@@ -48,4 +48,4 @@ public class MainActivity extends FragmentActivity {
     
 Resource
 --------
-![Creating a Fragment](http://developer.android.com/training/basics/fragments/creating.html) 
+[Creating a Fragment](http://developer.android.com/training/basics/fragments/creating.html) 
