@@ -3,9 +3,9 @@ android.explorer_layout(Unfinished...Please wait for me finish it.)
 
 此專案的功能為，以檔案總管介面的方式瀏覽檔案，如下圖：
 
-![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
+![](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
 
-![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo2.png "Demo2 png")
+![](https://github.com/BDLin/android.explorer_layout/raw/master/demo2.png "Demo2 png")
 
 Usage
 -----
