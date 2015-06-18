@@ -8,7 +8,7 @@ android.explorer_layout(Unfinished...Please wait for me finish it.)
 ![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo2.png "Demo2 png")
 
 Usage
---------
+-----
 首先在於您自己開的專案裡 res/ 路徑中新增一個 layout-large資料夾，且在於此資料夾裡新增一個xml檔內容為：
 
 *res/layout-large/newlayout.xml*
@@ -45,6 +45,9 @@ public class MainActivity extends FragmentActivity {
 ```
 **Note:**
     此layout只是幫您把螢幕分割為1：2，對於以上的圖片，所顯示的頁面及內容必須實作此專案所提供的`TabView` interface來自行新增想要呈現的頁面。
+    
+    
+    
     
 Reference
 --------
