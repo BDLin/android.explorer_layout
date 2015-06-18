@@ -45,3 +45,7 @@ public class MainActivity extends FragmentActivity {
 ```
 **Note:**
     此layout只是幫您把螢幕分割為1：2，對於以上的圖片，所顯示的頁面及內容必須實作此專案所提供的`TabView` interface來自行新增想要呈現的頁面。
+    
+Resource
+--------
+![Creating a Fragment](http://developer.android.com/training/basics/fragments/creating.html) 
