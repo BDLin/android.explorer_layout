@@ -1,6 +1,6 @@
 android.explorer_layout
 =======================
-此專案功能為以檔案總管介面方式，瀏覽檔案如以下圖：
+此專案功能為，以檔案總管介面方式來呈現瀏覽檔案，如下圖：
 
 ![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
 
@@ -42,4 +42,4 @@ public class MainActivity extends FragmentActivity {
     }
 }
 ```
-
+`Note:此layout只是幫您把螢幕分割為1：2，對於以上圖片，所顯示的頁面及內容必須利用此專案所提供的interface來自行新增。`
