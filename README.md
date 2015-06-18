@@ -1,8 +1,7 @@
 android.explorer_layout(Unfinished...Please wait for me finish it.)
 =======================
 
-
-此專案功能為，以檔案總管介面方式來呈現瀏覽檔案，如下圖：
+此專案的功能為，以檔案總管介面的方式瀏覽檔案，如下圖：
 
 ![alt text](https://github.com/BDLin/android.explorer_layout/raw/master/demo1.png "Demo1 png")
 
@@ -12,7 +11,7 @@ Usage
 --------
 首先在於您自己開的專案裡 res/ 路徑中新增一個 layour-large資料夾，且在於此資料夾裡新增一個xml檔內容為：
 
-res/layout-large/newlayout.xml
+*res/layout-large/newlayout.xml*
 ```
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tablet_linear_layout"
@@ -44,4 +43,5 @@ public class MainActivity extends FragmentActivity {
     }
 }
 ```
-`Note:此layout只是幫您把螢幕分割為1：2，對於以上圖片，所顯示的頁面及內容必須利用此專案所提供的interface來自行新增。`
+**Note:**
+    此layout只是幫您把螢幕分割為1：2，對於以上的圖片，所顯示的頁面及內容必須利用此專案所提供的`TabView` interface來自行新增想要呈現的頁面。
