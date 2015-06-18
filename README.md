@@ -47,8 +47,9 @@ public class MainActivity extends FragmentActivity {
     此layout只是幫您把螢幕分割為1：2，對於以上的圖片，所顯示的頁面及內容必須實作此專案所提供的`TabView` interface來自行新增想要呈現的頁面。
 
 
-    
-[This library document](http://htmlpreview.github.com/?https://github.com/BDLin/android.explorer_layout/blob/master/doc/index.html)
+
+
+**此連結[This library document](http://htmlpreview.github.com/?https://github.com/BDLin/android.explorer_layout/blob/master/doc/index.html)為此專案所有class檔的解析及功能用法。**
     
 Reference
 --------
