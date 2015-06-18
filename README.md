@@ -9,7 +9,7 @@ android.explorer_layout(Unfinished...Please wait for me finish it.)
 
 Usage
 --------
-首先在於您自己開的專案裡 res/ 路徑中新增一個 layour-large資料夾，且在於此資料夾裡新增一個xml檔內容為：
+首先在於您自己開的專案裡 res/ 路徑中新增一個 layout-large資料夾，且在於此資料夾裡新增一個xml檔內容為：
 
 *res/layout-large/newlayout.xml*
 ```
