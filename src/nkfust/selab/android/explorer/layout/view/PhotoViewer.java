@@ -111,7 +111,11 @@ public class PhotoViewer extends RelativeLayout {
 		
 		String currentUrl = null;
 		try {
-			currentUrl = file.getUrl().substring(file.getUrl().indexOf("/sata_1"));
+			int index = file.getUrl().indexOf("/sata_1");
+			if(index < 0)
+				currentUrl = file.getUrl();
+			else 
+				currentUrl = file.getUrl().substring(index);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
