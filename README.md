@@ -1,4 +1,4 @@
-android.explorer_layout(Unfinished...Please wait for me finish it.)
+android.explorer_layout
 =======================
 
 此專案的功能為，以檔案總管介面的方式瀏覽檔案，如下圖：
