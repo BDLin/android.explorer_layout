@@ -56,9 +56,11 @@ public class PhotoViewer extends RelativeLayout {
 	private ContentFragment mContentFragment;
 	
 	/**
+	 * 這裡所有的參數不能為null，file的url必須包含在paths裡，如file的url不包含在path裡不曉得會方生什麼是。
+	 * <b>file一定要是圖片檔。</b>
 	 * @param context The Activity parent.
-	 * @param paths	  The paths is all file path at current folder path.
-	 * @param file	  The file is photo file that want to read.
+	 * @param paths	  The paths is all file path at current list.
+	 * @param file	  The file is <b>photo</b> file that want to read.
 	 */
 	public PhotoViewer(Context context, List<String> paths, IFile file) {
 		super(context);
@@ -83,8 +85,10 @@ public class PhotoViewer extends RelativeLayout {
 	}
 	
 	/**
+	 * 這裡所有的參數不能為null，file的url必須包含在paths裡，如file的url不包含在path裡不曉得會方生什麼是。
+	 * <b>file一定要是圖片檔。</b>
 	 * This function is setting show photo to view.
-	 * @param paths	The paths is all file path at current folder path.
+	 * @param paths	The paths is all file path at current list.
 	 * @param file	The file is a want to display photo of file.		
 	 */
 	public void setDisplayPhoto(List<String> paths, IFile file){

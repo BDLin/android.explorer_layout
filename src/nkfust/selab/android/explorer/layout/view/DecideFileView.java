@@ -262,6 +262,7 @@ public class DecideFileView {
 	}
 	
 	private void settingPhotoViewr(){
+		//這個判斷為如不是PhotoList頁面，則會執行將左邊的list裡所有IFile的url取出來儲存起來。
 		if(mContentFragment.getTabFragment().getCurrentPageIndex() != 1){
 			mImagePaths = new ArrayList<String>();
 			for(IFile ifile : mList)

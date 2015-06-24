@@ -51,6 +51,11 @@ public class VideoPlayerView extends RelativeLayout implements
 
 	private List<TouchListener> listenerList;
 
+	/**
+	 * <b>ifile一定要是影片檔。</b>
+	 * @param context	The activity parent.
+	 * @param ifile		The ifile is a <b>video</b> file that want to play video.
+	 */
 	public VideoPlayerView(Context context, IFile ifile) {
 		super(context);
 		mContext = context;

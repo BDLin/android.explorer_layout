@@ -81,8 +81,10 @@ public class MusicPlayerView extends RelativeLayout implements
 	private IFileFactory mFactory;
 
 	/**
+	 * 這裡所有的參數不能為null，iFile必須包含在aList裡，如iFile不包含在aList裡，則只撥放iFile而已。
+	 * <b>iFile一定要是音樂檔。</b>
 	 * @param context The activity parent.
-	 * @param iFile   The iFile is a song file that want to play music.
+	 * @param iFile   The iFile is a <b>song</b> file that want to play music.
 	 * @param aList   The aList is a file list at the current list.
 	 * @param factory The factory is a file factory can generate file. 
 	 */
