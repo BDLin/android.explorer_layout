@@ -18,34 +18,37 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 /**
+ * 如有想要加進TabFragment的內容必須實作此類別。
  * If want to display the page , must implementes this interface.
+ * 
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
 public interface TabView {
 	/**
-	 *Get index tag.
+	 *它是Tab上面的button，可點選它切換tabView。
 	 *@return The index button.  
 	 */
 	public ImageButton getIndexButton();
 	
 	/**
-	 *Get display page.
+	 *這是實作Tab裡的內容。
 	 */
 	public Fragment getFragment();
 	
 	/**
-	 *Get menu style on this page.
+	 *個別tabview 裡 menu 的xml檔。 
 	 *@return The id for menu XML file.
 	 */
 	public int getMenuResource();
 	
 	/**
-	 *This process event is triggered on the menu.
+	 *這是判斷在menu按了哪個項目，且要做什麼事寫在裡面。
+	 *@param item	在menu裡所點擊的項目。
 	 */
 	public boolean onOptionsMenuItemSelected(MenuItem item);
 	
 	/**
-	 *Get each page to display the title.
+	 *取得該tabView所要顯示的title。
 	 */
 	public String getActionBarTitle();
 }
