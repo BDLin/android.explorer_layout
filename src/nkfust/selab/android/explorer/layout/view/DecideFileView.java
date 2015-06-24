@@ -163,7 +163,7 @@ public class DecideFileView {
 	
 	/**
 	 * If file list have been change when playing music, 
-	 * can use this function update to song list. 
+	 * can use this function update to tab list. 
 	 */
 	public void updateTabListForMusicPlayerView(){
 		audio.updateTabList(mList);

@@ -277,7 +277,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	/**
 	 * If files have change or sort at current folder path, 
 	 * can use this function update to list. 
-	 * @param list The list content is all file at current folder path.
+	 * @param list The list content is all file at current tab.
 	 */
 	public void updateTabList(List<IFile> list) {
 		mIFileList = list;
@@ -293,14 +293,14 @@ public class MusicPlayerView extends RelativeLayout implements
 	}
 	
 	/**
-	 * @return The list is all file at current folder path.
+	 * @return The list is all file at current tab.
 	 */
 	public List<IFile> getTabList(){
 		return mIFileList;
 	}
 	
 	/**
-	 * @return The list of all mp3 file at the current folder path.
+	 * @return The list of all mp3 file at the current tab.
 	 */
 	public List<IFile> getSongList(){
 		return songsList;
