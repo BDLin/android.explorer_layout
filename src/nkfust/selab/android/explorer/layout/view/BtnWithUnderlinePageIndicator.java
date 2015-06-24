@@ -22,7 +22,7 @@ import android.content.Context;
 
 import com.viewpagerindicator.UnderlinePageIndicator;
 /**
- * This is a view that is indicator at the tab view.
+ * 這是用在左邊的TabFragment，指示目前位於哪個tabView的橫條。
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
 public class BtnWithUnderlinePageIndicator extends UnderlinePageIndicator {

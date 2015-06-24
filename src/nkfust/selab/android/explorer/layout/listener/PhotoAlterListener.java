@@ -15,7 +15,7 @@
 package nkfust.selab.android.explorer.layout.listener;
 
 import nkfust.selab.android.explorer.layout.model.TabFragment;
-import nkfust.selab.android.explorer.layout.view.PhotoAlterDialogFragment;
+import nkfust.selab.android.explorer.layout.view.AlterDialogFragment;
 import nkfust.selab.android.explorer.layout.view.PhotoViewer;
 import poisondog.string.ExtractFileName;
 import android.view.View;
@@ -36,7 +36,7 @@ public class PhotoAlterListener implements OnClickListener {
 	public void onClick(View v) {
 		String path = mPhotoView.getPaths().get(mPhotoView.getPhotoIndex());
 		String title = new ExtractFileName().process(path);
-		PhotoAlterDialogFragment dialog = new PhotoAlterDialogFragment(title);
+		AlterDialogFragment dialog = new AlterDialogFragment(title);
 		dialog.show(TabFragment.getActionBarActivity().getSupportFragmentManager(), "dialog");
 	}
 }

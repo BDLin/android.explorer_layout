@@ -29,21 +29,21 @@ import android.widget.LinearLayout;
  * This class usage is must add PhotoAlterDialogItem to dialog so that it have content. 
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
-public class PhotoAlterDialogFragment extends DialogFragment {
+public class AlterDialogFragment extends DialogFragment {
 	
 	private String mTitle;
 	
-	private List<PhotoAlterDialogItem> mItems;
+	private List<AlterDialogItem> mItems;
 	
-	public PhotoAlterDialogFragment(String title){
+	public AlterDialogFragment(String title){
 		mTitle = title;
-		mItems = new ArrayList<PhotoAlterDialogItem>();
+		mItems = new ArrayList<AlterDialogItem>();
 	}
 	
 	@Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 		DialogContentView mDialogContentView = new DialogContentView(getActivity());
-		 for(PhotoAlterDialogItem item : mItems){
+		 for(AlterDialogItem item : mItems){
 			if(!item.equals(mItems.get(0))){
 				LinearLayout line = new LinearLayout(getActivity());
 				line.setBackgroundColor(Color.GRAY);
@@ -65,7 +65,7 @@ public class PhotoAlterDialogFragment extends DialogFragment {
 	 * This function is add item to dialog content.
 	 * @param item The item is a object of instantiates PhotoAlterDialogItem.
 	 */
-	public void addPhotoAlterDialogItem(PhotoAlterDialogItem item){
+	public void addPhotoAlterDialogItem(AlterDialogItem item){
 		mItems.add(item);
 	}
 }

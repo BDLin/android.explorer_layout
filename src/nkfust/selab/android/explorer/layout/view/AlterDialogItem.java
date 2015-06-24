@@ -24,14 +24,14 @@ import android.widget.TextView;
  * This class is a item of PhotoAlterDialog content.
  * @author Zi-Xiang Lin <bdl9437@gmail.com>
  */
-public class PhotoAlterDialogItem extends LinearLayout {
+public class AlterDialogItem extends LinearLayout {
 
 	/**
 	 * @param context 		The Activity parent.
 	 * @param displayText	Want to display text.
 	 * @param listener		The listener is process click event of this item. 
 	 */
-	public PhotoAlterDialogItem(Context context, String displayText, View.OnClickListener listener) {
+	public AlterDialogItem(Context context, String displayText, View.OnClickListener listener) {
 		super(context);
 		LayoutInflater.from(context).inflate(R.layout.photo_alter_dialog_item_layout, this);
 		TextView text = (TextView)findViewById(R.id.dialog_item_title);
