@@ -35,7 +35,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -280,7 +279,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	 * can use this function update to list. 
 	 * @param list The list content is all file at current folder path.
 	 */
-	public void updateMusicList(List<IFile> list) {
+	public void updateTabList(List<IFile> list) {
 		mIFileList = list;
 		updateCurrentSongIndex();
 	}
@@ -296,7 +295,7 @@ public class MusicPlayerView extends RelativeLayout implements
 	/**
 	 * @return The list is all file at current folder path.
 	 */
-	public List<IFile> getMusicList(){
+	public List<IFile> getTabList(){
 		return mIFileList;
 	}
 	
@@ -327,7 +326,6 @@ public class MusicPlayerView extends RelativeLayout implements
 	private void updateCurrentSongIndex(){
 		for (int i = 0; i < mIFileList.size(); i++) {
 			try {
-				Log.i("MusicPlayer", "name: " + mIFileList.get(i).getName() + " Date: " + mIFileList.get(i).getLastModifiedTime());
 				if (mIFileList.get(i).getName().equals(mIFile.getName()))
 					setCurrentSongIndex(i);
 			} catch (Exception e) {

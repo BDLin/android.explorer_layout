@@ -112,10 +112,10 @@ public class ContentFragment extends Fragment {
 	
 	/**
 	 * If file list have been change when playing music, 
-	 * can use this function update to song list. 
+	 * can use this function update to tab list. 
 	 */
-	public void updateMusicList(){
-		decideFileView.updateMusicList();
+	public void updateTabListForMusicPlayerView(){
+		decideFileView.updateTabListForMusicPlayerView();
 	}
 	
 	/**

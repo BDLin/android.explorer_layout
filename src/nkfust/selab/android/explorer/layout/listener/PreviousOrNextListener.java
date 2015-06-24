@@ -36,7 +36,7 @@ public class PreviousOrNextListener implements OnClickListener {
 	private MusicPlayerView mPlayer;
 
 	/**
-	 * @param player		The current use media player.
+	 * @param player		The current use media player view.
 	 * @param btnNext		The next button.
 	 * @param btnPrevious	The previous button.
 	 */
@@ -50,7 +50,7 @@ public class PreviousOrNextListener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		
-		List<IFile>arrayList = mPlayer.getMusicList();
+		List<IFile>arrayList = mPlayer.getTabList();
 		List<IFile>songList = mPlayer.getSongList();
 		
 		if (ShuffleOrRepeatListener.isShuffle()) {

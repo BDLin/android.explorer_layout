@@ -165,8 +165,8 @@ public class DecideFileView {
 	 * If file list have been change when playing music, 
 	 * can use this function update to song list. 
 	 */
-	public void updateMusicList(){
-		audio.updateMusicList(mList);
+	public void updateTabListForMusicPlayerView(){
+		audio.updateTabList(mList);
 	}
 
 	public VideoPlayerView getVideoView() {
@@ -256,7 +256,7 @@ public class DecideFileView {
 		if (audio == null)
 			audio = new MusicPlayerView(mContext, mIFile, mList, mContentFragment.getFactory());
 		else{
-			updateMusicList();
+			updateTabListForMusicPlayerView();
 			audio.playSong(mIFile);
 		}
 	}
