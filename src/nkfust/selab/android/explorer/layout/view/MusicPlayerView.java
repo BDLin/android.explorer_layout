@@ -74,7 +74,7 @@ public class MusicPlayerView extends RelativeLayout implements
 
 	private long totalDuration, currentDuration;
 
-	private Context context;
+	private Context mContext;
 	private ShuffleOrRepeatListener srListener;
 	private PreviousOrNextListener poListener;
 	private ForwardOrBackwardListener fbListener;
@@ -84,12 +84,12 @@ public class MusicPlayerView extends RelativeLayout implements
 	/**
 	 * @param context The activity parent.
 	 * @param iFile   The iFile is a song file that want to play music.
-	 * @param aList   The aList is a file list at the current folder path.
+	 * @param aList   The aList is a file list at the current list.
 	 * @param factory The factory is a file factory can generate file. 
 	 */
 	public MusicPlayerView(Context context, IFile iFile, List<IFile> aList, IFileFactory factory){
 		super(context);
-		this.context = context;
+		mContext = context;
 		mIFile = iFile;
 		mIFileList = aList;
 		mFactory = factory;
@@ -121,11 +121,11 @@ public class MusicPlayerView extends RelativeLayout implements
 		mp.setOnCompletionListener(this); // Important
 
 		// By default play first song
-		songManager = new SongsManager(context, mIFile, mFactory);
+		songManager = new SongsManager(mContext, mIFile, mFactory);
 		playSong(mIFile);
 
 		// All Listener
-		srListener = new ShuffleOrRepeatListener(context, btnRepeat, btnShuffle);
+		srListener = new ShuffleOrRepeatListener(mContext, btnRepeat, btnShuffle);
 		poListener = new PreviousOrNextListener(this, btnNext, btnPrevious);
 		fbListener = new ForwardOrBackwardListener(btnForward, btnBackward, mp);
 		playListener = new PlayMusicListener(btnPlay, mp);
@@ -335,5 +335,4 @@ public class MusicPlayerView extends RelativeLayout implements
 			}
 		}
 	}
-
 }

@@ -35,6 +35,11 @@ public class PreviousOrNextListener implements OnClickListener {
 	private ImageButton mPreviousButton;
 	private MusicPlayerView mPlayer;
 
+	/**
+	 * @param player		The current use media player.
+	 * @param btnNext		The next button.
+	 * @param btnPrevious	The previous button.
+	 */
 	public PreviousOrNextListener(MusicPlayerView player, ImageButton btnNext,
 			ImageButton btnPrevious) {
 		mPlayer = player;

@@ -12,6 +12,9 @@ public class VideoDoFullScreenListener implements TouchListener {
 	private VideoControllerView mController;
 	private long lastClickTime = 0;
 
+	/**
+	 * @param controller	The current use video controller view.
+	 */
 	public VideoDoFullScreenListener(VideoControllerView controller) {
 		mController = controller;
 	}

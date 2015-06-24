@@ -27,6 +27,10 @@ import poisondog.string.ExtractFileName;
  */
 public class ImagesFilter {
 	
+	/**
+	 * @param imagesPaths	The list that want to filter.
+	 * @return	The list of have been filter.
+	 */
 	public static List<String> getImagesList(List<String> imagesPaths){
 		List<String> list = new ArrayList<String>();
 		String[] sliptPathChart = imagesPaths.get(0).split("/");

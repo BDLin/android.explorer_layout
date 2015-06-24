@@ -33,6 +33,12 @@ public class ShuffleOrRepeatListener implements OnClickListener {
 	private ImageButton mRepeatButton;
 	private ImageButton mShuffleButton;
 
+	
+	/**
+	 * @param context		The activity parent.
+	 * @param btnRepeat		The repeat button.
+	 * @param btnShuffle	The shuffle button.
+	 */
 	public ShuffleOrRepeatListener(Context context, ImageButton btnRepeat, ImageButton btnShuffle) {
 		mContext = context;
 		mRepeatButton = btnRepeat;

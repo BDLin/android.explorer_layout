@@ -36,6 +36,11 @@ public class SongsManager {
 	private List<IFile> songsList = new ArrayList<IFile>();
 	private IFileFactory mFactory;
 
+	/**
+	 * @param context	The activity parent.
+	 * @param iFile		The open file.
+	 * @param factory	The IFile factory.
+	 */
 	public SongsManager(Context context, IFile iFile, IFileFactory factory) {
 		mFactory = factory;
 		String path = null;

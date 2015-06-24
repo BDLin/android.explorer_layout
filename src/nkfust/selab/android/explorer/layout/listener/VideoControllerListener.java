@@ -11,6 +11,9 @@ public class VideoControllerListener implements TouchListener {
 
 	private VideoControllerView mController;
 	
+	/**
+	 * @param controller	The current use video controller view.
+	 */
 	public VideoControllerListener(VideoControllerView controller){
 		mController = controller;
 	}

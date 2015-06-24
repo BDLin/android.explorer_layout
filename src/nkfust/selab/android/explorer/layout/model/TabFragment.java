@@ -20,7 +20,7 @@ import nkfust.selab.android.explorer.layout.R;
 import nkfust.selab.android.explorer.layout.listener.ChangeActionBarTitleListener;
 import nkfust.selab.android.explorer.layout.listener.ChangeMenuListener;
 import nkfust.selab.android.explorer.layout.listener.FocusTabButtonListener;
-import nkfust.selab.android.explorer.layout.listener.ImageButtonOnClick;
+import nkfust.selab.android.explorer.layout.listener.TabButtonOnClick;
 import nkfust.selab.android.explorer.layout.view.BtnWithUnderlinePageIndicator;
 import nkfust.selab.android.explorer.layout.view.ScreenSlidePagerAdapter;
 import android.os.Bundle;
@@ -112,7 +112,7 @@ public class TabFragment extends Fragment {
 		View imgBtn = view.getIndexButton();
 		params.weight = 1;
 		imgBtn.setLayoutParams(params);
-		imgBtn.setOnClickListener(new ImageButtonOnClick(buttonLinearLyaout, fileListViewPager));
+		imgBtn.setOnClickListener(new TabButtonOnClick(buttonLinearLyaout, fileListViewPager));
 		buttonLinearLyaout.addView(imgBtn);
 		pagerAdapter.addTabView(view);
 	}

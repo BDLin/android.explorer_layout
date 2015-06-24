@@ -30,6 +30,12 @@ public class ForwardOrBackwardListener implements OnClickListener {
 	private int seekBackwardTime = 5000; // 5000 milliseconds
 	private MediaPlayer mp;
 
+	/**
+	 * 
+	 * @param btnForward	The forward button.
+	 * @param btnBackward	The backward button.
+	 * @param mp			The current use media player.
+	 */
 	public ForwardOrBackwardListener(ImageButton btnForward,
 			ImageButton btnBackward, MediaPlayer mp) {
 		this.btnForward = btnForward;
